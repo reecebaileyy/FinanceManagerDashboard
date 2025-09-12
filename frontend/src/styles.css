@@ -7,7 +7,26 @@ body {
 
 header {
   background-color: #1e293b;
-  padding: 1rem 0;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.dark-mode-toggle {
+  position: absolute;
+  right: 1rem;
+  background-color: #334155;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.dark-mode-toggle:hover {
+  background-color: #475569;
 }
 
 .nav-links {
@@ -107,4 +126,36 @@ header {
   margin-top: 0;
   margin-bottom: 0.5rem;
   font-size: 1.25rem;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
+
+body.dark-mode header {
+  background-color: #0f172a;
+}
+
+body.dark-mode .feature-card {
+  background: #1e293b;
+  color: #f1f5f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .button {
+  background-color: #475569;
+}
+
+body.dark-mode .button:hover {
+  background-color: #334155;
+}
+
+body.dark-mode .button-secondary {
+  background-color: #64748b;
+}
+
+body.dark-mode .button-secondary:hover {
+  background-color: #475569;
 }

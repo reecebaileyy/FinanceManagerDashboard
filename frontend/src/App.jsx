@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import Home from './pages/Home.jsx';
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    document.body.classList.toggle('dark-mode', darkMode);
+  }, [darkMode]);
+
   return (
     <Router>
       <header>
@@ -21,6 +27,12 @@ function App() {
             </li>
           </ul>
         </nav>
+        <button
+          className="dark-mode-toggle"
+          onClick={() => setDarkMode((prev) => !prev)}
+        >
+          {darkMode ? 'Light Mode' : 'Dark Mode'}
+        </button>
       </header>
       <Routes>
         <Route path="/" element={<Home />} />
