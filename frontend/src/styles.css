@@ -1,12 +1,22 @@
+:root {
+  --color-bg: #f4f6f8;
+  --color-text: #333;
+  --color-header-bg: #1e293b;
+  --color-nav-link: #fff;
+  --color-button-bg: #334155;
+  --color-button-hover: #475569;
+  --color-sidebar-bg: #f1f5f9;
+}
+
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #f4f6f8;
-  color: #333;
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 header {
-  background-color: #1e293b;
+  background-color: var(--color-header-bg);
   padding: 1rem;
   display: flex;
   align-items: center;
@@ -17,7 +27,7 @@ header {
 .dark-mode-toggle {
   position: absolute;
   right: 1rem;
-  background-color: #334155;
+  background-color: var(--color-button-bg);
   color: #fff;
   border: none;
   padding: 0.5rem 0.75rem;
@@ -26,7 +36,7 @@ header {
 }
 
 .dark-mode-toggle:hover {
-  background-color: #475569;
+  background-color: var(--color-button-hover);
 }
 
 .nav-links {
@@ -39,13 +49,54 @@ header {
 }
 
 .nav-links a {
-  color: #fff;
+  color: var(--color-nav-link);
   text-decoration: none;
   font-weight: 500;
 }
 
 .nav-links a:hover {
   text-decoration: underline;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content-wrapper {
+  display: flex;
+  flex: 1;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: var(--color-sidebar-bg);
+  padding: 1rem;
+}
+
+.sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar li {
+  margin-bottom: 0.5rem;
+}
+
+.sidebar a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  text-decoration: underline;
+}
+
+.main-content {
+  flex: 1;
+  padding: 1rem;
 }
 
 .home-container {
@@ -130,17 +181,17 @@ header {
 
 /* Dark mode styles */
 body.dark-mode {
-  background-color: #0f172a;
-  color: #f1f5f9;
-}
-
-body.dark-mode header {
-  background-color: #0f172a;
+  --color-bg: #0f172a;
+  --color-text: #f1f5f9;
+  --color-header-bg: #0f172a;
+  --color-sidebar-bg: #1e293b;
+  --color-button-bg: #475569;
+  --color-button-hover: #334155;
 }
 
 body.dark-mode .feature-card {
   background: #1e293b;
-  color: #f1f5f9;
+  color: var(--color-text);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
