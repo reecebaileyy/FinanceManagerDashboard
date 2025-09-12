@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import PasswordStrength from '../components/PasswordStrength.jsx';
+import { login } from '../services/auth.js';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = {};
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -17,8 +21,13 @@ function Login() {
     }
     setErrors(errs);
     if (Object.keys(errs).length === 0) {
-      // TODO: integrate with backend login API
-      console.log('Logging in', { email, password });
+      try {
+        await login(email, password);
+        toast.success('Logged in successfully');
+        navigate('/');
+      } catch (err) {
+        toast.error(err.message);
+      }
     }
   };
 
@@ -46,6 +55,7 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <PasswordStrength password={password} />
           {errors.password && <p className="error">{errors.password}</p>}
         </div>
         <button type="submit">Login</button>

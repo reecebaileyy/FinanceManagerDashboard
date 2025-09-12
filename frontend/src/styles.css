@@ -210,3 +210,46 @@ body.dark-mode .button-secondary {
 body.dark-mode .button-secondary:hover {
   background-color: #475569;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 400px;
+  margin: 2rem auto;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+}
+
+.error {
+  color: #dc2626;
+  font-size: 0.875rem;
+}
+
+.password-strength {
+  margin-top: 0.25rem;
+}
+
+.password-strength-bar {
+  height: 4px;
+  background-color: #e5e7eb;
+}
+
+.password-strength-bar div {
+  height: 100%;
+  transition: width 0.3s;
+}
+
+.password-strength-bar .strength-0 { background-color: #ef4444; }
+.password-strength-bar .strength-1 { background-color: #f97316; }
+.password-strength-bar .strength-2 { background-color: #eab308; }
+.password-strength-bar .strength-3 { background-color: #22c55e; }
+.password-strength-bar .strength-4 { background-color: #16a34a; }
+
+.password-strength-text {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+}

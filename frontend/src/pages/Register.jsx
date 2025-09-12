@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import zxcvbn from 'zxcvbn';
+import PasswordStrength from '../components/PasswordStrength.jsx';
+import { register as registerUser } from '../services/auth.js';
 
 function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = {};
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -15,14 +20,21 @@ function Register() {
     }
     if (password.length < 8) {
       errs.password = 'Password must be at least 8 characters';
+    } else if (zxcvbn(password).score < 2) {
+      errs.password = 'Password is too weak';
     }
     if (password !== confirmPassword) {
       errs.confirmPassword = 'Passwords do not match';
     }
     setErrors(errs);
     if (Object.keys(errs).length === 0) {
-      // TODO: integrate with backend registration API
-      console.log('Registering', { email, password });
+      try {
+        await registerUser(email, password);
+        toast.success('Account created successfully');
+        navigate('/login');
+      } catch (err) {
+        toast.error(err.message);
+      }
     }
   };
 
@@ -50,6 +62,7 @@ function Register() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <PasswordStrength password={password} />
           {errors.password && <p className="error">{errors.password}</p>}
         </div>
         <div>
