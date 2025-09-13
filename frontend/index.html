@@ -1,12 +1,451 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Finance Manager Dashboard</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Finance Manager – Frontend (HTML + CSS)</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <div class="shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-badge">FM</div>
+        <h1>Finance Manager</h1>
+      </div>
+
+<nav class="nav">
+  <a href="#home" class="active">🏠 Home</a>
+  <a href="#login">🔐 Login</a>
+  <a href="#signup">✨ Create Account</a>
+
+  <div id="protectedLinks">
+    <a href="#dashboard">📊 Dashboard</a>
+    <a href="#transactions">🧾 Transactions</a>
+    <a href="#budgets">🎯 Budgets</a>
+    <a href="#settings">⚙️ Settings</a>
+  </div>
+
+
+  <!-- TIPS Content -->
+      <div id="tipBox" class="aside-card"></div>
+
+
+    </aside>
+
+    <main>
+      <!-- Topbar -->
+      <div class="topbar">
+        <div class="search">
+          <input aria-label="Search" placeholder="Search transactions, categories, notes…" />
+          <a class="btn" href="#transactions">Search</a>
+        </div>
+        <div class="user-chip">
+          <span>👤</span>
+          <span>Guest</span>
+        </div>
+      </div>
+
+      <div class="content">
+        <!-- ============ HOME / LANDING ============ -->
+        <section id="home" class="page default">
+          <div class="hero">
+            <div>
+              <h2>Take control of your money with a clean, focused dashboard.</h2>
+              <p>Track spending, set budgets, and visualize your cashflow. This starter is built with modern, responsive HTML + CSS—no JavaScript required.</p>
+              <div class="cta">
+                <a class="btn primary" href="#signup">Get Started</a>
+                <a class="btn" href="#dashboard">Preview Dashboard</a>
+              </div>
+              <div style="margin-top:18px; color:var(--muted); font-size:13px">MVP: Auth · Accounts · Transactions · Budgets · Export</div>
+            </div>
+            <div class="glass card">
+              <div class="card-hd"><strong>Preview</strong><span class="pill">static demo</span></div>
+              <div class="card-bd">
+                <div class="kpis">
+                  <div class="kpi">
+                    <div class="label">This Month Income</div>
+                    <div class="value">$5,650</div>
+                    <div class="delta up">+4.8% vs last month</div>
+                  </div>
+                  <div class="kpi">
+                    <div class="label">This Month Expenses</div>
+                    <div class="value">$3,420</div>
+                    <div class="delta down">-2.1% vs last month</div>
+                  </div>
+                  <div class="kpi">
+                    <div class="label">Net</div>
+                    <div class="value">$2,230</div>
+                    <div class="delta up">+$110</div>
+                  </div>
+                </div>
+                <div style="margin-top:20px" class="grid cols-2">
+                  <div class="card">
+                    <div class="card-hd"><strong>Spending by Category</strong><span class="pill">month</span></div>
+                    <div class="card-bd">
+                      <div style="display:grid; gap:12px">
+                        <div>
+                          <div style="display:flex; justify-content:space-between; font-size:13px; color:var(--muted)"><span>Rent</span><span>$1,600</span></div>
+                          <div class="progress"><span style="width:72%"></span></div>
+                        </div>
+                        <div>
+                          <div style="display:flex; justify-content:space-between; font-size:13px; color:var(--muted)"><span>Groceries</span><span>$420</span></div>
+                          <div class="progress"><span style="width:24%"></span></div>
+                        </div>
+                        <div>
+                          <div style="display:flex; justify-content:space-between; font-size:13px; color:var(--muted)"><span>Dining</span><span>$260</span></div>
+                          <div class="progress warn"><span style="width:36%"></span></div>
+                        </div>
+                        <div>
+                          <div style="display:flex; justify-content:space-between; font-size:13px; color:var(--muted)"><span>Transport</span><span>$180</span></div>
+                          <div class="progress"><span style="width:16%"></span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card">
+                    <div class="card-hd"><strong>Budget Health</strong><span class="pill">current</span></div>
+                    <div class="card-bd">
+                      <div style="display:grid; gap:14px">
+                        <div>
+                          <div style="display:flex; justify-content:space-between"><strong>Groceries</strong><span>$420 / $500</span></div>
+                          <div class="progress"><span style="width:84%"></span></div>
+                        </div>
+                        <div>
+                          <div style="display:flex; justify-content:space-between"><strong>Dining</strong><span>$260 / $250</span></div>
+                          <div class="progress danger"><span style="width:104%"></span></div>
+                        </div>
+                        <div>
+                          <div style="display:flex; justify-content:space-between"><strong>Transport</strong><span>$180 / $220</span></div>
+                          <div class="progress"><span style="width:82%"></span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ LOGIN ============ -->
+        <section id="login" class="page">
+          <div class="grid cols-2">
+            <div class="card">
+              <div class="card-hd"><strong>Login</strong><span class="pill">welcome back</span></div>
+              <div class="card-bd">
+                <form>
+                  <div>
+                    <label for="lemail">Email</label>
+                    <input id="lemail" type="email" placeholder="you@example.com" required />
+                  </div>
+                  <div>
+                    <label for="lpass">Password</label>
+                    <input id="lpass" type="password" placeholder="••••••••" required />
+                  </div>
+                  <div style="display:flex; justify-content:space-between; align-items:center">
+                    <a class="btn" href="#signup">Create account</a>
+                    <a class="btn primary" href="#dashboard">Login</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-hd"><strong>Security</strong></div>
+              <div class="card-bd">
+                <p style="color:var(--muted)">Passwords are stored with strong hashing on the server. Add 2FA later for extra protection.</p>
+                <ul style="margin-top:10px; color:var(--muted)">
+                  <li>Rate-limited login</li>
+                  <li>Secure cookies / HTTPS</li>
+                  <li>Session timeout</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ SIGNUP ============ -->
+        <section id="signup" class="page">
+          <div class="card">
+            <div class="card-hd"><strong>Create Account</strong><span class="pill">free</span></div>
+            <div class="card-bd">
+              <form>
+                <div class="row">
+                  <div>
+                    <label for="sname">Full Name</label>
+                    <input id="sname" placeholder="First Last" />
+                  </div>
+                  <div>
+                    <label for="semail">Email</label>
+                    <input id="semail" type="email" placeholder="alex@example.com" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div>
+                    <label for="spass">Password</label>
+                    <input id="spass" type="password" placeholder="••••••••" />
+                  </div>
+                  <div>
+                    <label for="srole">Role</label>
+                    <select id="srole">
+                      <option>User</option>
+                      <option>Admin</option>
+                    </select>
+                  </div>
+                </div>
+                <div style="display:flex; gap:12px; justify-content:flex-end">
+                  <a class="btn" href="#home">Cancel</a>
+                  <a class="btn primary" href="#dashboard">Create Account</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ DASHBOARD ============ -->
+        <section id="dashboard" class="page">
+          <div class="grid cols-3">
+            <div class="kpi">
+              <div class="label">Balance</div>
+              <div class="value">$12,340</div>
+              <div class="delta up">+$540 vs last month</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Income (Mtd)</div>
+              <div class="value">$4,200</div>
+              <div class="delta up">+3.2%</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Expenses (Mtd)</div>
+              <div class="value">$2,130</div>
+              <div class="delta down">-1.4%</div>
+            </div>
+          </div>
+
+          <div class="grid cols-2" style="margin-top:var(--gap)">
+            <div class="card">
+              <div class="card-hd"><strong>Spending by Category</strong><a class="pill" href="#budgets">manage budgets</a></div>
+              <div class="card-bd">
+                <div style="display:grid; gap:12px">
+                  <div>
+                    <div style="display:flex; justify-content:space-between; font-size:13px; color:var(--muted)"><span>Housing</span><span>$1,600</span></div>
+                    <div class="progress"><span style="width:70%"></span></div>
+                  </div>
+                  <div>
+                    <div style="display:flex; justify-content:space-between; font-size:13px; color:var(--muted)"><span>Food</span><span>$520</span></div>
+                    <div class="progress warn"><span style="width:45%"></span></div>
+                  </div>
+                  <div>
+                    <div style="display:flex; justify-content:space-between; font-size:13px; color:var(--muted)"><span>Transport</span><span>$180</span></div>
+                    <div class="progress"><span style="width:20%"></span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-hd"><strong>Recent Transactions</strong><a class="pill" href="#transactions">view all</a></div>
+              <div class="card-bd">
+                <table>
+                  <thead><tr><th>Date</th><th>Payee</th><th>Category</th><th>Type</th><th>Amount</th></tr></thead>
+                  <tbody>
+                    <tr><td>09/08</td><td>Trader Joe's</td><td>Groceries</td><td><span class="pill expense">Expense</span></td><td>-$64.28</td></tr>
+                    <tr><td>09/07</td><td>Lyft</td><td>Transport</td><td><span class="pill expense">Expense</span></td><td>-$13.90</td></tr>
+                    <tr><td>09/05</td><td>Paycheck</td><td>Salary</td><td><span class="pill income">Income</span></td><td>+$2,100.00</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ TRANSACTIONS ============ -->
+        <section id="transactions" class="page">
+          <div class="card">
+            <div class="card-hd"><strong>Transactions</strong>
+              <div style="display:flex; gap:8px; align-items:center">
+                <a class="btn" href="#">Filter</a>
+                <a class="btn primary" href="#">Add</a>
+              </div>
+            </div>
+            <div class="card-bd">
+              <div class="grid cols-2">
+                <form class="glass" style="padding:18px">
+                  <div class="row">
+                    <div>
+                      <label>Date</label>
+                      <input type="date" />
+                    </div>
+                    <div>
+                      <label>Type</label>
+                      <select><option>Expense</option><option>Income</option></select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div>
+                      <label>Account</label>
+                      <select><option>Checking</option><option>Savings</option></select>
+                    </div>
+                    <div>
+                      <label>Category</label>
+                      <select><option>Groceries</option><option>Dining</option><option>Transport</option><option>Salary</option></select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div>
+                      <label>Amount</label>
+                      <input type="number" placeholder="0.00" step="0.01" />
+                    </div>
+                    <div>
+                      <label>Note</label>
+                      <input placeholder="Optional note" />
+                    </div>
+                  </div>
+                  <div style="display:flex; gap:12px; justify-content:flex-end">
+                    <a class="btn" href="#transactions">Reset</a>
+                    <a class="btn primary" href="#transactions">Save</a>
+                  </div>
+                </form>
+
+                <div class="glass" style="padding:18px">
+                  <table>
+                    <thead><tr><th>Date</th><th>Payee</th><th>Category</th><th>Type</th><th style="text-align:right">Amount</th></tr></thead>
+                    <tbody>
+                      <tr><td>09/11</td><td>Chipotle</td><td>Dining</td><td><span class="pill expense">Expense</span></td><td style="text-align:right">-$12.78</td></tr>
+                      <tr><td>09/10</td><td>Shell</td><td>Transport</td><td><span class="pill expense">Expense</span></td><td style="text-align:right">-$45.12</td></tr>
+                      <tr><td>09/08</td><td>Amazon</td><td>Shopping</td><td><span class="pill expense">Expense</span></td><td style="text-align:right">-$38.90</td></tr>
+                      <tr><td>09/05</td><td>Employer</td><td>Salary</td><td><span class="pill income">Income</span></td><td style="text-align:right">+$2,100.00</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ BUDGETS ============ -->
+        <section id="budgets" class="page">
+          <div class="card">
+            <div class="card-hd"><strong>Budgets</strong><span class="pill">September</span></div>
+            <div class="card-bd">
+              <div class="grid cols-2">
+                <div class="glass" style="padding:18px">
+                  <form>
+                    <div class="row">
+                      <div>
+                        <label>Category</label>
+                        <select><option>Groceries</option><option>Dining</option><option>Transport</option><option>Shopping</option></select>
+                      </div>
+                      <div>
+                        <label>Monthly Limit</label>
+                        <input type="number" placeholder="e.g. 300" />
+                      </div>
+                    </div>
+                    <div style="display:flex; justify-content:flex-end; gap:12px">
+                      <a class="btn" href="#budgets">Clear</a>
+                      <a class="btn primary" href="#budgets">Save Budget</a>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="glass" style="padding:18px">
+                  <div style="display:grid; gap:16px">
+                    <div>
+                      <div style="display:flex; justify-content:space-between"><strong>Groceries</strong><span>$420 / $500</span></div>
+                      <div class="progress"><span style="width:84%"></span></div>
+                    </div>
+                    <div>
+                      <div style="display:flex; justify-content:space-between"><strong>Dining</strong><span>$260 / $250</span></div>
+                      <div class="progress danger"><span style="width:104%"></span></div>
+                    </div>
+                    <div>
+                      <div style="display:flex; justify-content:space-between"><strong>Transport</strong><span>$180 / $220</span></div>
+                      <div class="progress"><span style="width:82%"></span></div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ SETTINGS ============ -->
+        <section id="settings" class="page">
+          <div class="grid cols-2">
+            <div class="card">
+              <div class="card-hd"><strong>Profile</strong></div>
+              <div class="card-bd">
+                <form>
+                  <div class="row">
+                    <div>
+                      <label>Full Name</label>
+                      <input placeholder="First Last" />
+                    </div>
+                    <div>
+                      <label>Email</label>
+                      <input type="email" placeholder="alex@example.com" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div>
+                      <label>New Password</label>
+                      <input type="password" placeholder="••••••••" />
+                    </div>
+                    <div>
+                      <label>Confirm Password</label>
+                      <input type="password" placeholder="••••••••" />
+                    </div>
+                  </div>
+                  <div style="display:flex; gap:12px; justify-content:flex-end">
+                    <a class="btn" href="#settings">Cancel</a>
+                    <a class="btn primary" href="#settings">Save Changes</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-hd"><strong>Export Data</strong></div>
+              <div class="card-bd">
+                <form>
+                  <div class="row">
+                    <div>
+                      <label>From</label>
+                      <input type="date" />
+                    </div>
+                    <div>
+                      <label>To</label>
+                      <input type="date" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div>
+                      <label>Format</label>
+                      <select><option>CSV</option><option>Excel</option><option>PDF</option></select>
+                    </div>
+                    <div>
+                      <label>Include</label>
+                      <select><option>Transactions</option><option>Budgets</option><option>All</option></select>
+                    </div>
+                  </div>
+                  <div style="display:flex; justify-content:flex-end">
+                    <a class="btn" href="#settings">Download</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          © 2025 Finance Manager. All rights reserved. CS491 Senior Project – California State University, Fullerton
+        </footer>
+      </div>
+    </main>
+  </div>
+</body>
 </html>
+<script src="index.js"></script>
+
+
+
