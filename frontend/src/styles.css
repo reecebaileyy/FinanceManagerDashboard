@@ -288,3 +288,41 @@ body.dark-mode .dashboard-transactions,
 body.dark-mode .dashboard-budget {
   background: #1e293b;
 }
+
+/* Transaction management */
+.transaction-form {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 500px;
+  margin: 1rem 0;
+}
+
+.transaction-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+}
+
+.transaction-form input,
+.transaction-form select,
+.transaction-form textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.transaction-table th,
+.transaction-table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+}
+
+.transaction-table th {
+  background-color: var(--color-sidebar-bg);
+  text-align: left;
+}
