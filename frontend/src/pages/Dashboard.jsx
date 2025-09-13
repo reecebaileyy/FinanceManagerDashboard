@@ -1,4 +1,6 @@
 import React from 'react';
+import SpendingTrendsChart from '../components/SpendingTrendsChart.jsx';
+import BudgetDistributionChart from '../components/BudgetDistributionChart.jsx';
 
 function Dashboard() {
   const balance = 5230.75;
@@ -33,6 +35,14 @@ function Dashboard() {
         <p>Total Budget: ${budget.total.toFixed(2)}</p>
         <p>Spent: ${budget.spent.toFixed(2)}</p>
         <p>Remaining: ${(budget.total - budget.spent).toFixed(2)}</p>
+      </section>
+
+      <section className="dashboard-analytics">
+        <h3>Spending Trends</h3>
+        <SpendingTrendsChart />
+
+        <h3>Budget Distribution</h3>
+        <BudgetDistributionChart />
       </section>
     </div>
   );

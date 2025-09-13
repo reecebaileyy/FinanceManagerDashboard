@@ -10,7 +10,9 @@
     "test": "echo \"No frontend tests yet\" && exit 0"
   },
   "dependencies": {
+    "chart.js": "^4.5.0",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.3.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^7.8.2",
     "react-toastify": "^11.0.5",
