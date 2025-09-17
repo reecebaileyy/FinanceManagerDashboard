@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+set -eu
+
+ROOT_DIR=$(git rev-parse --show-toplevel)
+export PATH="$ROOT_DIR/node_modules/.bin:$PATH"
+
+LINT_STAGED_BIN="$ROOT_DIR/node_modules/lint-staged/bin/lint-staged.js"
+if [ -f "$LINT_STAGED_BIN" ]; then
+  echo "husky - running lint-staged"
+  node "$LINT_STAGED_BIN"
+else
+  echo "husky - lint-staged binary not found. Install dependencies before committing." >&2
+  exit 1
+fi
+
+if command -v gitleaks >/dev/null 2>&1; then
+  echo "husky - running gitleaks secret scan"
+  gitleaks protect --staged --log-opts="--cached"
+else
+  echo "husky - gitleaks not found, skipping secret scan" >&2
+fi

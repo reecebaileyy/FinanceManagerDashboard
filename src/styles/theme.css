@@ -1,0 +1,136 @@
+﻿:root {
+  color-scheme: light;
+}
+
+:root,
+[data-theme="light"] {
+  --app-background: radial-gradient(1200px 600px at 80% -10%, rgba(90, 140, 255, 0.12), transparent 60%),
+    radial-gradient(800px 500px at -10% 20%, rgba(80, 220, 190, 0.14), transparent 60%),
+    #f3f5fc;
+  --shell-main-background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(243, 245, 252, 0.95));
+  --shell-sidebar-background: linear-gradient(180deg, rgba(245, 247, 255, 0.9), rgba(229, 235, 255, 0.95));
+  --shell-topbar-background: linear-gradient(180deg, rgba(247, 249, 255, 0.85), rgba(233, 238, 255, 0.9));
+  --color-surface: #ffffff;
+  --color-surface-variant: #f0f4ff;
+  --color-surface-inset: #e6ecff;
+  --color-overlay: rgba(15, 23, 42, 0.58);
+  --color-text-primary: #0f1b2d;
+  --color-text-muted: #5f6b7a;
+  --color-text-inverse: #f5f9ff;
+  --color-border: rgba(49, 73, 119, 0.18);
+  --color-border-strong: rgba(49, 73, 119, 0.32);
+  --color-nav-border: rgba(49, 73, 119, 0.22);
+  --color-accent: #376bff;
+  --color-accent-strong: #2854d1;
+  --color-accent-soft: rgba(55, 107, 255, 0.14);
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --card-background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(238, 242, 255, 0.95));
+  --card-border: rgba(49, 73, 119, 0.18);
+  --card-divider: rgba(49, 73, 119, 0.16);
+  --card-muted: rgba(94, 110, 139, 0.94);
+  --input-background: rgba(255, 255, 255, 0.9);
+  --input-border: rgba(49, 73, 119, 0.28);
+  --search-background: rgba(255, 255, 255, 0.78);
+  --chip-background: rgba(233, 238, 255, 0.85);
+  --chip-border: rgba(49, 73, 119, 0.22);
+  --menu-toggle-border: rgba(49, 73, 119, 0.24);
+  --menu-toggle-background: rgba(233, 238, 255, 0.86);
+  --nav-hover-background: rgba(55, 107, 255, 0.08);
+  --nav-active-background: rgba(55, 107, 255, 0.18);
+  --nav-active-border: rgba(55, 107, 255, 0.42);
+  --pill-background: rgba(55, 107, 255, 0.08);
+  --pill-border: rgba(49, 73, 119, 0.28);
+  --pill-expense-border: rgba(239, 68, 68, 0.32);
+  --pill-income-border: rgba(22, 163, 74, 0.36);
+  --table-border: rgba(49, 73, 119, 0.18);
+  --table-row-hover: rgba(55, 107, 255, 0.08);
+  --progress-track: rgba(230, 236, 255, 0.9);
+  --progress-fill: linear-gradient(90deg, rgba(55, 107, 255, 0.8), rgba(129, 164, 255, 0.9));
+  --progress-fill-warn: linear-gradient(90deg, rgba(245, 158, 11, 0.9), rgba(253, 186, 85, 0.9));
+  --progress-fill-danger: linear-gradient(90deg, rgba(239, 68, 68, 0.9), rgba(248, 113, 113, 0.9));
+  --glass-background: radial-gradient(500px 240px at 100% 0%, rgba(55, 107, 255, 0.14), transparent 70%), rgba(247, 249, 255, 0.86);
+  --glass-border: rgba(49, 73, 119, 0.2);
+  --aside-card-background: rgba(247, 249, 255, 0.92);
+  --aside-card-border: rgba(49, 73, 119, 0.24);
+  --shadow-lg: 0 24px 50px rgba(15, 27, 45, 0.18);
+  --shadow-md: 0 12px 30px rgba(15, 27, 45, 0.14);
+  --shadow-sm: 0 6px 18px rgba(15, 27, 45, 0.12);
+  --radius-sm: 0.625rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.375rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.25rem;
+  --space-xl: 1.75rem;
+  --sidebar-width: 16.25rem;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --app-background: radial-gradient(1200px 600px at 80% -10%, rgba(106, 166, 255, 0.15), transparent 60%),
+    radial-gradient(800px 500px at -10% 20%, rgba(140, 255, 199, 0.12), transparent 60%),
+    #0b0f1a;
+  --shell-main-background: linear-gradient(180deg, rgba(18, 24, 41, 0.94), rgba(11, 15, 26, 0.98));
+  --shell-sidebar-background: linear-gradient(180deg, rgba(18, 24, 41, 0.98), rgba(15, 21, 36, 0.98));
+  --shell-topbar-background: linear-gradient(180deg, rgba(15, 21, 36, 0.95), rgba(11, 15, 26, 0.92));
+  --color-surface: #121829;
+  --color-surface-variant: #0f1524;
+  --color-surface-inset: #0b1223;
+  --color-overlay: rgba(7, 11, 20, 0.7);
+  --color-text-primary: #f5f9ff;
+  --color-text-muted: #8ea4c0;
+  --color-text-inverse: #00112a;
+  --color-border: #243147;
+  --color-border-strong: rgba(106, 166, 255, 0.45);
+  --color-nav-border: rgba(36, 49, 71, 0.8);
+  --color-accent: #6aa6ff;
+  --color-accent-strong: #7fb3ff;
+  --color-accent-soft: rgba(106, 166, 255, 0.18);
+  --color-success: #8cff8c;
+  --color-warning: #ffd36a;
+  --color-danger: #ff6a88;
+  --card-background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(18, 24, 41, 0.88));
+  --card-border: rgba(36, 49, 71, 0.8);
+  --card-divider: rgba(36, 49, 71, 0.6);
+  --card-muted: rgba(142, 164, 192, 0.92);
+  --input-background: rgba(15, 21, 36, 0.9);
+  --input-border: rgba(36, 49, 71, 0.85);
+  --search-background: rgba(255, 255, 255, 0.03);
+  --chip-background: rgba(255, 255, 255, 0.04);
+  --chip-border: rgba(255, 255, 255, 0.08);
+  --menu-toggle-border: rgba(255, 255, 255, 0.14);
+  --menu-toggle-background: rgba(255, 255, 255, 0.05);
+  --nav-hover-background: rgba(255, 255, 255, 0.04);
+  --nav-active-background: rgba(106, 166, 255, 0.12);
+  --nav-active-border: rgba(106, 166, 255, 0.4);
+  --pill-background: rgba(255, 255, 255, 0.03);
+  --pill-border: rgba(36, 49, 71, 0.9);
+  --pill-expense-border: rgba(255, 106, 136, 0.35);
+  --pill-income-border: rgba(140, 255, 199, 0.35);
+  --table-border: rgba(36, 49, 71, 0.9);
+  --table-row-hover: rgba(255, 255, 255, 0.02);
+  --progress-track: #0b1223;
+  --progress-fill: linear-gradient(90deg, var(--color-accent), #9ac2ff);
+  --progress-fill-warn: linear-gradient(90deg, var(--color-warning), #ffe18c);
+  --progress-fill-danger: linear-gradient(90deg, var(--color-danger), #ff9aae);
+  --glass-background: radial-gradient(500px 240px at 100% 0%, rgba(106, 166, 255, 0.12), transparent 70%),
+    rgba(255, 255, 255, 0.02);
+  --glass-border: var(--color-border);
+  --aside-card-background: rgba(255, 255, 255, 0.02);
+  --aside-card-border: var(--color-border);
+  --shadow-lg: 0 20px 35px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 12px 28px rgba(0, 0, 0, 0.32);
+  --shadow-sm: 0 6px 16px rgba(0, 0, 0, 0.28);
+  --radius-sm: 0.625rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.375rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.25rem;
+  --space-xl: 1.75rem;
+  --sidebar-width: 16.25rem;
+}

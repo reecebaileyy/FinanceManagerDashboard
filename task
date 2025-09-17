@@ -1,0 +1,112 @@
+Finance Manager Dashboard Task Backlog
+===================================
+
+Foundation & Architecture
+- [x] Confirm final architecture approach (Next.js App Router frontend + dedicated Node.js microservices + PostgreSQL) and document service boundaries/APIs based on the proposal. (note: docs/architecture.md captures decisions and service contracts referencing CS490 Starter 26.pdf)
+- [x] Finalize technology choices: component library/theming strategy, charting library, auth provider, background job runner, email/SMS providers, LLM vendor for AI assistant, bank-link integration (e.g., Plaid), infrastructure stack (AWS EC2/RDS/S3). (note: docs/tech-stack.md records finalized component, integration, and platform selections.)
+- [x] Model core domain entities (users, roles, accounts, transactions, budgets, goals, bills, reminders, notifications, AI interactions) and produce an ERD aligning with proposal requirements. (note: docs/domain-model.md outlines entities, attributes, and relationships for ERD handoff.)
+- [x] Define API contracts (REST/GraphQL) for each service including request/response schemas and validation rules. (note: docs/api-contracts.md documents REST endpoints, payload examples, and Zod validation schemas for each service plus gateway aggregations.)
+- [x] Establish non-functional requirements checklist (performance SLAs, security controls, accessibility targets, analytics, observability) aligned with PDF. (note: docs/non-functional-requirements.md captures checklist and success metrics.)
+
+Developer Tooling & Workflow
+- [x] Replace scaffold defaults with project conventions (ESLint/Prettier config, lint-staged, commit hooks). (note: Added hardened ESLint flat config with security/a11y/import rules, project Prettier setup, lint-staged pipeline, and Husky pre-commit running lint-staged plus optional gitleaks scan.)
+- [x] Introduce TypeScript path aliases and module boundaries for feature grouping. (note: Added @components/@features/@lib aliases, extracted dashboard sections into feature modules, and centralized navigation types for clear boundaries.)
+- [x] Configure environment variable management and secrets handling for local/staging/prod. (note: Added zod-backed env loaders, env:check script, and .env.*.example templates to document secrets across environments.)
+- [x] Add Husky or equivalent CI guards plus workspace scripts for lint, type-check, test, build. (note: Added npm CI scripts with vitest harness and Husky pre-push to run lint/typecheck/test/build pipeline.)
+
+Frontend Application Shell
+- [x] Remove create-next-app placeholder and port example/index.html layout into reusable Next.js components (sidebar, top bar, cards) with TypeScript. (note: Rebuilt the landing and dashboard shell using typed React components, reused the design tokens from example CSS, and wired interactive state for sidebar navigation, login preview flow, and random tips.)
+- [x] Translate example/index.css styles into CSS Modules/System; ensure theme tokens map to light/dark palette described in UX section. (note: replaced global dashboard.css with tokenized CSS modules, added shared patterns/controls, and wired theme variables for light/dark defaults.)
+- [x] Implement responsive grid and collapsible sidebar behavior per UX requirements. (note: Added responsive grid breakpoints, a mobile sidebar toggle with overlay close handling, and updated the top bar so navigation collapses gracefully.)
+- [x] Build navigation routing structure (landing, auth, dashboard, transactions, budgets, goals, bills, savings, insights, settings, admin). (note: Added app/(app) App Router group with shared dashboard shell, route-aware sidebar, and stub pages for every section.)
+- [x] Wire up dark mode toggle with persisted preference (local storage + server default). (note: Enabled ThemeProvider persistence via local storage + cookie, added DOM sync to avoid flash, and introduced tests to cover toggle behavior.)
+
+Frontend Feature Work
+- [x] Landing/Home: marketing hero, KPI preview cards, CTA buttons tied to auth state. (note: Auth-aware landing hero with quick links, CTA switching, and tests in src/features/landing) 
+- [x] Authentication views: signup/login/forgot password/2FA challenge forms with form validation and error states. (note: Implemented zod-validated auth sections with new login/signup/forgot password/two-factor pages, preview context updates, and Vitest coverage in src/features/auth.)
+- [x] Dashboard overview: KPI cards, spending summary, goal progress bars, alerts module, quick actions consistent with PDF mockups. (note: Built full dashboard overview with responsive KPI grid, spending and goals cards, alerts feed, quick actions, and regression tests in src/features/dashboard.)
+- [x] Transactions page: filterable/sortable table, bulk tag editing, import/upload UI. (note: Delivered interactive transactions workspace with manual entry flow, dynamic filtering/sorting, selection-based bulk tagging modal, CSV import queue simulation, and Vitest coverage in src/features/transactions.)
+- [x] Budgets module: budget creation/editing modal, progress charts, variance alerts, end-of-month summary. (note: Delivered interactive budgets workspace with creation/edit modal, progress chart comparisons, automated variance alerts, and forecasting summary per proposal.)
+- [x] Bills & subscriptions: schedule view, upcoming reminders list, payment status toggles. (note: Replaced the placeholder with an interactive Bills workspace featuring grouped schedule views, upcoming reminder timeline, and payment toggles backed by tests.)
+- [x] Financial goals: goal builder wizard, progress visualization, AI improve plan prompts. (note: Delivered Goals workspace UI with creation wizard, projections, AI assistant flow, and Vitest coverage in src/features/goals.)
+- [x] Insights/AI assistant: conversational UI, recommended actions feed, user feedback logging. (note: Implemented Insights workspace with conversational UI, AI fixtures, recommendation controls, and feedback capture replacing the placeholder.)
+- [x] Savings automation setup: rule builder forms (fixed, percentage, round-up). (note: implemented interactive savings automation workspace with rule list, type-specific form, projections, and vitest coverage in src/features/savings.)
+- [x] Reports & exports: export modal with CSV/PDF/Excel options, shareable link flow. (note: Added reports workspace with export queue UI, sharing modal, API fixtures, navigation, and tests.)
+- [x] Settings pages: profile management, account linking, notification preferences, security controls, account deletion confirmation. (note: Delivered interactive profile form with persisted feedback, institution linking/sync management UI, granular notification toggles, security switches with session controls, and deletion guard rail matching architecture/docs guidance.)
+- [x] Dashboard customization: drag-and-drop widget layout with persistence per user. (note: Added dnd-kit sortable layout with saved preferences, customization UI, and test coverage.)
+- [x] Accessibility & internationalization: add semantic landmarks, keyboard focus management, screen reader labels, currency formatting/localization support. (note: added localization provider + helpers, wired key features to shared formatters, upgraded dashboard shell landmarks/skip link, and implemented focus trapping for modals.)
+
+State Management & Data Fetching
+- [x] Introduce React Query/RTK Query (or equivalent) for API communication and caching. (note: Added TanStack Query dependency, app-level provider with shared client defaults, dashboard overview query hook backed by API fixtures, and React Testing Library helper to render with the new client.)
+- [x] Implement global auth/session context with SSR awareness and route guards. (note: Added SSR-driven session provider, cookie validation, protected-route middleware, and updated UI flows to consume real session state.)
+- [x] Configure optimistic updates + error boundaries for high-interaction workflows (transactions tagging, budget edits, chatbot conversation). (note: Added InteractionErrorBoundary wrappers plus API-backed optimistic mutations covering transactions, budgets, and insights chat.)
+- [x] Add skeleton loaders and empty-state components for each major page. (note: Added route-level loading skeletons for dashboard/transactions/budgets/bills/goals plus shared skeleton styles and empty-state fallbacks.)
+
+Backend / Service Implementation
+- [x] Auth Service: email/password signup, email verification, login, refresh tokens, password reset, session management, Argon2 hashing. (note: implemented Fastify service in services/auth with Prisma schema/migration, JWT + refresh token flow, Vitest coverage, and docs/auth-service.md quick-start guide.)
+- [ ] 2FA & Security: TOTP setup/verification endpoints, backup codes, role-based access middleware, rate limiting, audit logging.
+- [ ] User Profile Service: manage profile data, preferences (theme, layout, notifications).
+- [ ] Accounts Service: CRUD for financial accounts, Plaid (or mock) integration, balance snapshots.
+- [ ] Transactions Service: ingest transactions from linked accounts/manual uploads, categorization engine (rules + ML placeholder), reconciliation endpoints.
+- [ ] Budget Service: CRUD budgets, variance calculations, monthly rollover logic, summary reporting APIs.
+- [ ] Goals Service: goal definitions, progress tracking, recommendations hook for AI.
+- [ ] Bills & Reminders Service: recurring schedule storage, due-date calculators, notification triggers.
+- [ ] Savings Automation Service: scheduled transfers logic and integration with external APIs or mock scheduler.
+- [ ] Notification Service: email/SMS delivery (SES/Twilio), in-app alerts, preference enforcement, template storage.
+- [ ] AI Insight Service: connect to LLM provider, prompt templates, conversation history persistence, fallback responses, guardrails for advice.
+- [ ] Reporting/Export Service: generate downloadable reports, create secure share links with expiry, logging.
+- [ ] Settings/Admin API: manage feature flags, content tips, metrics endpoints for dashboard KPIs.
+- [ ] API Gateway/Router: configure routing, authentication propagation, request throttling, observability middleware.
+
+Data Layer & Persistence
+- [ ] Set up PostgreSQL locally with Docker; define Prisma/TypeORM schema and migrations for all entities.
+- [ ] Implement seed scripts for demo data mirroring example UI values.
+- [ ] Configure read replica strategy & connection pooling (PgBouncer) for production workloads.
+- [ ] Add data retention policies, soft-delete flags, GDPR-compliant purge routines.
+
+Automation, Jobs & Integrations
+- [ ] Build background job queue (BullMQ/Celery) for reminders, AI summarization, scheduled transfers.
+- [ ] Implement cron/scheduler for monthly rollovers, burndown metrics, analytics aggregation.
+- [ ] Integrate analytics/telemetry (Amplitude/PostHog) for engagement metrics referenced in PDF.
+- [ ] Instrument feature usage logging for user feedback loops.
+
+Security & Compliance
+- [x] Enforce HTTPS, HSTS, secure cookies, CSRF protection for web app. (note: Added edge middleware enforcing HTTPS redirects and HSTS, issued secure CSRF cookies with double-submit validation, and introduced CsrfProvider/useCsrf hooks plus helper tests.)
+- [ ] Implement centralized input validation & sanitization (Zod/Joi) for all endpoints.
+- [ ] Add secrets management (AWS Secrets Manager) and rotation process.
+- [ ] Conduct threat modeling, document STRIDE mitigations, plan regular vulnerability scans.
+- [ ] Prepare compliance documentation (privacy policy, data handling, incident response plan).
+
+Testing & Quality Assurance
+- [ ] Configure unit test harness (Jest/Testing Library) with coverage thresholds per service.
+- [ ] Build integration tests for API endpoints (Supertest) against test database.
+- [ ] Create E2E flows with Playwright/Cypress covering primary use cases (signup, link account, track expenses, budget adjustments, AI recommendation).
+- [ ] Add contract tests between API gateway and microservices.
+- [ ] Implement load testing scripts (k6/Artillery) simulating concurrent dashboard usage.
+- [ ] Set up accessibility audits (axe, pa11y) and performance budgets (Lighthouse CI).
+
+DevOps & Deployment
+- [ ] Dockerize frontend and each backend service; author docker-compose for local dev.
+- [ ] Provision AWS infrastructure (VPC, EC2/ECS, RDS, S3, CloudFront, IAM roles) via Terraform/CloudFormation.
+- [ ] Configure GitHub Actions pipelines (build/test/lint, deploy to staging, deploy to prod) with smoke tests.
+- [ ] Set up monitoring/alerting (CloudWatch, Grafana, Sentry) with dashboards for key metrics.
+- [ ] Implement centralized logging (ELK/OpenSearch) and log retention policies.
+- [ ] Establish backup/restore procedures and disaster recovery runbooks.
+
+Launch Preparation
+- [ ] Populate marketing content, onboarding checklist, and contextual tips shown in sidebar.
+- [ ] Run beta testing with sample users; collect feedback and iterate on UX pain points.
+- [ ] Document user guides, API docs, and admin SOPs.
+- [ ] Prepare go-live checklist (security review, scalability test, analytics verification).
+
+Post-Launch Iteration
+- [ ] Implement continuous feedback loop (in-app survey, support queue triage).
+- [ ] Prioritize next-wave enhancements (predictive forecasting, investment tracking, mobile app) per proposal roadmap.
+- [ ] Schedule regular metrics reviews against burndown/velocity targets defined in PDF.
+
+
+
+
+
+
+

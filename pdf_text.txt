@@ -1,0 +1,15153 @@
+--- PAGE 1 ---
+ 
+ 
+ 
+ Finance Manager Dashboard 
+Project Proposal 
+ 
+University: California State University Fullerton Course: CPSC 490 Members: Jacob Hellebrand, Logan Clampitt, Moksh Patel, Triniti Nguyen Date: May 15th, 2025 
+
+--- PAGE 2 ---
+ 
+1.
+ 
+Abstract
+ 
+Personal finance management is a struggle that all individuals and businesses face. The 
+Finance
+ 
+Manager
+ 
+dashboard
+ 
+seeks
+ 
+to
+ 
+alleviate
+ 
+this
+ 
+issue
+ 
+by
+ 
+providing
+ 
+an
+ 
+intuitive,
+ 
+web-based
+ 
+platform
+ 
+that
+ 
+allows
+ 
+users
+ 
+to
+ 
+track
+ 
+expenses,
+ 
+manage
+ 
+budgets,
+ 
+and
+ 
+analyze
+ 
+financial
+ 
+trends.
+ 
+The
+ 
+dashboard
+ 
+aims
+ 
+to
+ 
+implement
+ 
+a
+ 
+user-friendly
+ 
+user
+ 
+interface,
+ 
+a
+ 
+strong
+ 
+backend
+ 
+for
+ 
+handling
+ 
+financial
+ 
+information,
+ 
+and
+ 
+a
+ 
+secure
+ 
+database
+ 
+for
+ 
+storing
+ 
+critical
+ 
+user
+ 
+information.
+ 
+The
+ 
+dashboard
+ 
+will
+ 
+support
+ 
+role-based
+ 
+authentication,
+ 
+interactive
+ 
+visualizations,
+ 
+and
+ 
+AI-driven
+ 
+financial
+ 
+insights.
+ 
+We
+ 
+seek
+ 
+to
+ 
+push
+ 
+out
+ 
+improvements
+ 
+based
+ 
+on
+ 
+user
+ 
+feedback
+ 
+to
+ 
+improve
+ 
+the
+ 
+user
+ 
+experience.
+ 
+This
+ 
+product
+ 
+aims
+ 
+to
+ 
+enhance
+ 
+financial
+ 
+literacy
+ 
+and
+ 
+empower
+ 
+users
+ 
+to
+ 
+make
+ 
+informed
+ 
+decisions
+ 
+by
+ 
+offering
+ 
+real-time
+ 
+financial
+ 
+tracking,
+ 
+automated
+ 
+categorization,
+ 
+and
+ 
+personalized
+ 
+recommendations.
+ 
+This
+ 
+proposal
+ 
+outlines
+ 
+the
+ 
+project’s
+ 
+architecture,
+ 
+development
+ 
+plan,
+ 
+metrics,
+ 
+UX
+ 
+design,
+ 
+and
+ 
+prototype,
+ 
+ensuring
+ 
+a
+ 
+structured
+ 
+and
+ 
+efficient
+ 
+approach
+ 
+to
+ 
+implementation.
+ 
+ 
+
+--- PAGE 3 ---
+ 
+2.
+ 
+Table
+ 
+of
+ 
+Contents
+ 
+1. Abstract...............................................................................................................................2
+ 2. Table of Contents.................................................................................................................3
+ 3. Introduction........................................................................................................................3
+ 3.1. Purpose..............................................................................................................................3
+ 3.2. Objectiv es..........................................................................................................................4
+ 3.3. Scope...............................................................................................................................................4
+ 4. Project Plan.........................................................................................................................4
+ 4.1. Milestones.......................................................................................................................................4
+ 4.2. High-Level Goals..............................................................................................................................5
+ 4.3. Timeline...........................................................................................................................................6
+ 5. Metrics................................................................................................................................7
+ 5.1. Project Tracking Metrics.....................................................................................................7
+ 5.2. Planner Chart.....................................................................................................................8
+ 5.3. Graphs and Charts..............................................................................................................9
+ 6. Requir emen t Engineering...................................................................................................10
+ 6.1. Use-Cases.........................................................................................................................10
+ 6.2. Modeling..........................................................................................................................29
+ 6.2.1. State Diagr am..........................................................................................................29
+ 6.2.2. Use-Case Diagr am...................................................................................................30
+ 6.2.3. Activity Diagr am (Lucid Softw are, n.d.)...................................................................32
+ 6.2.4. Storyboar d (DevSquad, n.d.)...................................................................................34
+ 
+7.
+ 
+Architecture
+ 
+and
+ 
+Design
+.......................................................................................................
+34
+ 
+7.1
+ 
+Architecture
+ 
+Pattern:
+ 
+Microservices
+.................................................................................
+35
+ 
+7.2
+ 
+Design
+ 
+Pattern:
+ 
+Model-View-Controller
+ 
+(MVC)
+................................................................
+35
+ 
+7.3
+ 
+Architecture
+ 
+Diagram
+.......................................................................................................
+37
+ 
+7.4
+ 
+Microservice
+ 
+Architecture
+ 
+Diagram
+..................................................................................
+38
+ 
+7.5
+ 
+Sequence
+ 
+Diagram:
+ 
+Creating
+ 
+a
+ 
+Budget
+...........................................................................
+39
+ 
+7.6
+ 
+Security
+ 
+Design
+................................................................................................................
+40
+ 
+Authentication
+ 
+&
+ 
+Authorization
+...................................................................................
+40
+ 
+7.6
+ 
+Security
+ 
+Flowchart
+...........................................................................................................
+41
+ 
+7.7
+ 
+Error
+ 
+Handling
+ 
+and
+ 
+Recovery
+ 
+Design
+..............................................................................
+42
+ 
+8.
+ 
+UX
+ 
+Design
+...............................................................................................................................
+43
+ 
+8.1
+ 
+Aesthetic
+ 
+(UI
+ 
+Design)
+.......................................................................................................
+43
+ 
+Color
+ 
+Scheme:
+.................................................................................................................
+43
+ 
+Typography:
+.....................................................................................................................
+44
+ 
+Layout:
+.............................................................................................................................
+44
+ 
+Iconography:
+....................................................................................................................
+44
+ 
+ 
+
+--- PAGE 4 ---
+ 
+8.2
+ 
+User
+ 
+Research
+.................................................................................................................
+45
+ 
+8.3
+ 
+User
+ 
+Personas
+.................................................................................................................
+46
+ 
+Persona
+ 
+7:
+ 
+Emily
+ 
+Tran
+.....................................................................................................
+49
+ 
+Persona
+ 
+8:
+ 
+Marco
+ 
+Delgado
+..............................................................................................
+49
+ 
+Persona
+ 
+9:
+ 
+Aisha
+ 
+Khan
+....................................................................................................
+50
+ 
+8.4
+ 
+UX
+ 
+Frameworks
+...............................................................................................................
+51
+ 
+8.4.1
+ 
+Framework
+ 
+Diagram
+ 
+(Double
+ 
+Diamond
+ 
+Diagram)
+...................................................
+52
+ 
+8.5.1
+ 
+UX
+ 
+Architecture
+ 
+Diagram
+ 
+(Information
+ 
+Architecture
+ 
+Diagram)
+................................
+53
+ 
+9.
+ 
+Prototype
+................................................................................................................................
+55
+ 
+Youtube
+ 
+Video
+ 
+Prototype:
+ 
+https://youtu.be/iktkCm6eEO4
+.....................................................
+62
+ 
+Github
+ 
+Link:
+ 
+JacobH123/CPSC-490-Prototype
+......................................................................
+62
+     
+3.
+ 
+Introduction
+ 
+3.1.
+ 
+Purpose
+ Managing mone y today is more challenging than ever for individuals and businesses. Keeping 
+up
+ 
+with
+ 
+expenses,
+ 
+sticking
+ 
+to
+ 
+a
+ 
+budg et,
+ 
+and
+ 
+under standing
+ 
+financial
+ 
+trends
+ 
+can
+ 
+be
+ 
+overwhelming
+ 
+without
+ 
+the
+ 
+right
+ 
+tools.
+ 
+This
+ 
+often
+ 
+results
+ 
+in
+ 
+bad
+ 
+financial
+ 
+decisions
+ 
+and
+ 
+a
+ 
+struggle
+ 
+to
+ 
+grasp
+ 
+basic
+ 
+financial
+ 
+concep ts.
+ 
+Man y
+ 
+individuals
+ 
+find
+ 
+themselv es
+ 
+unpr epar ed
+ 
+to
+ 
+handle
+ 
+unexpect ed
+ 
+expenses
+ 
+or
+ 
+save
+ 
+for
+ 
+futur e
+ 
+goals,
+ 
+while
+ 
+businesses
+ 
+frequen tly
+ 
+miss
+ 
+opportunities
+ 
+for
+ 
+growth
+ 
+or
+ 
+cost-saving
+ 
+due
+ 
+to
+ 
+inefficien t
+ 
+financial
+ 
+tracking.
+ 
+Manual
+ 
+financial
+ 
+manag emen t
+ 
+is
+ 
+comple x
+ 
+because
+ 
+it's
+ 
+time-c onsuming
+ 
+and
+ 
+prone
+ 
+to
+ 
+error.
+ 
+Without
+ 
+a
+ 
+consolida ted
+ 
+view
+ 
+of
+ 
+finances,
+ 
+making
+ 
+informed
+ 
+decisions
+ 
+or
+ 
+predicting
+ 
+futur e
+ 
+trends
+ 
+is
+ 
+challenging.
+ 
+Additionally ,
+ 
+the
+ 
+lack
+ 
+of
+ 
+customiz ed
+ 
+financial
+ 
+advice
+ 
+based
+ 
+on
+ 
+personal
+ 
+or
+ 
+business
+ 
+financial
+ 
+data
+ 
+further
+ 
+complic ates
+ 
+financial
+ 
+planning.
+ 
+To
+ 
+addr ess
+ 
+these
+ 
+issues,
+ 
+an
+ 
+automa ted,
+ 
+compr ehensiv e
+ 
+tool
+ 
+like
+ 
+the
+ 
+Finance
+ 
+Manag er
+ 
+Dashboar d
+ 
+becomes
+ 
+indispensable,
+ 
+helping
+ 
+to
+ 
+streamline
+ 
+financial
+ 
+processes
+ 
+and
+ 
+impr ove
+ 
+accur acy.
+ 
+3.2.
+ 
+Objectiv es
+ The main aim of the Finance Manag er Dashboar d is to mak e managing mone y easier with a 
+user -friendly
+ 
+website
+ 
+that
+ 
+help s
+ 
+track
+ 
+spending ,
+ 
+manag e
+ 
+budg ets,
+ 
+and
+ 
+analy ze
+ 
+financial
+ 
+data.
+ 
+We’re
+ 
+focusing
+ 
+on
+ 
+creating
+ 
+a
+ 
+straightforward
+ 
+interface,
+ 
+setting
+ 
+up
+ 
+a
+ 
+strong
+ 
+back end
+ 
+system
+ 
+to
+ 
+manag e
+ 
+comple x
+ 
+data
+ 
+secur ely,
+ 
+and
+ 
+developing
+ 
+a
+ 
+secur e
+ 
+database
+ 
+for
+ 
+storing
+ 
+personal
+ 
+informa tion
+ 
+safely.
+ 
+This
+ 
+ensur es
+ 
+that
+ 
+all
+ 
+financial
+ 
+activities
+ 
+are
+ 
+logged
+ 
+accur ately
+ 
+and
+ 
+easily
+ 
+accessible.
+ 
+Our
+ 
+solution
+ 
+stands
+ 
+out
+ 
+by
+ 
+integrating
+ 
+AI
+ 
+tools
+ 
+that
+ 
+provide
+ 
+customiz ed
+ 
+financial
+ 
+advice
+ 
+and
+ 
+predictiv e
+ 
+analy tics,
+ 
+giving
+ 
+user s
+ 
+foresigh t
+ 
+into
+ 
+their
+ 
+financial
+ 
+health.
+ 
+Role-based
+ 
+authen tication
+ 
+will
+ 
+ensur e
+ 
+that
+ 
+informa tion
+ 
+is
+ 
+kept
+ 
+secur e
+ 
+but
+ 
+accessible
+ 
+to
+ 
+authoriz ed
+ 
+user s,
+ 
+making
+ 
+our
+ 
+platform
+ 
+ideal
+ 
+for
+ 
+individual
+ 
+and
+ 
+corpor ate
+ 
+use.
+ 
+Mor eover,
+ 
+integrating
+ 
+machine
+ 
+learning
+ 
+algorithms
+ 
+will
+ 
+enhance
+ 
+the
+ 
+platform’ s
+ 
+ability
+ 
+to
+ 
+learn
+ 
+from
+ 
+user
+ 
+data,
+ 
+offering
+ 
+increasingly
+ 
+refined
+ 
+insigh ts.
+ 
+ 
+ 
+
+--- PAGE 5 ---
+ 
+ The Finance Manag er Dashboar d is built for anyone who wants to manag e their mone y better, 
+whe ther
+ 
+it's
+ 
+individuals
+ 
+or
+ 
+small
+ 
+to
+ 
+medium-siz ed
+ 
+businesses
+ 
+looking
+ 
+for
+ 
+a
+ 
+dependable
+ 
+tool
+ 
+to
+ 
+keep
+ 
+track
+ 
+of
+ 
+their
+ 
+financial
+ 
+health.
+ 
+The
+ 
+dashboar d
+ 
+will
+ 
+offer
+ 
+features
+ 
+like
+ 
+live
+ 
+upda tes
+ 
+on
+ 
+financial
+ 
+activities,
+ 
+automa tic
+ 
+storing
+ 
+of
+ 
+expenses,
+ 
+and
+ 
+detailed
+ 
+reports
+ 
+and
+ 
+analy tics.
+ 
+We’ll
+ 
+focus
+ 
+on
+ 
+designing
+ 
+and
+ 
+developing
+ 
+the
+ 
+web-based
+ 
+dashboar d,
+ 
+integrating
+ 
+AI
+ 
+for
+ 
+smart er
+ 
+data
+ 
+analy sis,
+ 
+implemen ting
+ 
+strong
+ 
+security
+ 
+to
+ 
+protect
+ 
+user
+ 
+data,
+ 
+and
+ 
+conducting
+ 
+user
+ 
+testing
+ 
+to
+ 
+gather
+ 
+feedback
+ 
+and
+ 
+impr ove
+ 
+the
+ 
+product.
+ 
+Each
+ 
+iteration
+ 
+of
+ 
+the
+ 
+dashboar d
+ 
+will
+ 
+incorpor ate
+ 
+more
+ 
+user
+ 
+feedback,
+ 
+ensuring
+ 
+that
+ 
+the
+ 
+tool
+ 
+evolves
+ 
+to
+ 
+mee t
+ 
+the
+ 
+changing
+ 
+needs
+ 
+of
+ 
+its
+ 
+user s
+ 
+effectiv ely.
+ 
+3.3.
+ 
+Scope
+ The Finance Manag er Dashboar d will mak e a big difference for its user s by helping them mak e 
+smart er
+ 
+financial
+ 
+decisions.
+ 
+It's
+ 
+designed
+ 
+to
+ 
+impr ove
+ 
+financial
+ 
+under standing
+ 
+through
+ 
+easy-to-read,
+ 
+real-time
+ 
+data
+ 
+visuals.
+ 
+For
+ 
+businesses,
+ 
+it
+ 
+will
+ 
+help
+ 
+them
+ 
+plan
+ 
+and
+ 
+alloc ate
+ 
+resour ces
+ 
+more
+ 
+efficien tly.
+ 
+The
+ 
+main
+ 
+goal
+ 
+is
+ 
+to
+ 
+give
+ 
+user s
+ 
+the
+ 
+tools
+ 
+and
+ 
+knowledg e
+ 
+they
+ 
+need
+ 
+to
+ 
+be
+ 
+financially
+ 
+stable
+ 
+and
+ 
+grow.
+ 
+This
+ 
+dashboar d
+ 
+tackles
+ 
+the
+ 
+tricky
+ 
+parts
+ 
+of
+ 
+managing
+ 
+mone y
+ 
+with
+ 
+a
+ 
+platform
+ 
+that's
+ 
+easy
+ 
+to
+ 
+use
+ 
+yet
+ 
+powerful.
+ 
+It
+ 
+will
+ 
+help
+ 
+individuals
+ 
+and
+ 
+businesses
+ 
+manag e
+ 
+their
+ 
+finances
+ 
+better,
+ 
+impr oving
+ 
+financial
+ 
+health
+ 
+and
+ 
+greater
+ 
+economic
+ 
+security .
+ 
+By
+ 
+providing
+ 
+a
+ 
+compr ehensiv e
+ 
+view
+ 
+of
+ 
+financial
+ 
+health
+ 
+and
+ 
+easy-to-use
+ 
+tools,
+ 
+the
+ 
+dashboar d
+ 
+ensur es
+ 
+that
+ 
+user s
+ 
+can
+ 
+focus
+ 
+on
+ 
+strategic
+ 
+decisions
+ 
+rather
+ 
+than
+ 
+getting
+ 
+bogged
+ 
+down
+ 
+in
+ 
+financial
+ 
+details.
+ 
+4.
+ 
+Project
+ 
+Plan 
+4.1.
+ 
+Miles tones
+ 
+The developmen t of the Personal Finance Dashboar d follows a structur ed miles tone-based 
+appr oach,
+ 
+starting
+ 
+with
+ 
+the
+ 
+Introduction
+ 
+and
+ 
+Abstract
+ 
+phase,
+ 
+wher e
+ 
+the
+ 
+project
+ 
+scope,
+ 
+objectiv es,
+ 
+and
+ 
+an
+ 
+initial
+ 
+abstract
+ 
+are
+ 
+defined.
+ 
+Next,
+ 
+the
+ 
+Project
+ 
+Plan
+ 
+is
+ 
+outlined,
+ 
+establishing
+ 
+a
+ 
+schedule,
+ 
+deliv erables,
+ 
+and
+ 
+high-le vel
+ 
+miles tones.
+ 
+In
+ 
+the
+ 
+Tracking
+ 
+Project
+ 
+Metrics
+ 
+phase,
+ 
+key
+ 
+performance
+ 
+indic ators
+ 
+are
+ 
+iden tified
+ 
+to
+ 
+monit or
+ 
+progress
+ 
+against
+ 
+initial
+ 
+plans.
+ 
+The
+ 
+Requir emen t
+ 
+Engineering
+ 
+phase
+ 
+involves
+ 
+defining
+ 
+use
+ 
+cases,
+ 
+developing
+ 
+system
+ 
+models,
+ 
+and
+ 
+creating
+ 
+state
+ 
+and
+ 
+beha vioral
+ 
+diagr ams
+ 
+to
+ 
+structur e
+ 
+the
+ 
+system's
+ 
+functionality .
+ 
+The
+ 
+UX/UI
+ 
+Design
+ 
+phase
+ 
+establishes
+ 
+the
+ 
+user
+ 
+experience
+ 
+frame work
+ 
+and
+ 
+develop s
+ 
+mock ups
+ 
+to
+ 
+refine
+ 
+the
+ 
+interface.
+ 
+Finally ,
+ 
+the
+ 
+Prototype
+ 
+and
+ 
+Testing
+ 
+phase
+ 
+includes
+ 
+building
+ 
+an
+ 
+interactiv e
+ 
+prototype,
+ 
+performing
+ 
+security
+ 
+and
+ 
+usability
+ 
+testing,
+ 
+and
+ 
+gathering
+ 
+user
+ 
+feedback
+ 
+to
+ 
+enhance
+ 
+the
+ 
+final
+ 
+product
+ 
+before
+ 
+deplo ymen t.
+ 
+4.2.
+ 
+High-Le vel
+ 
+Goals
+ The Personal Finance Dashboar d aims to provide a seamless and intuitiv e experience for 
+financial
+ 
+tracking
+ 
+through
+ 
+a
+ 
+user -friendly
+ 
+interface
+ 
+that
+ 
+simplifies
+ 
+managing
+ 
+income,
+ 
+expenses,
+ 
+and
+ 
+budg ets.
+ 
+Integrating
+ 
+AI-driv en
+ 
+automa tion
+ 
+reduces
+ 
+the
+ 
+need
+ 
+for
+ 
+manual
+ 
+expense
+ 
+tracking ,
+ 
+ensuring
+ 
+greater
+ 
+accur acy
+ 
+and
+ 
+efficiency .
+ 
+Strong
+ 
+data
+ 
+security
+ 
+measur es,
+ 
+including
+ 
+encr yption
+ 
+and
+ 
+secur e
+ 
+authen tication,
+ 
+will
+ 
+be
+ 
+implemen ted
+ 
+to
+ 
+comply
+ 
+with
+ 
+indus try
+ 
+standar ds,
+ 
+protecting
+ 
+user s'
+ 
+financial
+ 
+informa tion.
+ 
+The
+ 
+platform
+ 
+will
+ 
+be
+ 
+designed
+ 
+for
+ 
+scalability
+ 
+and
+ 
+high
+ 
+performance,
+ 
+ 
+
+--- PAGE 6 ---
+ 
+allowing for futur e feature expansion and ensuring smooth functionality as user needs grow. 
+Additionally ,
+ 
+the
+ 
+dashboar d
+ 
+will
+ 
+gener ate
+ 
+actionable
+ 
+financial
+ 
+insigh ts,
+ 
+offering
+ 
+personaliz ed
+ 
+reports
+ 
+and
+ 
+recommenda tions
+ 
+to
+ 
+help
+ 
+user s
+ 
+mak e
+ 
+informed
+ 
+financial
+ 
+decisions
+ 
+and
+ 
+achie ve
+ 
+their
+ 
+financial
+ 
+goals.
+  
+Key Focus Areas High-le vel Goals 
+   User-Friendly UI/UX Design Develop an intuitive and responsive dashboard for financial management. 
+Provide customizable views with interactive graphs and charts. 
+Ensure accessibility compliance for users with disabilities. 
+   Efficient Data Storage and Management Store financial data in an optimized schema to minimize storage overhead. 
+Implement data compression and archiving strategies to manage historical records efficiently. 
+Ensure fast and efficient backup & recovery processes to prevent data loss. 
+   Financial Planning Allow users to set and track financial goals, such as savings. 
+Provide budgeting tools that help users plan their spending more effectively. 
+Offer forecasting features to predict future expenses based on past trends. 
+   AI Chatbot Automate expense categorization and anomaly detection to reduce manual tracking. 
+Provide personalized financial recommendations based on spending patterns. 
+Alert users to prevent overspending or identify unusual transactions.  
+  Security and Compliance Implement encryption for storing sensitive financial data. 
+Enforce role-based access control and multi-factor authentication to prevent unauthorized access. 
+Regularly conduct security audits and vulnerability testing. 
+ 
+ 
+
+--- PAGE 7 ---
+ 
+4.3.
+ 
+Timeline
+ The project timeline is structur ed into six key phases, ensuring a systema tic appr oach to 
+developmen t.
+ 
+The
+ 
+project
+ 
+begins
+ 
+in
+ 
+Week
+ 
+5
+ 
+with
+ 
+the
+ 
+Introduction
+ 
+and
+ 
+Abstract,
+ 
+wher e
+ 
+the
+ 
+problem
+ 
+statemen t,
+ 
+objectiv es,
+ 
+and
+ 
+project
+ 
+scope
+ 
+are
+ 
+defined,
+ 
+followed
+ 
+by
+ 
+creating
+ 
+an
+ 
+abstract
+ 
+and
+ 
+table
+ 
+of
+ 
+contents.
+ 
+In
+ 
+Weeks
+ 
+6
+ 
+and
+ 
+7,
+ 
+the
+ 
+Project
+ 
+Plan
+ 
+is
+ 
+outlined,
+ 
+detailing
+ 
+the
+ 
+schedule,
+ 
+deliv erables,
+ 
+and
+ 
+the
+ 
+technology
+ 
+stack
+ 
+requir ed
+ 
+for
+ 
+implemen tation.
+ 
+Week
+ 
+8
+ 
+focuses
+ 
+on
+ 
+Tracking
+ 
+Project
+ 
+Metrics,
+ 
+iden tifying
+ 
+key
+ 
+performance
+ 
+indic ators,
+ 
+and
+ 
+comparing
+ 
+the
+ 
+planned
+ 
+and
+ 
+actual
+ 
+progress.
+ 
+The
+ 
+Requir emen t
+ 
+Engineering
+ 
+phase,
+ 
+scheduled
+ 
+for
+ 
+Week
+ 
+9,
+ 
+involves
+ 
+defining
+ 
+use
+ 
+cases,
+ 
+system
+ 
+models,
+ 
+state
+ 
+diagr ams,
+ 
+and
+ 
+a
+ 
+compr ehensiv e
+ 
+storyboar d.
+ 
+In
+ 
+Weeks
+ 
+11–14,
+ 
+the
+ 
+UI/UX
+ 
+design
+ 
+process
+ 
+starts
+ 
+with
+ 
+defining
+ 
+a
+ 
+structur ed
+ 
+UX
+ 
+frame work
+ 
+and
+ 
+developing
+ 
+interactiv e
+ 
+mock ups.
+ 
+Finally ,
+ 
+the
+ 
+Prototype
+ 
+and
+ 
+Testing
+ 
+phase
+ 
+in
+ 
+Weeks
+ 
+15–17
+ 
+involves
+ 
+building
+ 
+an
+ 
+interactiv e
+ 
+prototype,
+ 
+conducting
+ 
+security
+ 
+and
+ 
+usability
+ 
+tests,
+ 
+and
+ 
+refining
+ 
+the
+ 
+system
+ 
+based
+ 
+on
+ 
+user
+ 
+feedback.
+ 
+This
+ 
+structur ed
+ 
+timeline
+ 
+ensur es
+ 
+a
+ 
+progressiv e
+ 
+developmen t
+ 
+cycle,
+ 
+integrating
+ 
+technic al
+ 
+and
+ 
+user -focused
+ 
+impr ovemen ts
+ 
+to
+ 
+build
+ 
+a
+ 
+robus t
+ 
+and
+ 
+efficien t
+ 
+financial
+ 
+dashboar d.
+  
+Miles tones Tasks Estima ted Comple tion 
+1 - Introduction and Abstract 
+1.1 Define problem, objective, and scope of the project  Week 5 
+1.2 Create the abstract  Week 5 
+1.3 Create a table of content  Week 5 
+2 - Define Project Plan 
+2.1 Create a schedule and deliverables Week 6, 7 
+2.2 Define the milestones and high-level goals Week 6, 7 
+3 - Tracking Project Metrics 
+3.1 Identify metrics to track project Week 8 
+3.2 Illustrate planned vs. actual plan Week 8 
+4 - Requirement Engineering 
+4.1 Define use cases and scenarios Week 9, 10 
+4.2 Develop system models and diagram Week 9, 10 
+4.3 Create state and behavioral diagrams Week 9, 10 
+4.4 Develop storyboard Week 9, 10 
+5 - UX/UI Design 
+ 
+
+--- PAGE 8 ---
+ 
+5.2 Define UX framework and architecture Week 11, 12 
+5.3 Develop UX mockups Week 13, 14 
+6 - Prototype and Testing 
+6.1 Develop interactive prototype Week 15, 16 
+6.2 Conduct security, performance, and usability testing Week 16, 17 
+6.3 Gather feedback and refine the prototype Week 16, 17 
+ 
+5.
+ 
+Metrics
+ 
+5.1.
+ 
+Project
+ 
+Tracking
+ 
+Metrics
+ 
+ To keep our project on track, we’ll use GitHub to manag e our code and track progress. We plan 
+to
+ 
+organize
+ 
+tasks
+ 
+through
+ 
+GitHub
+ 
+Issues,
+ 
+making
+ 
+it
+ 
+easy
+ 
+to
+ 
+see
+ 
+wha t’s
+ 
+done
+ 
+and
+ 
+still
+ 
+needs
+ 
+work.
+ 
+Our
+ 
+team
+ 
+will
+ 
+also
+ 
+track
+ 
+how
+ 
+often
+ 
+we
+ 
+commit
+ 
+code,
+ 
+merge
+ 
+chang es,
+ 
+and
+ 
+resolv e
+ 
+issues
+ 
+to
+ 
+keep
+ 
+things
+ 
+moving
+ 
+in
+ 
+the
+ 
+right
+ 
+direction.
+ 
+Since
+ 
+we’re
+ 
+using
+ 
+VSCode,
+ 
+we’ll
+ 
+regularly
+ 
+ensur e
+ 
+our
+ 
+code
+ 
+is
+ 
+clean
+ 
+and
+ 
+efficien t
+ 
+through
+ 
+peer
+ 
+reviews.
+ 
+Fixing
+ 
+bugs
+ 
+quickly
+ 
+is
+ 
+our
+ 
+top
+ 
+priority ,
+ 
+so
+ 
+we’ll
+ 
+monit or
+ 
+how
+ 
+long
+ 
+it
+ 
+takes
+ 
+to
+ 
+find
+ 
+and
+ 
+resolv e
+ 
+them.
+ 
+Security
+ 
+is
+ 
+also
+ 
+a
+ 
+big
+ 
+focus,
+ 
+especially
+ 
+since
+ 
+we’re
+ 
+dealing
+ 
+with
+ 
+financial
+ 
+data,
+ 
+so
+ 
+we’ll
+ 
+include
+ 
+regular
+ 
+check s
+ 
+to
+ 
+keep
+ 
+everything
+ 
+safe.
+ 
+While
+ 
+we
+ 
+haven’t
+ 
+fully
+ 
+commit ted
+ 
+to
+ 
+a
+ 
+developmen t
+ 
+style
+ 
+yet,
+ 
+we
+ 
+plan
+ 
+on
+ 
+taking
+ 
+an
+ 
+agile-inspir ed
+ 
+appr oach,
+ 
+using
+ 
+short
+ 
+developmen t
+ 
+cycles
+ 
+to
+ 
+adjus t
+ 
+as
+ 
+needed.
+ 
+By
+ 
+tracking
+ 
+these
+ 
+key
+ 
+areas,
+ 
+we’ll
+ 
+ensur e
+ 
+steady
+ 
+progress
+ 
+and
+ 
+catch
+ 
+any
+ 
+roadblock s
+ 
+early .
+ 
+The
+ 
+project
+ 
+boar ds
+ 
+function
+ 
+in
+ 
+GitHub
+ 
+and
+ 
+will
+ 
+aid
+ 
+us
+ 
+in
+ 
+visualizing
+ 
+tasks
+ 
+to
+ 
+manag e
+ 
+priorities
+ 
+better.
+ 
+The
+ 
+progress
+ 
+reports
+ 
+scheduled
+ 
+for
+ 
+each
+ 
+week
+ 
+will
+ 
+help
+ 
+detect
+ 
+possible
+ 
+dela ys
+ 
+and
+ 
+regular
+ 
+security
+ 
+audits
+ 
+that
+ 
+will
+ 
+help
+ 
+main tain
+ 
+financial
+ 
+data
+ 
+protection
+ 
+compliance.
+ 
+Measuring
+ 
+developmen t
+ 
+velocity
+ 
+through
+ 
+time
+ 
+tracking
+ 
+for
+ 
+vital
+ 
+features
+ 
+and
+ 
+quick
+ 
+resolution
+ 
+of
+ 
+essen tial
+ 
+issues
+ 
+help s
+ 
+determine
+ 
+our
+ 
+project's
+ 
+efficiency .
+ 
+The
+ 
+gathered
+ 
+insigh ts
+ 
+enable
+ 
+better
+ 
+workflo w
+ 
+optimiz ation
+ 
+and
+ 
+resour ce
+ 
+maximiz ation
+ 
+to
+ 
+support
+ 
+seamless
+ 
+developmen t
+ 
+throughout
+ 
+the
+ 
+project.
+ 
+5.2.
+ 
+Planner
+ 
+Chart
+ To ensur e that developmen t stays on the right track, we will compar e our planned schedule 
+with
+ 
+actual
+ 
+progress
+ 
+throughout
+ 
+the
+ 
+project.
+ 
+The
+ 
+Planner
+ 
+Chart
+ 
+will
+ 
+track
+ 
+signific ant
+ 
+tasks,
+ 
+including
+ 
+dashboar d
+ 
+design,
+ 
+back end
+ 
+developmen t,
+ 
+AI
+ 
+integration,
+ 
+and
+ 
+testing.
+ 
+Each
+ 
+task
+ 
+will
+ 
+have
+ 
+start
+ 
+and
+ 
+end
+ 
+dates,
+ 
+and
+ 
+we
+ 
+will
+ 
+regularly
+ 
+upda te
+ 
+the
+ 
+chart
+ 
+to
+ 
+represen t
+ 
+each
+ 
+phase’ s
+ 
+current
+ 
+state.
+ 
+This
+ 
+will
+ 
+enable
+ 
+us
+ 
+to
+ 
+modif y
+ 
+our
+ 
+strategy
+ 
+as
+ 
+necessar y
+ 
+by
+ 
+assis ting
+ 
+in
+ 
+detecting
+ 
+any
+ 
+dela ys
+ 
+or
+ 
+obstacles
+ 
+early .
+ 
+We
+ 
+will
+ 
+also
+ 
+monit or
+ 
+task
+ 
+comple tion
+ 
+times
+ 
+concerning
+ 
+early
+ 
+estima tions
+ 
+to
+ 
+ensur e
+ 
+that
+ 
+developmen t
+ 
+resour ces
+ 
+are
+ 
+used
+ 
+efficien tly.
+ 
+We
+ 
+can
+ 
+keep
+ 
+a
+ 
+consis tent
+ 
+workflo w
+ 
+and
+ 
+fulfill
+ 
+project
+ 
+deadlines
+ 
+by
+ 
+carefully
+ 
+monit oring
+ 
+developmen ts
+ 
+and
+ 
+adjus ting
+ 
+as
+ 
+needed.
+   
+ 
+
+--- PAGE 9 ---
+ 
+Progress Tracker 
+Task Assigned To Start Date End Date Status Notes 
+1.
+ 
+Draft
+ 
+and
+ Abstract Jacob 2/25/2025 3/30/2025 Complete Defined core vision and summarized project goals. 
+2.
+ 
+Table
+ 
+of
+ Contents Jacob and Trinity 2/27/2025 4/10/2025 Complete Created structure for all major sections. 
+3.
+ 
+Introduction
+ Moksh 3/1/2025 4/20/2025 Complete Background, purpose, objectives, and scope covered 
+4.
+ 
+Project
+ 
+Plan
+ Triniti 3/15/2025 5/1/2025 Complete Outlined milestones, timeline, and focus areas. 
+5.
+ 
+Metrics
+ Submission 1 Logan 3/10/2025 3/24/2025 Complete Created initial metrics system and planning chart. 
+6.
+ 
+Metrics
+ Submission 2 Logan 5/1/2025 5/13/2025 Complete Updated metrics for weeks 10-17. 
+7.
+ 
+Requirements
+ Engineering Submission 1 Everyone 3/4/2025 3/25/2025 Complete Documented use-cases and scenarios. 
+8.
+ 
+Requirements
+ Engineering Submission 2 Everyone 4/3/2025 5/14/2025 Complete Added updated diagrams and improved descriptions. 
+9.
+ 
+Architecture
+ and Design Everyone 4/10/2025 5/14/2025 Complete Drafted backend design, database planning. 
+10.
+ 
+UX
+ 
+Design
+ Everyone 4/18/2025 5/14/2025 Complete Completed wireframes and UI consistency decisions. 
+11.
+ 
+References
+ Everyone 3/28/2025 5/14/2025 Complete Compiled and formatted all sources used. 
+12.
+ 
+Prototype
+ Everyone 4/23/2025 5/8/2025 Complete Building layout with navigation logic and mockup UI. 
+ 
+ 
+
+--- PAGE 10 ---
+ 
+5.3.
+ 
+Graphs
+ 
+and
+ 
+Charts
+ Different graphs and charts will be presen ted to demons trate the results and progress achie ved 
+from
+ 
+the
+ 
+project.
+ 
+Gantt
+ 
+charts
+ 
+depicting
+ 
+deadlines
+ 
+and
+ 
+interdependencies
+ 
+within
+ 
+the
+ 
+project
+ 
+will
+ 
+be
+ 
+utiliz ed
+ 
+to
+ 
+ensur e
+ 
+that
+ 
+key
+ 
+miles tones
+ 
+are
+ 
+achie ved.
+ 
+Burndo wn
+ 
+charts,
+ 
+which
+ 
+illustrate
+ 
+the
+ 
+remaining
+ 
+work
+ 
+over
+ 
+a
+ 
+designa ted
+ 
+period,
+ 
+enable
+ 
+us
+ 
+to
+ 
+track
+ 
+the
+ 
+sprin t's
+ 
+advancemen t
+ 
+and
+ 
+iden tify
+ 
+potential
+ 
+bottleneck s.
+ 
+Velocity
+ 
+charts
+ 
+will
+ 
+reflect
+ 
+the
+ 
+team's
+ 
+productivity
+ 
+by
+ 
+depicting
+ 
+task
+ 
+comple tion
+ 
+time.
+ 
+Issue
+ 
+tracking
+ 
+reports
+ 
+will
+ 
+also
+ 
+be
+ 
+used
+ 
+to
+ 
+measur e
+ 
+the
+ 
+rate
+ 
+of
+ 
+bug
+ 
+resolution
+ 
+and
+ 
+ensur e
+ 
+that
+ 
+the
+ 
+other
+ 
+areas
+ 
+of
+ 
+developmen t
+ 
+are
+ 
+on
+ 
+schedule.
+ 
+Integrated
+ 
+analy tics
+ 
+will
+ 
+also
+ 
+be
+ 
+used
+ 
+to
+ 
+analy ze
+ 
+user
+ 
+activity
+ 
+and
+ 
+impr ove
+ 
+usability
+ 
+and
+ 
+functions
+ 
+because
+ 
+we
+ 
+will
+ 
+also
+ 
+track
+ 
+user
+ 
+engagemen t
+ 
+through
+ 
+the
+ 
+Finance
+ 
+Manag er's
+ 
+Dashboar d.
+ 
+This
+ 
+aids
+ 
+in
+ 
+enhancing
+ 
+the
+ 
+overall
+ 
+experience.
+ 
+Visual
+ 
+aids
+ 
+will
+ 
+help
+ 
+main tain
+ 
+developmen t
+ 
+efficiency
+ 
+by
+ 
+providing
+ 
+vital
+ 
+informa tion.
+   
+Task/Story HrsEst. Wk 5 Wk6 Wk 7 Wk 8 Wk 9 Wk 10 Wk11 Wk12 Wk 13 Wk14 Wk15 Wk16 Act. Hrs. 
+Draft and Abstract 2  1 1          2 
+Table of Contents 1  1           2 
+Introduction 2    2         2 
+Project Plan 3  1 1 1         3 
+Metrics Submission 1 3  1 1          2 
+Metrics Submission 2 2          1 1  2 
+Requirements Engineering Submission 1 4  1 2 1         4 
+Requirements Engineering Submission 2 4        1 1 2   4 
+Architecture and Design 6       2 1 2 1 2  8 
+UX Design 8       1 2 2 1 2  8 
+Prototype 6         1 2 2 2 7 
+References 2            2 2 
+Remaining Effort 43 43 40 35 31 31 31 28 24 18 12 5 0  
+Ideal Burndown 43 40 35 33 30 28 25 24 21 18 10 5 0       
+ 
+
+--- PAGE 11 ---
+ 
+              
+ 
+
+
+--- PAGE 12 ---
+ 
+6.
+ 
+Requirement
+ 
+Engineering
+  
+6.1.
+ 
+Use-Cases
+ Use Case 1: User views overall account balances 
+Descrip tion Process of how user s will view their account balances. 
+Actors Website User s 
+Preconditions User is logged into the dashboar d 
+Triggers The User selects the "Acc ounts Overview" tab. 
+Main Flow 
+1.
+ 
+The
+ 
+dashboar d
+ 
+page
+ 
+loads,
+ 
+displa ying
+ 
+an
+ 
+overview
+ 
+of
+ 
+the
+ user's financial accounts. 
+2.
+ 
+Each
+ 
+account
+ 
+type
+ 
+(checking ,
+ 
+savings,
+ 
+investmen ts)
+ 
+is
+ shown as a click able card or tab with a summar y balance. 
+3.
+ 
+The
+ 
+user
+ 
+click s
+ 
+on
+ 
+one
+ 
+of
+ 
+the
+ 
+account
+ 
+cards
+ 
+4.
+ 
+The
+ 
+system
+ 
+fetches
+ 
+detailed
+ 
+account
+ 
+informa tion
+ 
+from
+ 
+the
+ financial database. 
+5.
+ 
+The
+ 
+system
+ 
+displa ys
+ 
+the
+ 
+select ed
+ 
+account's
+ 
+recen t
+ transactions, including dates, descrip tions, and amoun ts. 
+6.
+ 
+The
+ 
+user
+ 
+can
+ 
+scroll
+ 
+through
+ 
+transactions
+ 
+or
+ 
+apply
+ 
+filters
+ such as date range, transaction type, or amoun t. 
+7.
+ 
+If
+ 
+needed,
+ 
+the
+ 
+user
+ 
+click s
+ 
+a
+ 
+View
+ 
+Mor e
+ 
+button
+ 
+to
+ 
+load
+ additional transactions. 
+Postconditions  The user success fully views upda ted account balances. 
+Exceptions: 
+●
+ 
+If
+ 
+there
+ 
+is
+ 
+a
+ 
+connection
+ 
+issue,
+ 
+the
+ 
+system
+ 
+displa ys
+ 
+an
+ 
+error
+ messag e. 
+●
+ 
+If
+ 
+the
+ 
+user
+ 
+has
+ 
+yet
+ 
+to
+ 
+enter
+ 
+any
+ 
+financial
+ 
+informa tion,
+ promp t them with the ability to begin their dashboar d. 
+  Use Case 2: User tracks mon thly expenses 
+Descrip tion Process of how user s will be able to use the dashboar d to keep track of expenses 
+Actors Website User s 
+Preconditions User is logged in and has financial data stored in the system. 
+Triggers The User selects the "Expense Tracker" tab. 
+ 
+
+--- PAGE 13 ---
+ 
+Main Flow 
+1.
+ 
+User
+ 
+enters
+ 
+the
+ 
+expense
+ 
+tracker
+ 
+tab
+ 
+2.
+ 
+User
+ 
+click s
+ 
+the
+ 
+track
+ 
+current
+ 
+expenses
+ 
+card
+ 
+3.
+ 
+The
+ 
+User
+ 
+selects
+ 
+a
+ 
+time
+ 
+period
+ 
+(weekly ,
+ 
+mon thly,
+ 
+yearly)
+ 
+4.
+ 
+The
+ 
+system
+ 
+retrieves
+ 
+categorized
+ 
+expenses
+ 
+(such
+ 
+as
+ 
+rent,
+ utilities, groceries). 
+5.
+ 
+The
+ 
+user
+ 
+can
+ 
+select
+ 
+how
+ 
+they
+ 
+want
+ 
+the
+ 
+data
+ 
+displa yed
+ 
+by
+ clicking buttons. 
+6.
+ 
+The
+ 
+graph/ chart
+ 
+the
+ 
+user
+ 
+selects
+ 
+will
+ 
+appear
+ 
+on
+ 
+the
+ current tab 
+7.
+ 
+The
+ 
+User
+ 
+reviews
+ 
+trends
+ 
+and
+ 
+iden tifies
+ 
+high-c ost
+ 
+areas.
+ 
+Postconditions The user success fully tracks expenses with detailed insigh ts. 
+Exceptions: If no data is found, the system notifies the user, and promp ts them to enter financial informa tion. 
+  Use Case 3: User using AI Chatbot for financial insigh ts 
+Descrip tion Process of how user s will be able to use the dashboar d to keep track of expenses 
+Actors Website User s, AI Chatbot 
+Preconditions 
+●
+ 
+User
+ 
+is
+ 
+logged
+ 
+into
+ 
+their
+ 
+account.
+ 
+●
+ 
+User
+ 
+has
+ 
+submit ted
+ 
+financial
+ 
+data
+ 
+(income,
+ 
+expenses,
+ budg et, financial goals). 
+●
+ 
+AI
+ 
+Chatbot
+ 
+has
+ 
+access
+ 
+to
+ 
+analy ze
+ 
+financial
+ 
+trends
+ 
+and
+ provide recommenda tions 
+Triggers 
+●
+ 
+The
+ 
+user
+ 
+interacts
+ 
+with
+ 
+the
+ 
+AI
+ 
+chatbot
+ 
+via
+ 
+the
+ 
+website.
+ 
+●
+ 
+The
+ 
+user
+ 
+asks
+ 
+for
+ 
+financial
+ 
+insigh ts
+ 
+or
+ 
+suggestions.
+ 
+●
+ 
+The
+ 
+AI
+ 
+chatbot
+ 
+automa tically
+ 
+suggests
+ 
+impr ovemen ts
+ based on financial trends. 
+Main Flow 
+1.
+ 
+The
+ 
+user
+ 
+initia tes
+ 
+a
+ 
+conversation
+ 
+with
+ 
+the
+ 
+AI
+ 
+chatbot.
+ 
+2.
+ 
+ 
+The
+ 
+chatbot
+ 
+retrieves
+ 
+the
+ 
+user's
+ 
+financial
+ 
+data
+ 
+(e.g.,
+ spending patterns, income, budg et compliance). 
+3.
+ 
+The
+ 
+chatbot
+ 
+analy zes
+ 
+financial
+ 
+trends
+ 
+and
+ 
+iden tifies
+ 
+key
+ insigh ts. 
+4.
+ 
+The
+ 
+chatbot
+ 
+gener ates
+ 
+personaliz ed
+ 
+recommenda tions
+ 
+5.
+ 
+The
+ 
+user
+ 
+can
+ 
+ask
+ 
+follow-up
+ 
+ques tions
+ 
+for
+ 
+more
+ 
+details
+ 
+or
+ alterna tive suggestions. 
+ 
+
+--- PAGE 14 ---
+ 
+6.
+ 
+The
+ 
+chatbot
+ 
+refines
+ 
+its
+ 
+response
+ 
+and
+ 
+provides
+ 
+additional
+ insigh ts or simula tions based on user input. 
+Postconditions 
+●
+ 
+The
+ 
+user
+ 
+receiv es
+ 
+actionable
+ 
+financial
+ 
+insigh ts
+ 
+and
+ recommenda tions. 
+●
+ 
+The
+ 
+system
+ 
+logs
+ 
+chatbot
+ 
+interactions
+ 
+for
+ 
+futur e
+ 
+learning
+ and impr ovemen t. 
+Exceptions: 
+●
+ 
+If
+ 
+financial
+ 
+data
+ 
+is
+ 
+incomple te,
+ 
+the
+ 
+chatbot
+ 
+promp ts
+ 
+the
+ user to input missing informa tion. 
+●
+ 
+If
+ 
+the
+ 
+chatbot
+ 
+is
+ 
+unable
+ 
+to
+ 
+provide
+ 
+specific
+ 
+advice,
+ 
+it
+ directs the user to financial planning resour ces or human support. 
+  Use Case 4: User creates a mon thly budg et 
+Descrip tion User s can create a mon thly budg et by setting spending limits for different categories based on their expect ed income and expenses. The system provides visual progress indic ators and real-time alerts to help user s track their spending and adjus t their budg et as needed. 
+Actors Website User s 
+Preconditions 
+●
+ 
+The
+ 
+user
+ 
+is
+ 
+logged
+ 
+into
+ 
+their
+ 
+account
+ 
+on
+ 
+the
+ 
+dashboar d.
+ 
+●
+ 
+The
+ 
+user
+ 
+has
+ 
+at
+ 
+least
+ 
+one
+ 
+recorded
+ 
+income
+ 
+sour ce
+ 
+or
+ 
+past
+ financial data in the system. 
+Triggers 
+●
+ 
+The
+ 
+user
+ 
+selects
+ 
+the
+ 
+“Budg et
+ 
+Manag emen t”
+ 
+tab
+ 
+from
+ 
+the
+ dashboar d. 
+●
+ 
+The
+ 
+user
+ 
+chooses
+ 
+to
+ 
+create
+ 
+or
+ 
+upda te
+ 
+their
+ 
+budg et
+ 
+for
+ 
+the
+ upcoming mon th. 
+Main Flow 
+1.
+ 
+The
+ 
+system
+ 
+retrieves
+ 
+the
+ 
+user ’s
+ 
+financial
+ 
+data,
+ 
+including
+ past income, expenses, and categorized spending. 
+2.
+ 
+The
+ 
+user
+ 
+sets
+ 
+spending
+ 
+limits
+ 
+for
+ 
+the
+ 
+upcoming
+ 
+mon th
+ 
+for
+ different budg et categories (e.g., groceries, rent, utilities, entertainmen t). 
+3.
+ 
+The
+ 
+system
+ 
+calcula tes
+ 
+the
+ 
+total
+ 
+budg et
+ 
+alloc ation
+ 
+and
+ check s for inconsis tencies (e.g., exceeding total income). 
+4.
+ 
+The
+ 
+system
+ 
+visually
+ 
+represen ts
+ 
+spending
+ 
+progress
+ 
+using
+ charts, bars, and trend indic ators. 
+ 
+
+--- PAGE 15 ---
+ 
+5.
+ 
+As
+ 
+the
+ 
+user
+ 
+spends
+ 
+mone y,
+ 
+the
+ 
+system
+ 
+upda tes
+ 
+spending
+ categories in real-time and compar es them against budg et limits. 
+6.
+ 
+The
+ 
+system
+ 
+sends
+ 
+alerts
+ 
+and
+ 
+notific ations
+ 
+when
+ 
+the
+ 
+user
+ appr oaches or exceeds their budg et in any category. 
+7.
+ 
+The
+ 
+user
+ 
+can
+ 
+manually
+ 
+adjus t
+ 
+budg et
+ 
+limits,
+ 
+realloc ate
+ funds between categories, or modif y goals based on spending patterns. 
+8.
+ 
+At
+ 
+the
+ 
+end
+ 
+of
+ 
+the
+ 
+mon th,
+ 
+the
+ 
+system
+ 
+gener ates
+ 
+a
+ 
+budg et
+ summar y report, highligh ting spending trends and suggesting impr ovemen ts.  
+Postconditions 
+●
+ 
+The
+ 
+user
+ 
+success fully
+ 
+creates
+ 
+and
+ 
+manag es
+ 
+their
+ 
+budg et.
+ 
+●
+ 
+The
+ 
+system
+ 
+continuously
+ 
+upda tes
+ 
+and
+ 
+tracks
+ 
+spending
+ data. 
+●
+ 
+User s
+ 
+receiv e
+ 
+timely
+ 
+notific ations
+ 
+and
+ 
+insigh ts
+ 
+into
+ 
+their
+ financial habits. 
+Exceptions: No Financial History Available: 
+●
+ 
+If
+ 
+the
+ 
+user
+ 
+has
+ 
+no
+ 
+prior
+ 
+spending
+ 
+records,
+ 
+the
+ 
+system
+ suggests a default budg et based on common income and expense patterns. Unrealis tic Budg et Limits: 
+●
+ 
+If
+ 
+a
+ 
+user
+ 
+sets
+ 
+a
+ 
+budg et
+ 
+limit
+ 
+that
+ 
+is
+ 
+too
+ 
+low
+ 
+or
+ 
+too
+ 
+high
+ based on their income, the system provides recommenda tions to ensur e realis tic financial planning. 
+  Use Case 5: User tracks mon thly bills and subscrip tions 
+Descrip tion User s can add, track, and manag e recurring bills and subscrip tions, receiv e paymen t reminder s, and mark paymen ts as comple ted. 
+Actors Website User s 
+Preconditions 
+●
+ 
+The
+ 
+user
+ 
+is
+ 
+logged
+ 
+into
+ 
+their
+ 
+account.
+ 
+●
+ 
+The
+ 
+user
+ 
+has
+ 
+entered
+ 
+recurring
+ 
+bill
+ 
+details
+ 
+into
+ 
+the
+ 
+system.
+ 
+Triggers The user selects the "Bill Manag emen t" tab from the dashboar d. 
+ 
+
+--- PAGE 16 ---
+ 
+Main Flow 
+1.
+ 
+The
+ 
+system
+ 
+retrieves
+ 
+the
+ 
+user's
+ 
+stored
+ 
+bills
+ 
+and
+ subscrip tion paymen t details. 
+2.
+ 
+The
+ 
+user
+ 
+can
+ 
+add
+ 
+new
+ 
+recurring
+ 
+paymen ts
+ 
+(e.g.,
+ 
+rent,
+ utilities, Netflix, phone bill). 
+3.
+ 
+The
+ 
+system
+ 
+automa tically
+ 
+upda tes
+ 
+paymen t
+ 
+due
+ 
+dates
+ based on the billing cycle. 
+4.
+ 
+The
+ 
+system
+ 
+sends
+ 
+reminder s
+ 
+via
+ 
+email,
+ 
+SMS,
+ 
+or
+ 
+app
+ notific ations before due dates. 
+5.
+ 
+The
+ 
+user
+ 
+can
+ 
+mark
+ 
+a
+ 
+bill
+ 
+as
+ 
+paid
+ 
+manually
+ 
+or
+ 
+enable
+ auto-pa y for automa tic paymen t processing. 
+6.
+ 
+The
+ 
+system
+ 
+records
+ 
+the
+ 
+paymen t
+ 
+history
+ 
+and
+ 
+upda tes
+ 
+the
+ user ’s financial records accordingly . 
+Postconditions 
+●
+ 
+The
+ 
+user
+ 
+success fully
+ 
+sets
+ 
+a
+ 
+mon thly
+ 
+budg et
+ 
+with
+ 
+clear
+ spending limits. 
+●
+ 
+The
+ 
+system
+ 
+continuously
+ 
+upda tes
+ 
+and
+ 
+tracks
+ 
+spending
+ data throughout the mon th. 
+●
+ 
+User s
+ 
+receiv e
+ 
+timely
+ 
+notific ations
+ 
+and
+ 
+insigh ts
+ 
+into
+ 
+their
+ financial habits. 
+Exceptions:  No Financial History Available: 
+●
+ 
+If
+ 
+the
+ 
+user
+ 
+has
+ 
+no
+ 
+prior
+ 
+spending
+ 
+records,
+ 
+the
+ 
+system
+ suggests a default budg et templa te based on common income and expense patterns. Unrealis tic Budg et Limits: 
+●
+ 
+If
+ 
+a
+ 
+user
+ 
+sets
+ 
+a
+ 
+budg et
+ 
+limit
+ 
+that
+ 
+is
+ 
+too
+ 
+low
+ 
+or
+ 
+too
+ 
+high
+ relative to their income, the system provides recommenda tions for realis tic financial planning. 
+  Use Case 6: User adds financial goals 
+Descrip tion User s can add financial goals 
+Actors Website User s 
+Preconditions The user is logged into their account. 
+Triggers The user selects the "Financial Goals" tab from the dashboar d. 
+ 
+
+--- PAGE 17 ---
+ 
+Main Flow 
+1.
+ 
+The
+ 
+user
+ 
+sets
+ 
+a
+ 
+financial
+ 
+goal
+ 
+(e.g.,
+ 
+saving
+ 
+$5,000
+ 
+for
+ 
+a
+ vacation or paying off a $10,000 loan). 
+2.
+ 
+The
+ 
+system
+ 
+tracks
+ 
+the
+ 
+user ’s
+ 
+income,
+ 
+expenses,
+ 
+and
+ savings to monit or progress. 
+3.
+ 
+The
+ 
+system
+ 
+provides
+ 
+visual
+ 
+indic ators
+ 
+(e.g.,
+ 
+progress
+ 
+bars,
+ graphs) showing goal achie vemen t status. 
+4.
+ 
+The
+ 
+system
+ 
+offers
+ 
+personaliz ed
+ 
+suggestions
+ 
+to
+ 
+acceler ate
+ goal comple tion (e.g., reducing non-essen tial spending , increasing savings contributions). 
+5.
+ 
+The
+ 
+user
+ 
+can
+ 
+modif y,
+ 
+upda te,
+ 
+or
+ 
+remo ve
+ 
+the
+ 
+financial
+ 
+goal
+ at any time. 
+Postconditions 
+●
+ 
+The
+ 
+user
+ 
+success fully
+ 
+defines
+ 
+and
+ 
+tracks
+ 
+financial
+ 
+goals.
+ 
+●
+ 
+The
+ 
+system
+ 
+continuously
+ 
+upda tes
+ 
+goal
+ 
+progress
+ 
+based
+ 
+on
+ real-time financial data. 
+●
+ 
+The
+ 
+user
+ 
+receiv es
+ 
+insigh ts
+ 
+on
+ 
+how
+ 
+to
+ 
+reach
+ 
+goals
+ 
+faster.
+ 
+Exceptions: No Goal Amoun t Specified: 
+●
+ 
+If
+ 
+the
+ 
+user
+ 
+does
+ 
+not
+ 
+enter
+ 
+a
+ 
+specific
+ 
+goal
+ 
+amoun t,
+ 
+the
+ system suggests realis tic goal options based on their income and expenses. Unrealis tic Goal: 
+●
+ 
+If
+ 
+the
+ 
+goal
+ 
+is
+ 
+signific antly
+ 
+beyond
+ 
+the
+ 
+user ’s
+ 
+financial
+ capacity , the system warns the user and suggests a more achie vable target. 
+  Use Case 7: User registers for an account 
+Descrip tion Allow new user s to create an account and existing user s to log in secur ely to the personal finance dashboar d 
+Actors Website user s 
+Preconditions 
+●
+ 
+User
+ 
+need
+ 
+an
+ 
+interne t
+ 
+connection.
+ 
+●
+ 
+User
+ 
+has
+ 
+access
+ 
+to
+ 
+the
+ 
+registration
+ 
+or
+ 
+login
+ 
+page.
+ 
+Triggers 
+●
+ 
+New
+ 
+user
+ 
+decides
+ 
+to
+ 
+create
+ 
+an
+ 
+account.
+ 
+●
+ 
+User
+ 
+need
+ 
+to
+ 
+click
+ 
+on
+ 
+the
+ 
+“sign
+ 
+up”
+ 
+button
+ 
+on
+ 
+the
+ 
+.
+ 
+●
+ 
+User
+ 
+need
+ 
+to
+ 
+be
+ 
+on
+ 
+the
+ 
+sign-up
+ 
+page.
+ 
+ 
+
+--- PAGE 18 ---
+ 
+Main Flow 
+1.
+ 
+The
+ 
+user
+ 
+visits
+ 
+the
+ 
+registration
+ 
+or
+ 
+login
+ 
+page.
+ 
+2.
+ 
+The
+ 
+user
+ 
+enters
+ 
+their
+ 
+creden tials
+ 
+(email,
+ 
+pass word).
+ 
+3.
+ 
+The
+ 
+system
+ 
+authen ticates
+ 
+the
+ 
+user
+ 
+based
+ 
+on
+ 
+the
+ creden tials. 
+4.
+ 
+If
+ 
+success ful,
+ 
+the
+ 
+user
+ 
+is
+ 
+redirected
+ 
+to
+ 
+their
+ 
+personal
+ finance dashboar d. 
+5.
+ 
+If
+ 
+registration
+ 
+is
+ 
+select ed,
+ 
+the
+ 
+user
+ 
+provides
+ 
+the
+ 
+requir ed
+ informa tion (e.g., email, pass word) and click s "Create Account." 
+6.
+ 
+The
+ 
+system
+ 
+confirms
+ 
+registration
+ 
+via
+ 
+email
+ 
+or
+ 
+SMS
+ 
+and
+ directs the user to the login page. 
+Postconditions 
+●
+ 
+The
+ 
+user
+ 
+success fully
+ 
+created
+ 
+an
+ 
+account
+ 
+and
+ 
+can
+ 
+now
+ 
+log
+ in. 
+●
+ 
+The
+ 
+system
+ 
+secur ely
+ 
+stores
+ 
+the
+ 
+user ’s
+ 
+creden tials.
+ 
+●
+ 
+The
+ 
+user
+ 
+receiv es
+ 
+a
+ 
+confirma tion
+ 
+email
+ 
+or
+ 
+SMS
+ 
+with
+ account verific ation details. 
+●
+ 
+The
+ 
+system
+ 
+upda tes
+ 
+the
+ 
+database
+ 
+with
+ 
+the
+ 
+new
+ 
+user ’s
+ informa tion. 
+Exceptions: Invalid Email Forma t: 
+●
+ 
+If
+ 
+the
+ 
+user
+ 
+enters
+ 
+an
+ 
+impr operly
+ 
+forma tted
+ 
+email,
+ 
+the
+ system promp ts them to enter a valid email addr ess. Email Already Registered: 
+●
+ 
+If
+ 
+the
+ 
+provided
+ 
+email
+ 
+is
+ 
+linked
+ 
+to
+ 
+an
+ 
+existing
+ 
+account,
+ 
+the
+ system notifies the user and suggests logging in instead. Weak Password: 
+●
+ 
+If
+ 
+the
+ 
+pass word
+ 
+does
+ 
+not
+ 
+mee t
+ 
+security
+ 
+requir emen ts
+ (e.g., minimum leng th, special char acters, number s), the system displa ys an error messag e with pass word guidelines. 
+  Use Case 8: User logs in to the account 
+Descrip tion Allow existing user s to log in secur ely to the personal finance dashboar d 
+Actors Website user s 
+Preconditions 
+●
+ 
+User s
+ 
+need
+ 
+an
+ 
+interne t
+ 
+connection.
+ 
+●
+ 
+User
+ 
+has
+ 
+access
+ 
+to
+ 
+the
+ 
+login
+ 
+page.
+ 
+Triggers 
+●
+ 
+New
+ 
+user
+ 
+decides
+ 
+to
+ 
+create
+ 
+an
+ 
+account.
+ 
+ 
+
+--- PAGE 19 ---
+ 
+●
+ 
+An
+ 
+existing
+ 
+user
+ 
+chooses
+ 
+to
+ 
+log
+ 
+in
+ 
+to
+ 
+their
+ 
+account.
+ 
+Main Flow 
+1.
+ 
+The
+ 
+user
+ 
+visits
+ 
+the
+ 
+registration
+ 
+or
+ 
+login
+ 
+page.
+ 
+2.
+ 
+The
+ 
+user
+ 
+enters
+ 
+their
+ 
+creden tials
+ 
+(email,
+ 
+pass word).
+ 
+3.
+ 
+The
+ 
+system
+ 
+authen ticates
+ 
+the
+ 
+user
+ 
+based
+ 
+on
+ 
+the
+ creden tials. 
+4.
+ 
+If
+ 
+success ful,
+ 
+the
+ 
+user
+ 
+is
+ 
+redirected
+ 
+to
+ 
+their
+ 
+personal
+ finance dashboar d. 
+5.
+ 
+If
+ 
+registration
+ 
+is
+ 
+select ed,
+ 
+the
+ 
+user
+ 
+provides
+ 
+the
+ 
+requir ed
+ informa tion (e.g., email, pass word) and click s "Log In." 
+6.
+ 
+The
+ 
+system
+ 
+confirms
+ 
+registration
+ 
+via
+ 
+email
+ 
+or
+ 
+SMS
+ 
+and
+ directs the user to the login page. 
+Postconditions 
+●
+ 
+The
+ 
+user
+ 
+success fully
+ 
+logs
+ 
+into
+ 
+their
+ 
+account
+ 
+and
+ 
+gains
+ access to the personal finance dashboar d. 
+●
+ 
+The
+ 
+system
+ 
+secur ely
+ 
+stores
+ 
+the
+ 
+user
+ 
+login
+ 
+session.
+ 
+●
+ 
+The
+ 
+user
+ 
+can
+ 
+now
+ 
+perform
+ 
+financial
+ 
+activities,
+ 
+such
+ 
+as
+ viewing transactions, managing budg ets, and tracking expenses. 
+Exceptions: Incorrect creden tials: 
+●
+ 
+User
+ 
+will
+ 
+need
+ 
+to
+ 
+re-en ter
+ 
+the
+ 
+correct
+ 
+creden tials
+ 
+to
+ 
+log
+ 
+in
+ 
+●
+ 
+User
+ 
+will
+ 
+receiv e
+ 
+an
+ 
+invalid
+ 
+statemen t
+ 
+stating
+ 
+that
+ 
+the
+ informa tion is incorrect Unverified account: 
+●
+ 
+User
+ 
+will
+ 
+receiv e
+ 
+a
+ 
+messag e
+ 
+stating
+ 
+that
+ 
+the
+ 
+user
+ creden tials are not found 
+  Use Case 9: User reset their pass word 
+Descrip tion Existing user s with an account forgot their pass word and want to reset it. 
+Actors Website user 
+Preconditions 
+●
+ 
+User s
+ 
+need
+ 
+to
+ 
+have
+ 
+an
+ 
+account.
+ 
+●
+ 
+User
+ 
+need
+ 
+to
+ 
+click
+ 
+on
+ 
+“forgot
+ 
+pass word”
+ 
+from
+ 
+the
+ 
+login
+ 
+in
+ page 
+●
+ 
+User
+ 
+need
+ 
+to
+ 
+provide
+ 
+their
+ 
+email
+ 
+addr ess
+ 
+Triggers The user selects the "Forgot Password" option on the login page. 
+ 
+
+--- PAGE 20 ---
+ 
+Main Flow 
+1.
+ 
+The
+ 
+user
+ 
+click s
+ 
+on
+ 
+the
+ 
+"Forgot
+ 
+Password"
+ 
+link.
+ 
+2.
+ 
+The
+ 
+system
+ 
+promp ts
+ 
+the
+ 
+user
+ 
+to
+ 
+enter
+ 
+their
+ 
+registered
+ email addr ess. 
+3.
+ 
+The
+ 
+user
+ 
+enters
+ 
+their
+ 
+email
+ 
+and
+ 
+submits
+ 
+the
+ 
+reques t.
+ 
+4.
+ 
+The
+ 
+system
+ 
+verifies
+ 
+if
+ 
+the
+ 
+email
+ 
+exists
+ 
+in
+ 
+the
+ 
+database
+ 
+and
+ sends a pass word reset link if it is valid. 
+5.
+ 
+The
+ 
+user
+ 
+receiv es
+ 
+an
+ 
+email
+ 
+with
+ 
+a
+ 
+pass word
+ 
+reset
+ 
+link
+ 
+and
+ click s on it. 
+6.
+ 
+The
+ 
+user
+ 
+enters
+ 
+a
+ 
+new
+ 
+pass word,
+ 
+confirms
+ 
+it,
+ 
+and
+ 
+submits
+ the form to reset their pass word. 
+Postconditions The user success fully resets their pass word and can log in with the new creden tials. 
+Exceptions: Invalid Email Addr ess: 
+●
+ 
+If
+ 
+the
+ 
+email
+ 
+is
+ 
+not
+ 
+found
+ 
+in
+ 
+the
+ 
+system,
+ 
+the
+ 
+user
+ 
+receiv es
+ an error messag e stating that the account does not exist. Expir ed Reset Link: 
+●
+ 
+If
+ 
+the
+ 
+user
+ 
+click s
+ 
+on
+ 
+an
+ 
+expired
+ 
+pass word
+ 
+reset
+ 
+link,
+ 
+the
+ system displa ys a messag e asking them to reques t a new reset email. Weak Password: 
+●
+ 
+If
+ 
+the
+ 
+new
+ 
+pass word
+ 
+does
+ 
+not
+ 
+mee t
+ 
+security
+ requir emen ts, the system promp ts the user to enter a stronger pass word. Technic al Issues: 
+●
+ 
+If
+ 
+the
+ 
+system
+ 
+fails
+ 
+to
+ 
+send
+ 
+the
+ 
+reset
+ 
+email
+ 
+due
+ 
+to
+ 
+server
+ issues, the user is notified and asked to try again later. 
+ Use Case 10: User receiv es email notific ation for due dates 
+Descrip tion The user will receiv e an email notific ation about an upcoming due date. 
+Actors Website user 
+Preconditions 
+●
+ 
+User
+ 
+is
+ 
+logged
+ 
+into
+ 
+their
+ 
+account
+ 
+●
+ 
+User
+ 
+is
+ 
+on
+ 
+dashboar d
+ 
+●
+ 
+User
+ 
+has
+ 
+added
+ 
+recurring
+ 
+bills
+ 
+or
+ 
+subscrip tions
+ 
+with
+ 
+due
+ dates  
+●
+ 
+System
+ 
+has
+ 
+scheduled
+ 
+notific ations
+ 
+for
+ 
+upcoming
+ paymen ts 
+ 
+
+--- PAGE 21 ---
+ 
+Triggers 
+●
+ 
+System
+ 
+iden tifies
+ 
+that
+ 
+a
+ 
+bill
+ 
+or
+ 
+subscrip tion
+ 
+is
+ 
+appr oaching
+ its due date 
+●
+ 
+User
+ 
+has
+ 
+opted
+ 
+in
+ 
+to
+ 
+receiv e
+  
+notific ation
+ 
+via
+ 
+email
+ 
+Main Flow 
+1.
+ 
+The
+ 
+user
+ 
+logs
+ 
+into
+ 
+the
+ 
+Personal
+ 
+Finance
+ 
+Dashboar d
+ 
+and
+ adds their recurring bills or subscrip tions, including the due dates. 
+2.
+ 
+The
+ 
+system
+ 
+continuously
+ 
+tracks
+ 
+the
+ 
+due
+ 
+dates
+ 
+of
+ 
+the
+ user ’s bills. 
+3.
+ 
+A
+ 
+bill
+ 
+or
+ 
+subscrip tion
+ 
+is
+ 
+iden tified
+ 
+to
+ 
+be
+ 
+3
+ 
+days
+ 
+before
+ 
+its
+ due date. 
+4.
+ 
+The
+ 
+system
+ 
+gener ates
+ 
+an
+ 
+email
+ 
+notific ation
+ 
+detailing
+ 
+the
+ bill’s name, amoun t, due date, and paymen t options. 
+5.
+ 
+The
+ 
+email
+ 
+is
+ 
+sent
+ 
+to
+ 
+the
+ 
+user ’s
+ 
+registered
+ 
+email
+ 
+addr ess.
+ 
+6.
+ 
+The
+ 
+user
+ 
+receiv es
+ 
+the
+ 
+email,
+ 
+which
+ 
+promp ts
+ 
+them
+ 
+to
+ 
+mak e
+ the paymen t before the due date. 
+7.
+ 
+The
+ 
+user
+ 
+can
+ 
+take
+ 
+action
+ 
+directly
+ 
+from
+ 
+the
+ 
+email,
+ 
+such
+ 
+as
+ linking to the paymen t port al or marking the paymen t as comple te. 
+Postconditions 
+●
+ 
+The
+ 
+user
+ 
+receiv es
+ 
+a
+ 
+timely
+ 
+email
+ 
+notific ation
+ 
+about
+ 
+the
+ upcoming paymen t due date. 
+●
+ 
+The
+ 
+email
+ 
+notific ation
+ 
+provides
+ 
+necessar y
+ 
+paymen t
+ 
+details
+ and reminder s. 
+●
+ 
+The
+ 
+user
+ 
+may
+ 
+mak e
+ 
+the
+ 
+paymen t
+ 
+or
+ 
+take
+ 
+action
+ 
+based
+ 
+on
+ the reminder . 
+Exceptions: Invalid email addr ess: 
+●
+ 
+The
+ 
+user
+ 
+will
+ 
+not
+ 
+receiv e
+ 
+the
+ 
+notific ation
+ 
+if
+ 
+the
+ 
+email
+ addr ess is incorrect or not registered. User opted out of email notific ations: 
+●
+ 
+If
+ 
+user s
+ 
+have
+ 
+disabled
+ 
+email
+ 
+notific ations
+ 
+in
+ 
+their
+ 
+settings,
+ they will not receiv e the email. 
+●
+ 
+If
+ 
+no
+ 
+recurring
+ 
+bills
+ 
+or
+ 
+subscrip tions
+ 
+are
+ 
+added
+ 
+by
+ 
+the
+ 
+user,
+ the system will not trigger any notific ations.  
+ Use Case 11: User categorizes tags and transactions 
+Descrip tion Process of how user s can manually or automa tically categorize their transactions for better financial organization. 
+Actors Website User s, Finance Manag er System 
+Preconditions 
+●
+ 
+The
+ 
+user
+ 
+is
+ 
+logged
+ 
+into
+ 
+their
+ 
+account.
+ 
+ 
+
+--- PAGE 22 ---
+ 
+●
+ 
+The
+ 
+system
+ 
+has
+ 
+access
+ 
+to
+ 
+transaction
+ 
+data
+ 
+from
+ 
+bank
+ feeds or manual inputs. 
+Triggers 
+●
+ 
+The
+ 
+user
+ 
+reviews
+ 
+recen t
+ 
+transactions.
+ 
+●
+ 
+The
+ 
+system
+ 
+auto-categorizes
+ 
+transactions
+ 
+based
+ 
+on
+ merchan t details and past beha vior. 
+●
+ 
+The
+ 
+user
+ 
+manually
+ 
+edits
+ 
+or
+ 
+reassigns
+ 
+a
+ 
+category
+ 
+or
+ 
+tag
+ 
+Main Flow 
+1.
+ 
+The
+ 
+user
+ 
+navigates
+ 
+to
+ 
+the
+ 
+“Transactions”
+ 
+section.
+ 
+2.
+ 
+The
+ 
+system
+ 
+auto-categorizes
+ 
+transactions
+ 
+(e.g.,
+ 
+groceries,
+ utilities, entertainmen t). 
+3.
+ 
+The
+ 
+user
+ 
+reviews
+ 
+and
+ 
+modifies
+ 
+categories
+ 
+if
+ 
+necessar y.
+ 
+4.
+ 
+The
+ 
+user
+ 
+adds
+ 
+custom
+ 
+tags
+ 
+for
+ 
+better
+ 
+tracking
+ 
+(e.g.,
+ 
+“Work
+ Expense” or “Vacation”). 
+5.
+ 
+The
+ 
+system
+ 
+upda tes
+ 
+and
+ 
+saves
+ 
+categorized
+ 
+transactions
+ for financial reports. 
+Postconditions 
+●
+ 
+Transactions
+ 
+are
+ 
+correctly
+ 
+categorized
+ 
+and
+ 
+labeled.
+ 
+●
+ 
+The
+ 
+system
+ 
+provides
+ 
+more
+ 
+accur ate
+ 
+insigh ts
+ 
+based
+ 
+on
+ spending categories 
+Exceptions: 
+●
+ 
+If
+ 
+a
+ 
+transaction
+ 
+lacks
+ 
+details,
+ 
+the
+ 
+system
+ 
+promp ts
+ 
+user
+ 
+to
+ manually categorize it. 
+ Use Case 12: User exports financial data 
+Descrip tion Process of how user s can download financial data for external analy sis or tax purposes. 
+Actors Website User s, Finance Manag er System 
+Preconditions 
+●
+ 
+The
+ 
+user
+ 
+is
+ 
+logged
+ 
+into
+ 
+their
+ 
+account.
+ 
+●
+ 
+The
+ 
+system
+ 
+has
+ 
+stored
+ 
+financial
+ 
+transaction
+ 
+data.
+ 
+Triggers 
+●
+ 
+The
+ 
+user
+ 
+navigates
+ 
+to
+ 
+the
+ 
+financial
+ 
+reports
+ 
+section.
+ 
+●
+ 
+The
+ 
+user
+ 
+selects
+ 
+an
+ 
+export
+ 
+option
+ 
+(CSV,
+ 
+PDF,
+ 
+or
+ 
+Excel).
+ 
+Main Flow 
+1.
+ 
+The
+ 
+user
+ 
+selects
+ 
+the
+ 
+“Export
+ 
+Data”
+ 
+option.
+ 
+2.
+ 
+The
+ 
+system
+ 
+provides
+ 
+file
+ 
+forma t
+ 
+options
+ 
+(CSV,
+ 
+PDF,
+ 
+Excel).
+ 
+3.
+ 
+The
+ 
+user
+ 
+chooses
+ 
+the
+ 
+desir ed
+ 
+forma t
+ 
+and
+ 
+selects
+ 
+a
+ 
+date
+ range. 
+4.
+ 
+The
+ 
+system
+ 
+gener ates
+ 
+the
+ 
+financial
+ 
+report
+ 
+and
+ 
+prepar es
+ 
+it
+ for download. 
+5.
+ 
+The
+ 
+user
+ 
+downloads
+ 
+and
+ 
+saves
+ 
+the
+ 
+file.
+ 
+ 
+
+--- PAGE 23 ---
+ 
+Postconditions 
+●
+ 
+The
+ 
+user
+ 
+success fully
+ 
+obtains
+ 
+a
+ 
+copy
+ 
+of
+ 
+their
+ 
+financial
+ data. 
+●
+ 
+The
+ 
+export ed
+ 
+file
+ 
+is
+ 
+forma tted
+ 
+for
+ 
+use
+ 
+in
+ 
+tax
+ 
+filings
+ 
+or
+ external tools (e.g., Excel, QuickBook s). 
+Exceptions: 
+●
+ 
+If
+ 
+there
+ 
+is
+ 
+no
+ 
+data
+ 
+available
+ 
+for
+ 
+the
+ 
+select ed
+ 
+date
+ 
+range,
+ the system notifies the user and suggests a different range 
+ Use Case 13: User sets up automa ted savings transfers 
+Descrip tion Process of how user s can automa te savings contributions based on income or spending habits. 
+Actors Website User s, Finance Manag er System, Linked Bank Account 
+Preconditions 
+●
+ 
+The
+ 
+user
+ 
+is
+ 
+logged
+ 
+into
+ 
+their
+ 
+account.
+ 
+●
+ 
+The
+ 
+user
+ 
+has
+ 
+linked
+ 
+a
+ 
+bank
+ 
+account
+ 
+for
+ 
+fund
+ 
+transfers.
+ 
+●
+ 
+The
+ 
+system
+ 
+has
+ 
+access
+ 
+to
+ 
+income
+ 
+and
+ 
+expense
+ 
+data.
+ 
+Triggers 
+●
+ 
+The
+ 
+user
+ 
+navigates
+ 
+to
+ 
+the
+ 
+“Savings
+ 
+Goal”
+ 
+or
+ 
+“Automa ted
+ Transfers” section. 
+●
+ 
+The
+ 
+user
+ 
+sets
+ 
+a
+ 
+rule
+ 
+for
+ 
+automa tic
+ 
+savings
+ 
+contributions
+ 
+Main Flow 
+1.
+ 
+The
+ 
+user
+ 
+selects
+ 
+the
+ 
+“Automa te
+ 
+Savings”
+ 
+option.
+ 
+2.
+ 
+The
+ 
+system
+ 
+promp ts
+ 
+the
+ 
+user
+ 
+to
+ 
+set
+ 
+transfer
+ 
+rules
+ 
+(e.g.,
+ fixed amoun t per mon th, percentage of income, round-up spar e chang e). 
+3.
+ 
+The
+ 
+user
+ 
+selects
+ 
+a
+ 
+destination
+ 
+account
+ 
+(e.g.,
+ 
+savings
+ account, emer gency fund). 
+4.
+ 
+The
+ 
+system
+ 
+confirms
+ 
+the
+ 
+automa tion
+ 
+settings
+ 
+and
+ schedules transfers accordingly . 
+5.
+ 
+The
+ 
+system
+ 
+execut es
+ 
+transfers
+ 
+based
+ 
+on
+ 
+the
+ 
+set
+ 
+rules
+ 
+and
+ logs them in transaction history.  
+Postconditions 
+●
+ 
+The
+ 
+system
+ 
+automa tically
+ 
+moves
+ 
+funds
+ 
+based
+ 
+on
+ user -defined rules. 
+●
+ 
+The
+ 
+user
+ 
+can
+ 
+track
+ 
+automa ted
+ 
+transfers
+ 
+in
+ 
+financial
+ reports. 
+Exceptions: 
+●
+ 
+If
+ 
+the
+ 
+linked
+ 
+bank
+ 
+account
+ 
+has
+ 
+insuf ficien t
+ 
+funds,
+ 
+the
+ system notifies the user and skips the transfer. 
+●
+ 
+If
+ 
+the
+ 
+bank
+ 
+connection
+ 
+is
+ 
+lost,
+ 
+the
+ 
+system
+ 
+alerts
+ 
+the
+ 
+user
+ to reauthoriz e the account. 
+ 
+
+--- PAGE 24 ---
+ 
+ Use Case 14: User sets financial reminder s 
+Descrip tion User s can set custom reminder s for financial tasks such as making a loan paymen t, reviewing budg et, or investing. 
+Actors Website User s 
+Preconditions 
+●
+ 
+User
+ 
+is
+ 
+logged
+ 
+into
+ 
+their
+ 
+account.
+ 
+●
+ 
+User
+ 
+has
+ 
+access
+ 
+to
+ 
+the
+ 
+Reminder s
+ 
+feature
+ 
+from
+ 
+the
+ dashboar d. 
+Triggers 
+●
+ 
+The
+ 
+user
+ 
+navigates
+ 
+to
+ 
+the
+ 
+“Reminder s”
+ 
+section
+ 
+and
+ 
+sets
+ 
+a
+ new reminder . 
+Main Flow 
+●
+ 
+The
+ 
+user
+ 
+selects
+ 
+“Add
+ 
+Reminder ”
+ 
+from
+ 
+the
+ 
+Reminder s
+ section.  
+●
+ 
+The
+ 
+system
+ 
+promp ts
+ 
+the
+ 
+user
+ 
+to
+ 
+enter
+ 
+details:
+ 
+title,
+ date/time, frequency , and optional notes.  
+●
+ 
+The
+ 
+user
+ 
+configur es
+ 
+how
+ 
+they
+ 
+want
+ 
+to
+ 
+be
+ 
+notified
+ 
+(email,
+ in-app, or SMS).  
+●
+ 
+The
+ 
+system
+ 
+saves
+ 
+the
+ 
+reminder
+ 
+and
+ 
+schedules
+ 
+a
+ notific ation based on user preferences.  
+●
+ 
+On
+ 
+the
+ 
+due
+ 
+date/time,
+ 
+the
+ 
+system
+ 
+sends
+ 
+a
+ 
+notific ation
+ 
+to
+ the user. 
+Postconditions 
+●
+ 
+The
+ 
+user
+ 
+is
+ 
+reminded
+ 
+of
+ 
+the
+ 
+scheduled
+ 
+financial
+ 
+task
+ 
+in
+ 
+a
+ timely manner . 
+●
+ 
+The
+ 
+system
+ 
+logs
+ 
+the
+ 
+reminder
+ 
+for
+ 
+tracking
+ 
+purposes.
+ 
+Exceptions: 
+●
+ 
+If
+ 
+the
+ 
+reminder
+ 
+fails
+ 
+to
+ 
+save
+ 
+due
+ 
+to
+ 
+a
+ 
+system
+ 
+issue,
+ 
+the
+ user is promp ted to retry.  
+●
+ 
+If
+ 
+a
+ 
+past
+ 
+date
+ 
+is
+ 
+select ed,
+ 
+the
+ 
+system
+ 
+promp ts
+ 
+the
+ 
+user
+ 
+to
+ choose a valid futur e date. 
+ Use Case 15: User links a new bank or credit account 
+Descrip tion User s can secur ely link new financial institutions to their dashboar d for live upda tes. 
+ 
+
+--- PAGE 25 ---
+ 
+Actors Website User s, External Financial Institutions 
+Preconditions 
+●
+ 
+The
+ 
+user
+ 
+is
+ 
+logged
+ 
+into
+ 
+their
+ 
+account.
+  
+●
+ 
+The
+ 
+system
+ 
+integrates
+ 
+with
+ 
+financial
+ 
+data
+ 
+APIs
+ 
+(e.g.,
+ 
+Plaid)
+ 
+Triggers 
+●
+ 
+The
+ 
+user
+ 
+selects
+ 
+“Link
+ 
+Account”
+ 
+from
+ 
+the
+ 
+Accounts
+ 
+or
+ Settings tab. 
+Main Flow 
+●
+ 
+The
+ 
+user
+ 
+click s
+ 
+“Link
+ 
+a
+ 
+New
+ 
+Account.”
+ 
+●
+ 
+The
+ 
+system
+ 
+promp ts
+ 
+the
+ 
+user
+ 
+to
+ 
+select
+ 
+their
+ 
+financial
+ institution. 
+●
+ 
+The
+ 
+user
+ 
+is
+ 
+redirected
+ 
+to
+ 
+a
+ 
+secur e
+ 
+authen tication
+ 
+flow
+ provided by the financial API. 
+●
+ 
+Upon
+ 
+success ful
+ 
+authen tication,
+ 
+the
+ 
+account
+ 
+is
+ 
+linked.
+ 
+●
+ 
+The
+ 
+system
+ 
+imports
+ 
+account
+ 
+balances
+ 
+and
+ 
+transaction
+ history. 
+Postconditions 
+●
+ 
+The
+ 
+user's
+ 
+new
+ 
+financial
+ 
+account
+ 
+is
+ 
+added
+ 
+to
+ 
+their
+ dashboar d. 
+●
+ 
+The
+ 
+system
+ 
+begins
+ 
+syncing
+ 
+data
+ 
+in
+ 
+real-time.
+ 
+Exceptions: 
+●
+ 
+If
+ 
+authen tication
+ 
+fails,
+ 
+the
+ 
+system
+ 
+displa ys
+ 
+an
+ 
+error
+ 
+and
+ allows retry. 
+●
+ 
+If
+ 
+the
+ 
+API
+ 
+is
+ 
+down,
+ 
+the
+ 
+system
+ 
+notifies
+ 
+the
+ 
+user
+ 
+and
+ suggests trying later. 
+ Use Case 16: User customiz ed dashboar d layout 
+Descrip tion User s can personaliz e their dashboar d layout by rearranging widg ets or hiding sections. 
+Actors Website User s 
+Preconditions 
+●
+ 
+User
+ 
+is
+ 
+logged
+ 
+into
+ 
+the
+ 
+dashboar d.
+ 
+Triggers 
+●
+ 
+The
+ 
+user
+ 
+click s
+ 
+“Cus tomiz e
+ 
+Layout”
+ 
+on
+ 
+the
+ 
+main
+ dashboar d. 
+Main Flow 
+●
+ 
+The
+ 
+user
+ 
+selects
+ 
+or
+ 
+drags
+ 
+widg ets
+ 
+(e.g.,
+ 
+expense
+ 
+chart,
+ recen t transactions, budg et status) to rearrange their layout. 
+●
+ 
+The
+ 
+user
+ 
+can
+ 
+enable/disable
+ 
+sections
+ 
+like
+ 
+AI
+ 
+insigh ts
+ 
+or
+ financial goals. 
+●
+ 
+The
+ 
+system
+ 
+saves
+ 
+the
+ 
+configur ation
+ 
+to
+ 
+the
+ 
+user's
+ 
+profile.
+ 
+ 
+
+--- PAGE 26 ---
+ 
+●
+ 
+On
+ 
+next
+ 
+login,
+ 
+the
+ 
+customiz ed
+ 
+layout
+ 
+is
+ 
+applied
+ automa tically. 
+Postconditions 
+●
+ 
+The
+ 
+dashboar d
+ 
+reflects
+ 
+the
+ 
+user ’s
+ 
+preferred
+ 
+layout
+ 
+and
+ only shows relevant informa tion. 
+Exceptions: 
+●
+ 
+If
+ 
+customiz ation
+ 
+fails
+ 
+to
+ 
+save,
+ 
+the
+ 
+user
+ 
+is
+ 
+notified
+ 
+and
+ promp ted to retry. 
+●
+ 
+If
+ 
+a
+ 
+widg et
+ 
+cannot
+ 
+be
+ 
+displa yed
+ 
+due
+ 
+to
+ 
+missing
+ 
+data,
+ 
+the
+ system shows a placeholder with an explana tion. 
+ Use Case 17: User enables two-factor authen tication (2FA) 
+Descrip tion User s can add an extra layer of security to their account using 2FA. 
+Actors Website User s 
+Preconditions 
+●
+ 
+User
+ 
+is
+ 
+logged
+ 
+into
+ 
+their
+ 
+account.
+ 
+Triggers 
+●
+ 
+The
+ 
+user
+ 
+navigates
+ 
+to
+ 
+“Account
+ 
+Settings”
+ 
+and
+ 
+selects
+ “Enable Two-Factor Authen tication. ” 
+Main Flow 
+●
+ 
+The
+ 
+system
+ 
+promp ts
+ 
+the
+ 
+user
+ 
+to
+ 
+enter
+ 
+their
+ 
+phone
+ number or link an authen ticator app. 
+●
+ 
+The
+ 
+user
+ 
+selects
+ 
+their
+ 
+preferred
+ 
+2FA
+ 
+method.
+ 
+●
+ 
+The
+ 
+system
+ 
+sends
+ 
+a
+ 
+verific ation
+ 
+code
+ 
+to
+ 
+the
+ 
+user.
+ 
+●
+ 
+The
+ 
+user
+ 
+enters
+ 
+the
+ 
+code
+ 
+to
+ 
+confirm.
+ 
+●
+ 
+2FA
+ 
+is
+ 
+activ ated
+ 
+and
+ 
+requir ed
+ 
+on
+ 
+the
+ 
+next
+ 
+login.
+ 
+Postconditions 
+●
+ 
+The
+ 
+user's
+ 
+account
+ 
+is
+ 
+protected
+ 
+with
+ 
+two-factor
+ authen tication. 
+●
+ 
+The
+ 
+system
+ 
+upda tes
+ 
+the
+ 
+user's
+ 
+security
+ 
+settings.
+ 
+Exceptions: 
+●
+ 
+If
+ 
+the
+ 
+verific ation
+ 
+code
+ 
+is
+ 
+incorrect,
+ 
+the
+ 
+user
+ 
+is
+ 
+promp ted
+ to try again. 
+●
+ 
+If
+ 
+2FA
+ 
+setup
+ 
+fails
+ 
+due
+ 
+to
+ 
+a
+ 
+server
+ 
+error,
+ 
+the
+ 
+system
+ 
+notifies
+ the user. 
+ Use Case 18:  User Asks AI Chatbot to Adjus t a Curr ent Finance Goal 
+Descrip tion User s can upda te their financial goals by informing the AI chatbot of chang es in their mon thly budg et or spending habits. The chatbot responds with a recalcula ted, personaliz ed goal. 
+ 
+
+--- PAGE 27 ---
+ 
+Actors Website User s 
+Preconditions 
+●
+ 
+User
+ 
+is
+ 
+logged
+ 
+into
+ 
+their
+ 
+account.
+ 
+●
+ 
+At
+ 
+least
+ 
+one
+ 
+finance
+ 
+goal
+ 
+has
+ 
+already
+ 
+been
+ 
+created.
+ 
+Triggers 
+●
+ 
+The
+ 
+user
+ 
+accesses
+ 
+the
+ 
+chatbot
+ 
+and
+ 
+states
+ 
+a
+ 
+chang e
+ 
+in
+ financial circums tances, such as: 
+●
+ 
+"I
+ 
+now
+ 
+save
+ 
+$300
+ 
+more
+ 
+each
+ 
+mon th"
+ 
+or
+ 
+"I've
+ 
+cut
+ 
+back
+ 
+on
+ dining out and wan t to updat e my savings goal." 
+Main Flow 
+●
+ 
+The
+ 
+system
+ 
+(AI
+ 
+chatbot)
+ 
+iden tifies
+ 
+that
+ 
+the
+ 
+user
+ 
+wants
+ 
+to
+ adjus t a finance goal. 
+●
+ 
+The
+ 
+chatbot
+ 
+reques ts
+ 
+details
+ 
+on
+ 
+the
+ 
+budg et
+ 
+or
+ 
+spending
+ habit chang es, if not already specified. 
+●
+ 
+The
+ 
+user
+ 
+provides
+ 
+upda ted
+ 
+informa tion
+ 
+(e.g.,
+ 
+new
+ mon thly savings amoun t, reduced expenses, income chang e). 
+●
+ 
+The
+ 
+system
+ 
+analy zes
+ 
+the
+ 
+new
+ 
+inputs
+ 
+and
+ 
+recalcula tes
+ 
+the
+ finance goal based on the user ’s preferences and upda ted budg et. 
+●
+ 
+The
+ 
+system
+ 
+presen ts
+ 
+the
+ 
+user
+ 
+with
+ 
+a
+ 
+revised
+ 
+goal,
+ including a breakdown of how the chang es impact the timeline or amoun t. 
+●
+ 
+The
+ 
+user
+ 
+confirms
+ 
+whe ther
+ 
+to
+ 
+apply
+ 
+the
+ 
+new
+ 
+goal.
+ 
+●
+ 
+The
+ 
+system
+ 
+upda tes
+ 
+the
+ 
+finance
+ 
+goal
+ 
+and
+ 
+stores
+ 
+the
+ chang es. 
+Postconditions 
+●
+ 
+The
+ 
+user's
+ 
+finance
+ 
+goal
+ 
+is
+ 
+upda ted
+ 
+to
+ 
+reflect
+ 
+their
+ 
+new
+ financial situa tion. 
+●
+ 
+The
+ 
+system
+ 
+logs
+ 
+the
+ 
+interaction
+ 
+and
+ 
+upda tes
+ 
+budg eting
+ projections. 
+Exceptions: 
+●
+ 
+If
+ 
+the
+ 
+user ’s
+ 
+input
+ 
+is
+ 
+too
+ 
+vague
+ 
+or
+ 
+ambiguous,
+ 
+the
+ 
+chatbot
+ promp ts for clarific ation. 
+●
+ 
+If
+ 
+the
+ 
+recalcula tion
+ 
+process
+ 
+fails
+ 
+due
+ 
+to
+ 
+a
+ 
+server
+ 
+or
+ 
+logic
+ error, the system notifies the user and does not upda te the goal. 
+●
+ 
+If
+ 
+the
+ 
+new
+ 
+budg et
+ 
+results
+ 
+in
+ 
+an
+ 
+unachie vable
+ 
+goal
+ 
+(e.g.,
+ unrealis tic savings rate), the chatbot provides suggestions or alterna tives. 
+ Use Case 19: User Dele tes Account 
+ 
+
+--- PAGE 28 ---
+ 
+Descrip tion User s can permanen tly dele te their account, which triggers the remo val of their personal data, financial records, and related content from the system and its database (PostgreSQL). 
+Actors Website User s 
+Preconditions 
+●
+ 
+User
+ 
+is
+ 
+logged
+ 
+into
+ 
+their
+ 
+account.
+ 
+●
+ 
+User
+ 
+has
+ 
+verified
+ 
+their
+ 
+iden tity
+ 
+(e.g.,
+ 
+via
+ 
+pass word
+ 
+or
+ 
+2FA).
+ 
+Triggers 
+●
+ 
+The
+ 
+user
+ 
+navigates
+ 
+to
+ 
+“Account
+ 
+Settings”
+ 
+and
+ 
+selects
+ “Dele te My Account.” 
+Main Flow 
+●
+ 
+The
+ 
+system
+ 
+displa ys
+ 
+a
+ 
+warning
+ 
+about
+ 
+permanen t
+ 
+dele tion,
+ including wha t data will be lost. 
+●
+ 
+The
+ 
+user
+ 
+confirms
+ 
+the
+ 
+dele tion
+ 
+reques t.
+ 
+●
+ 
+The
+ 
+system
+ 
+valida tes
+ 
+the
+ 
+user ’s
+ 
+iden tity
+ 
+(e.g.,
+ 
+by
+ promp ting for pass word or a 2FA code). 
+●
+ 
+Upon
+ 
+success ful
+ 
+valida tion,
+ 
+the
+ 
+system
+ 
+performs
+ 
+the
+ following back end oper ations: 
+●
+ 
+Dele tes
+ 
+user ’s
+ 
+personal
+ 
+data
+ 
+from
+ 
+the
+ 
+user s
+ 
+table
+ 
+in
+ PostgreSQL. 
+●
+ 
+Dele tes
+ 
+associa ted
+ 
+financial
+ 
+goals
+ 
+from
+ 
+the
+ 
+goals
+ 
+table.
+ 
+●
+ 
+Dele tes
+ 
+transaction
+ 
+history
+ 
+from
+ 
+the
+ 
+transactions
+ 
+table.
+ 
+●
+ 
+Remo ves
+ 
+any
+ 
+AI
+ 
+interaction
+ 
+logs
+ 
+or
+ 
+stored
+ 
+chatbot
+ sessions from related tables. 
+●
+ 
+Revokes
+ 
+any
+ 
+activ e
+ 
+sessions
+ 
+and
+ 
+API
+ 
+tokens
+ 
+tied
+ 
+to
+ 
+the
+ user. 
+●
+ 
+The
+ 
+system
+ 
+confirms
+ 
+the
+ 
+dele tion
+ 
+was
+ 
+success ful
+ 
+and
+ 
+logs
+ the event for auditing (excluding dele ted user iden tity). 
+●
+ 
+The
+ 
+user
+ 
+is
+ 
+logged
+ 
+out
+ 
+and
+ 
+redirected
+ 
+to
+ 
+a
+ 
+goodb ye
+ 
+or
+ confirma tion page. 
+Postconditions 
+●
+ 
+The
+ 
+user ’s
+ 
+data
+ 
+is
+ 
+permanen tly
+ 
+remo ved
+ 
+from
+ 
+all
+ 
+relevant
+ PostgreSQL tables. 
+●
+ 
+System
+ 
+no
+ 
+long er
+ 
+stores
+ 
+iden tifiable
+ 
+informa tion
+ 
+tied
+ 
+to
+ the user. 
+●
+ 
+The
+ 
+user
+ 
+is
+ 
+no
+ 
+long er
+ 
+able
+ 
+to
+ 
+log
+ 
+in.
+ 
+Exceptions: 
+●
+ 
+Valida tion
+ 
+was
+ 
+failed
+ 
+initially
+ 
+●
+ 
+The
+ 
+user
+ 
+decides
+ 
+to
+ 
+click
+ 
+no
+ 
+on
+ 
+the
+ 
+confirma tion
+ 
+ 
+ Use Case 20: User Shar es a Budg et Report with a Financial Advisor 
+ 
+
+--- PAGE 29 ---
+ 
+Descrip tion User s can export and secur ely shar e their mon thly budg et reports with an external financial advisor via email or a tempor ary shar eable link. 
+Actors Website User s, External Financial Advisor 
+Preconditions 
+●
+ 
+The
+ 
+user
+ 
+is
+ 
+logged
+ 
+into
+ 
+their
+ 
+account.
+ 
+●
+ 
+The
+ 
+user
+ 
+has
+ 
+gener ated
+ 
+at
+ 
+least
+ 
+one
+ 
+mon thly
+ 
+budg et
+ report. 
+Triggers 
+●
+ 
+The
+ 
+user
+ 
+click s
+ 
+“Shar e
+ 
+Report ”
+ 
+from
+ 
+the
+ 
+Budg et
+ 
+Summar y
+ page. 
+Main Flow 
+●
+ 
+The
+ 
+user
+ 
+navigates
+ 
+to
+ 
+the
+ 
+Budg et
+ 
+Summar y
+ 
+section.
+ 
+●
+ 
+The
+ 
+user
+ 
+selects
+ 
+the
+ 
+report
+ 
+they
+ 
+wish
+ 
+to
+ 
+shar e.
+ 
+●
+ 
+The
+ 
+system
+ 
+provides
+ 
+two
+ 
+options:
+ 
+enter
+ 
+an
+ 
+email
+ 
+addr ess
+ or gener ate a tempor ary secur e link. 
+●
+ 
+The
+ 
+user
+ 
+chooses
+ 
+an
+ 
+option
+ 
+and
+ 
+submits.
+ 
+●
+ 
+If
+ 
+email
+ 
+is
+ 
+select ed,
+ 
+the
+ 
+report
+ 
+is
+ 
+sent
+ 
+as
+ 
+a
+ 
+secur e
+ 
+PDF
+ attachmen t. 
+●
+ 
+If
+ 
+a
+ 
+link
+ 
+is
+ 
+gener ated,
+ 
+it
+ 
+expires
+ 
+after
+ 
+a
+ 
+predefined
+ 
+time
+ (e.g., 72 hour s). 
+●
+ 
+The
+ 
+system
+ 
+logs
+ 
+the
+ 
+sharing
+ 
+activity
+ 
+for
+ 
+security
+ 
+and
+ 
+audit
+ purposes. 
+Postconditions 
+●
+ 
+The
+ 
+report
+ 
+is
+ 
+shar ed
+ 
+success fully
+ 
+through
+ 
+the
+ 
+chosen
+ method. 
+●
+ 
+The
+ 
+advisor
+ 
+can
+ 
+view
+ 
+the
+ 
+report
+ 
+without
+ 
+accessing
+ 
+other
+ user data. 
+Exceptions: 
+●
+ 
+If
+ 
+the
+ 
+email
+ 
+addr ess
+ 
+is
+ 
+invalid,
+ 
+the
+ 
+user
+ 
+receiv es
+ 
+an
+ 
+error
+ messag e. 
+●
+ 
+If
+ 
+the
+ 
+link
+ 
+expires
+ 
+before
+ 
+it
+ 
+is
+ 
+accessed,
+ 
+the
+ 
+system
+ promp ts the user to gener ate a new one. 
+●
+ 
+If
+ 
+report
+ 
+gener ation
+ 
+fails,
+ 
+the
+ 
+user
+ 
+is
+ 
+informed
+ 
+and
+ promp ted to retry. 
+ Use Case 21: User enables Dark Mode for Dashboar d 
+Descrip tion User s can toggle between light and dark mode for accessibility and personal preference. 
+Actors Website User s 
+Preconditions 
+●
+ 
+The
+ 
+user
+ 
+is
+ 
+logged
+ 
+into
+ 
+their
+ 
+account.
+ 
+ 
+
+--- PAGE 30 ---
+ 
+Triggers 
+●
+ 
+The
+ 
+user
+ 
+selects
+ 
+“Dark
+ 
+Mode”
+ 
+from
+ 
+displa y
+ 
+settings
+ 
+or
+ click s a toggle icon. 
+Main Flow 
+●
+ 
+The
+ 
+user
+ 
+click s
+ 
+the
+ 
+toggle
+ 
+for
+ 
+Dark
+ 
+Mode
+ 
+in
+ 
+the
+ 
+settings
+ menu. 
+●
+ 
+The
+ 
+system
+ 
+applies
+ 
+the
+ 
+dark
+ 
+color
+ 
+theme
+ 
+across
+ 
+the
+ dashboar d. 
+●
+ 
+The
+ 
+user
+ 
+confirms
+ 
+satisfaction
+ 
+or
+ 
+toggles
+ 
+back
+ 
+to
+ 
+light
+ mode. 
+●
+ 
+The
+ 
+system
+ 
+stores
+ 
+the
+ 
+user ’s
+ 
+preference
+ 
+in
+ 
+their
+ 
+profile
+ settings. 
+●
+ 
+On
+ 
+the
+ 
+next
+ 
+login,
+ 
+the
+ 
+dashboar d
+ 
+loads
+ 
+using
+ 
+the
+ 
+saved
+ theme. 
+Postconditions 
+●
+ 
+The
+ 
+dashboar d
+ 
+is
+ 
+displa yed
+ 
+in
+ 
+the
+ 
+preferred
+ 
+theme
+ (ligh t/dark). 
+●
+ 
+The
+ 
+preference
+ 
+is
+ 
+applied
+ 
+persistently
+ 
+for
+ 
+the
+ 
+account.
+ 
+Exceptions: 
+●
+ 
+If
+ 
+theme
+ 
+chang e
+ 
+fails
+ 
+to
+ 
+save,
+ 
+the
+ 
+system
+ 
+notifies
+ 
+the
+ 
+user.
+ 
+●
+ 
+If
+ 
+a
+ 
+theme
+ 
+causes
+ 
+readability
+ 
+issues,
+ 
+a
+ 
+reset
+ 
+button
+ 
+is
+ provided. 
+ 
+ 
+
+--- PAGE 31 ---
+ 
+6.2.
+ 
+Modeling
+ 
+6.2.1.
+ 
+State
+ 
+Diagr am
+ 
+ 
+ 
+
+
+--- PAGE 32 ---
+ 
+6.2.2.
+ 
+Use-Case
+ 
+Diagr am
+ 
+ 
+
+
+--- PAGE 33 ---
+ 
+  
+
+
+--- PAGE 34 ---
+ 
+6.2.3.
+ 
+Activity
+ 
+Diagr am
+ 
+(Lucid
+ 
+Softw are,
+ 
+n.d.)
+ 
+                    
+ 
+
+
+--- PAGE 35 ---
+ 
+         
+ 
+
+
+--- PAGE 36 ---
+ 
+6.2.4.
+ 
+Storyboar d
+ 
+(DevSquad,
+ 
+n.d.)
+ 
+                
+ 
+
+
+--- PAGE 37 ---
+ 
+7.
+ 
+Architecture
+ 
+and
+ 
+Design
+ 
+We wanted to create a dashboar d that genuinely help s people stay on top of their finances 
+without
+ 
+having
+ 
+to
+ 
+deal
+ 
+with
+ 
+clunky
+ 
+spreadshee ts
+ 
+or
+ 
+overwhelming
+ 
+apps.
+ 
+To
+ 
+mak e
+ 
+that
+ 
+happen,
+ 
+we
+ 
+needed
+ 
+a
+ 
+solid,
+ 
+flexible
+ 
+system
+ 
+that
+ 
+could
+ 
+grow
+ 
+with
+ 
+user
+ 
+needs
+ 
+while
+ 
+staying
+ 
+simple
+ 
+and
+ 
+secur e.
+ 
+In
+ 
+this
+ 
+section,
+ 
+I’ll
+ 
+walk
+ 
+you
+ 
+through
+ 
+the
+ 
+architectur e
+ 
+and
+ 
+design
+ 
+choices
+ 
+we
+ 
+made,
+ 
+why
+ 
+they
+ 
+work
+ 
+for
+ 
+our
+ 
+project,
+ 
+and
+ 
+how
+ 
+everything
+ 
+fits
+ 
+together.
+ 
+We'll
+ 
+also
+ 
+show
+ 
+diagr ams
+ 
+to
+ 
+help
+ 
+visualiz e
+ 
+the
+ 
+structur e.
+  7.1 Architectur e Pattern: Micr oser vices 
+Instead of stuffing all the features into one massiv e applic ation, we decided to break everything 
+down
+ 
+into
+ 
+smaller
+ 
+pieces
+ 
+that
+ 
+work
+ 
+independen tly
+ 
+but
+ 
+talk
+ 
+to
+ 
+each
+ 
+other .
+ 
+This
+ 
+is
+ 
+wha t’s
+ 
+called
+ 
+Micr oser vices
+ 
+Architectur e.
+ 
+Each
+ 
+micr oser vice
+ 
+focuses
+ 
+on
+ 
+a
+ 
+specific
+ 
+feature:
+ 
+tracking
+ 
+expenses,
+ 
+managing
+ 
+budg ets,
+ 
+handling
+ 
+authen tication,
+ 
+sending
+ 
+notific ations,
+ 
+and
+ 
+so
+ 
+on.
+ 
+Why micr oser vices? 
+●
+ 
+If
+ 
+some thing
+ 
+breaks,
+ 
+the
+ 
+rest
+ 
+of
+ 
+the
+ 
+app
+ 
+still
+ 
+works.
+ 
+This
+ 
+mak es
+ 
+the
+ 
+system
+ 
+more
+ 
+reliable.
+ 
+●
+ 
+We
+ 
+can
+ 
+scale
+ 
+services
+ 
+individually .
+ 
+If
+ 
+the
+ 
+AI
+ 
+chatbot
+ 
+gets
+ 
+popular ,
+ 
+we
+ 
+can
+ 
+give
+ 
+it
+ 
+more
+ 
+power
+ 
+without
+ 
+affecting
+ 
+the
+ 
+rest
+ 
+of
+ 
+the
+ 
+app.
+ 
+●
+ 
+It
+ 
+lets
+ 
+different
+ 
+team
+ 
+member s
+ 
+work
+ 
+on
+ 
+different
+ 
+parts
+ 
+of
+ 
+the
+ 
+system
+ 
+without
+ 
+stepping
+ 
+on
+ 
+each
+ 
+other ’s
+ 
+toes.
+ 
+●
+ 
+We
+ 
+can
+ 
+mix
+ 
+and
+ 
+match
+ 
+technologies—f or
+ 
+example,
+ 
+using
+ 
+Python
+ 
+for
+ 
+AI
+ 
+while
+ 
+sticking
+ 
+with
+ 
+Node.js
+ 
+for
+ 
+back end
+ 
+APIs.
+ 
+●
+ 
+It
+ 
+supports
+ 
+continuous
+ 
+deliv ery
+ 
+and
+ 
+deplo ymen t.
+ 
+We
+ 
+can
+ 
+push
+ 
+upda tes
+ 
+to
+ 
+individual
+ 
+services
+ 
+without
+ 
+taking
+ 
+the
+ 
+entire
+ 
+system
+ 
+offline.
+ 
+●
+ 
+Services
+ 
+can
+ 
+be
+ 
+containeriz ed
+ 
+using
+ 
+Dock er
+ 
+and
+ 
+manag ed
+ 
+with
+ 
+Kuberne tes
+ 
+if
+ 
+the
+ 
+project
+ 
+grows
+ 
+to
+ 
+that
+ 
+scale.
+ 
+ 7.2 Design Pattern: Model-Vie w-Con troller (MV C) For the design pattern within each service, especially the frontend and back end, we’re going 
+with
+ 
+the
+ 
+Model-Vie w-Con troller
+ 
+(MV C)
+ 
+pattern.
+ 
+It
+ 
+breaks
+ 
+the
+ 
+applic ation
+ 
+into
+ 
+three
+ 
+layers:
+ 
+●
+ 
+Model:
+ 
+This
+ 
+part
+ 
+handles
+ 
+the
+ 
+data,
+ 
+things
+ 
+like
+ 
+your
+ 
+transaction
+ 
+history,
+ 
+saved
+ 
+budg ets,
+ 
+and
+ 
+user
+ 
+goals.
+ 
+●
+ 
+View:
+ 
+This
+ 
+is
+ 
+the
+ 
+user
+ 
+interface,
+ 
+the
+ 
+actual
+ 
+screens
+ 
+and
+ 
+componen ts
+ 
+user s
+ 
+interact
+ 
+with.
+ 
+●
+ 
+Controller:
+ 
+This
+ 
+handles
+ 
+input
+ 
+from
+ 
+the
+ 
+user.
+ 
+It
+ 
+figur es
+ 
+out
+ 
+wha t
+ 
+the
+ 
+user
+ 
+is
+ 
+trying
+ 
+to
+ 
+do
+ 
+and
+ 
+then
+ 
+tells
+ 
+the
+ 
+model
+ 
+or
+ 
+view
+ 
+wha t
+ 
+to
+ 
+do
+ 
+next.
+  Using MVC help s us keep the codebase clean and mak es it easier to manag e over time. If we 
+want
+ 
+to
+ 
+upda te
+ 
+how
+ 
+a
+ 
+chart
+ 
+look s,
+ 
+we
+ 
+only
+ 
+need
+ 
+to
+ 
+touch
+ 
+the
+ 
+view.
+ 
+If
+ 
+we
+ 
+want
+ 
+to
+ 
+chang e
+ 
+how
+ 
+we
+ 
+store
+ 
+transactions,
+ 
+that’s
+ 
+a
+ 
+model
+ 
+chang e.
+ 
+It
+ 
+keeps
+ 
+things
+ 
+neat.
+ 
+ 
+
+--- PAGE 38 ---
+ 
+We chose MVC because it separ ates concerns effectiv ely. Teams working on the front-end UI 
+don’t
+ 
+have
+ 
+to
+ 
+worry
+ 
+about
+ 
+business
+ 
+logic
+ 
+or
+ 
+data
+ 
+persistence,
+ 
+and
+ 
+back -end
+ 
+developer s
+ 
+don’t
+ 
+need
+ 
+to
+ 
+worry
+ 
+about
+ 
+how
+ 
+the
+ 
+page
+ 
+render s.
+ 
+It
+ 
+impr oves
+ 
+both
+ 
+developmen t
+ 
+speed
+ 
+and
+ 
+main tainability .
+ 
+Major System Componen ts: 
+ 
+Service Function 
+Authoriz ation service Handles user login, signup, and two-factor authen tication 
+Budg et service Manag es user -set spending limits, tracks actual vs. goal 
+Expense Tracker Logs daily spending , categorizes it automa tically 
+AI insigh t service Gives smart suggestions, like “ You're spending more on food. “ 
+Notific ation service Sends email and SMS reminder for bills and budg ets 
+Dashboar d UI Pulls everything together and shows it in a nice and clean layout 
+API gateway Direct reques ts from user s to the correct service 
+               
+ 
+
+--- PAGE 39 ---
+ 
+7.2.1 Model-Vie w-Con troller Diagr am (UML Diagr am) The diagr am illustrates how the MVC architectur e help s main tain clean separ ation between 
+data
+ 
+manag emen t,
+ 
+business
+ 
+logic,
+ 
+and
+ 
+presen tation
+ 
+layers
+ 
+across
+ 
+your
+ 
+financial
+ 
+system's
+ 
+componen ts.
+  Each service implemen ts the MVC pattern with appr opria te componen ts: 
+●
+ 
+Controller s
+:
+ 
+Handle
+ 
+user
+ 
+input
+ 
+and
+ 
+determine
+ 
+wha t
+ 
+actions
+ 
+to
+ 
+take
+ 
+●
+ 
+Models
+:
+ 
+Manag e
+ 
+data,
+ 
+business
+ 
+logic,
+ 
+and
+ 
+persistence
+ 
+●
+ 
+Views
+:
+ 
+Presen t
+ 
+data
+ 
+to
+ 
+user s
+ 
+and
+ 
+handle
+ 
+UI
+ 
+interactions
+  
+            
+ 
+
+
+--- PAGE 40 ---
+ 
+7.3 Architectur e Diagr am 
+Imagine the user visiting our dashboar d from their browser. That reques t hits our API Gateway 
+first,
+ 
+which
+ 
+then
+ 
+decides
+ 
+wher e
+ 
+the
+ 
+reques t
+ 
+should
+ 
+go.
+ 
+If
+ 
+they’re
+ 
+logging
+ 
+in,
+ 
+it
+ 
+routes
+ 
+them
+ 
+to
+ 
+the
+ 
+Auth
+ 
+Service.
+ 
+If
+ 
+they’re
+ 
+entering
+ 
+expenses,
+ 
+it
+ 
+goes
+ 
+to
+ 
+the
+ 
+Expense
+ 
+Tracker.
+ 
+Each
+ 
+service
+ 
+talks
+ 
+to
+ 
+a
+ 
+central
+ 
+database
+ 
+(PostgreSQL)
+ 
+but
+ 
+also
+ 
+has
+ 
+its
+ 
+own
+ 
+small
+ 
+local
+ 
+data
+ 
+store
+ 
+for
+ 
+performance.
+ 
+           
+ 
+
+
+--- PAGE 41 ---
+ 
+7.4 Micr oser vice Architectur e Diagr am 
+ 
+       
+ 
+        
+  
+ 
+ 
+
+
+--- PAGE 42 ---
+ 
+7.5 Sequence Diagr am: Creating a Budg et 
+●
+ 
+The
+ 
+user
+ 
+click s
+ 
+“Create
+ 
+Budg et”
+ 
+●
+ 
+The
+ 
+reques t
+ 
+is
+ 
+sent
+ 
+to
+ 
+the
+ 
+API
+ 
+Gateway
+ 
+●
+ 
+API
+ 
+Gateway
+ 
+forwards
+ 
+it
+ 
+to
+ 
+the
+ 
+Budg et
+ 
+Service
+ 
+●
+ 
+Budg et
+ 
+Service
+ 
+valida tes
+ 
+the
+ 
+inputs
+ 
+and
+ 
+stores
+ 
+them
+ 
+in
+ 
+the
+ 
+database
+ 
+●
+ 
+It
+ 
+responds
+ 
+with
+ 
+a
+ 
+confirma tion
+ 
+messag e,
+ 
+and
+ 
+the
+ 
+UI
+ 
+shows
+ 
+success
+ 
+feedback
+   
+       
+ 
+
+
+--- PAGE 43 ---
+ 
+7.6 Security Design 
+Input and Quer y Security 
+●
+ 
+All
+ 
+user s
+ 
+attemp ting
+ 
+to
+ 
+access
+ 
+the
+ 
+website
+ 
+and
+ 
+interact
+ 
+with
+ 
+any
+ 
+forms
+ 
+will
+ 
+at
+ 
+the
+ 
+minimum
+ 
+be
+ 
+requir ed
+ 
+to
+ 
+register
+ 
+and
+ 
+verify
+ 
+an
+ 
+email
+ 
+●
+ 
+Next
+ 
+since
+ 
+we
+ 
+will
+ 
+be
+ 
+using
+ 
+PostgreSQL
+ 
+it
+ 
+will
+ 
+be
+ 
+essen tial
+ 
+we
+ 
+prevent
+ 
+SQL
+ 
+injection
+ 
+by
+ 
+using
+ 
+parame terized
+ 
+queries
+ 
+in
+ 
+our
+ 
+back end
+ 
+for
+ 
+any
+ 
+method
+ 
+used
+ 
+to
+ 
+quer y
+ 
+our
+ 
+database.
+ 
+●
+ 
+We
+ 
+will
+ 
+also
+ 
+ensur e
+ 
+that
+ 
+the
+ 
+server
+ 
+rejects
+ 
+malf ormed
+ 
+inputs
+ 
+early .
+  Data Encr yption 
+●
+ 
+Any
+ 
+sensitiv e
+ 
+user
+ 
+data
+ 
+such
+ 
+as
+ 
+pass words
+ 
+and
+ 
+tokens
+ 
+will
+ 
+be
+ 
+hashed
+ 
+using
+ 
+Argon2
+ 
+●
+ 
+In
+ 
+transit
+ 
+ 
+we
+ 
+will
+ 
+be
+ 
+using
+ 
+HTTPS
+ 
+(TLS
+ 
+1.2+)
+ 
+across
+ 
+all
+ 
+services
+ 
+and
+ 
+APIs.
+ 
+●
+ 
+Token
+ 
+security:
+ 
+JWTs
+ 
+are
+ 
+used
+ 
+for
+ 
+session
+ 
+manag emen t,
+ 
+and
+ 
+tokens
+ 
+are
+ 
+stored
+ 
+secur ely
+ 
+with
+ 
+expiration
+ 
+times
+ 
+and
+ 
+rotation
+ 
+policies.
+ 
+●
+ 
+Although
+ 
+at
+ 
+the
+ 
+momen t
+ 
+the
+ 
+mos t
+ 
+sensitiv e
+ 
+informa tion
+ 
+we
+ 
+will
+ 
+have
+ 
+to
+ 
+handle
+ 
+are
+ 
+user
+ 
+pass words
+ 
+and
+ 
+tokens,
+ 
+in
+ 
+the
+ 
+futur e
+ 
+if
+ 
+we
+ 
+expand
+ 
+to
+ 
+integrating
+ 
+banking
+ 
+APIs
+ 
+into
+ 
+our
+ 
+product
+ 
+then
+ 
+we
+ 
+will
+ 
+also
+ 
+have
+ 
+to
+ 
+scale
+ 
+security
+ 
+measur es.
+  Authentication & Authorization 
+●
+ 
+User
+ 
+Signup/Login:
+ 
+○
+ 
+Email
+ 
+and
+ 
+pass word
+ 
+requir ed
+ 
+(pass word
+ 
+is
+ 
+hashed).
+ 
+Email
+ 
+verific ation
+ 
+requir ed
+ 
+before
+ 
+the
+ 
+account
+ 
+is
+ 
+activ ated.
+ 
+ 
+●
+ 
+Two-Factor
+ 
+Authen tication
+ 
+(2FA):
+ 
+○
+ 
+User s
+ 
+mus t
+ 
+enter
+ 
+a
+ 
+code
+ 
+sent
+ 
+via
+ 
+email
+ 
+or
+ 
+authen ticator
+ 
+app.
+ 
+○
+ 
+2FA
+ 
+is
+ 
+enforced
+ 
+on
+ 
+login
+ 
+and
+ 
+sensitiv e
+ 
+oper ations
+ 
+(like
+ 
+connecting
+ 
+bank
+ 
+accounts)
+  
+●
+ 
+Authoriz ation:
+ 
+○
+ 
+Role-based
+ 
+access
+ 
+(admin,
+ 
+user).
+ 
+○
+ 
+Cert ain
+ 
+routes
+ 
+are
+ 
+protected
+ 
+using
+ 
+JWT
+ 
+scopes
+ 
+or
+ 
+middle ware
+ 
+guar ds.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+--- PAGE 44 ---
+ 
+7.6 Security Flowchart 
+ 
+
+
+--- PAGE 45 ---
+ 
+7.7 Error Handling and Recovery Design 
+Our error handling will build on top of our micr oser vices design. By utilizing micr oser vices we 
+can
+ 
+potentially
+ 
+isola te
+ 
+failur es
+ 
+across
+ 
+the
+ 
+website.
+ 
+ For example, if our AI chatbot were to go down, then the rest of our features would ideally still 
+be
+ 
+available.
+  Database Failover 
+●
+ 
+Since
+ 
+the
+ 
+main
+ 
+feature
+ 
+of
+ 
+our
+ 
+website
+ 
+is
+ 
+to
+ 
+be
+ 
+able
+ 
+to
+ 
+store
+ 
+and
+ 
+displa y
+ 
+customiz ed
+ 
+recommenda tions
+ 
+as
+ 
+well
+ 
+as
+ 
+data
+ 
+imput ed
+ 
+by
+ 
+the
+ 
+user,
+ 
+it’s
+ 
+essen tial
+ 
+we
+ 
+have
+ 
+a
+ 
+method
+ 
+to
+ 
+ensur e
+ 
+these
+ 
+features
+ 
+are
+ 
+available
+ 
+in
+ 
+the
+ 
+event
+ 
+we
+ 
+encounter
+ 
+an
+ 
+issue
+ 
+●
+ 
+One
+ 
+way
+ 
+we
+ 
+can
+ 
+achie ve
+ 
+this
+ 
+is
+ 
+by
+ 
+implemen ting
+ 
+a
+ 
+Primar y–Replic a
+ 
+Setup
+ 
+with
+ 
+PostgreSQL.
+ 
+●
+ 
+We
+ 
+will
+ 
+have
+ 
+our
+ 
+primar y
+ 
+database
+ 
+which
+ 
+handles
+ 
+all
+ 
+writing
+ 
+to
+ 
+the
+ 
+clien t
+ 
+side.
+ 
+ 
+●
+ 
+We
+ 
+will
+ 
+also
+ 
+have
+ 
+one
+ 
+or
+ 
+more
+ 
+replic a
+ 
+databases
+ 
+which
+ 
+only
+ 
+have
+ 
+read
+ 
+access
+ 
+in
+ 
+normal
+ 
+circums tances,
+ 
+and
+ 
+are
+ 
+constantly
+ 
+copying
+ 
+and
+ 
+saving
+ 
+data
+ 
+from
+ 
+the
+ 
+primar y
+ 
+database.
+ 
+●
+ 
+In
+ 
+the
+ 
+event
+ 
+our
+ 
+primar y
+ 
+database
+ 
+goes
+ 
+down,
+ 
+we
+ 
+can
+ 
+easily
+ 
+promot e
+ 
+a
+ 
+replic a
+ 
+to
+ 
+the
+ 
+primar y
+ 
+database
+ 
+and
+ 
+continue
+ 
+oper ation.
+   If we decide to deplo y our website utilizing AWS RDS then this will all be automa tically handled 
+behind
+ 
+the
+ 
+scenes.
+ 
+Other wise
+ 
+we
+ 
+will
+ 
+need
+ 
+to
+ 
+find
+ 
+an
+ 
+alterna tive
+ 
+method.
+  Connection Pool Manag emen t Since creating database connections to PostgreSQL are a limit ed resour ce, as well as potentially 
+costly,
+ 
+it
+ 
+will
+ 
+be
+ 
+import ant
+ 
+to
+ 
+have
+ 
+a
+ 
+connection
+ 
+pool
+ 
+to
+ 
+manag e
+ 
+this.
+  Connection pools manag e lots of open database connections and reuse them, so they are not 
+being
+ 
+opened
+ 
+and
+ 
+closed
+ 
+constantly.
+  We could utiliz e PgBouncer to easily achie ve this. It’s a lightweigh t connection pooler that help s 
+greatly
+ 
+with
+ 
+the
+ 
+connection
+ 
+pooling
+ 
+problem,
+ 
+as
+ 
+well
+ 
+as
+ 
+handling
+ 
+failovers.
+  Connection pools also help in the event of a database failover, as they can attemp t a 
+reconnection,
+ 
+or
+ 
+if
+ 
+that
+ 
+fails
+ 
+they
+ 
+can
+ 
+switch
+ 
+to
+ 
+a
+ 
+replic a,
+ 
+or
+ 
+even
+ 
+just
+ 
+switch
+ 
+to
+ 
+reading
+ 
+from
+ 
+a
+ 
+replic a
+ 
+if
+ 
+that’s
+ 
+all
+ 
+that
+ 
+is
+ 
+requir ed.
+   7.8 Deplo ymen t Architectur e  To ensur e that our web app can be deplo yed reliably , main tained, and scaled, we’ve chosen a 
+cloud
+ 
+native
+ 
+deplo ymen t
+ 
+architectur e
+ 
+built
+ 
+on
+ 
+top
+ 
+of
+ 
+AWS,
+ 
+using
+ 
+Dock er
+ 
+container s
+ 
+for
+ 
+service
+ 
+encapsulation
+ 
+and
+ 
+Github
+ 
+actions
+ 
+for
+ 
+CI/CD
+ 
+automa tion.
+ 
+This
+ 
+setup
+ 
+aligns
+ 
+well
+ 
+with
+ 
+our
+ 
+micr oser vices
+ 
+appr oach
+ 
+to
+ 
+our
+ 
+web
+ 
+app,
+ 
+and
+ 
+provides
+ 
+flexibility ,
+ 
+performance,
+ 
+and
+ 
+security
+ 
+for
+ 
+both
+ 
+developmen t
+ 
+and
+ 
+production
+ 
+environmen ts.
+ 
+  
+ 
+
+--- PAGE 46 ---
+ 
+Key Componen ts  
+Componen t Purpose 
+Github Actions CI/CD automa tion (build, test, deplo y pipelines) 
+Dock er Containeriz e each micr oser vice 
+AWS EC2 Host services in the cloud 
+AWS RDS Manag ed database hosting with high availability 
+AWS S3 Store static asse ts 
+AWS IAM & Secr ets Manag er Manag e access control and environmen t secrets secur ely 
+Ngin x / API Gateway Route external reques ts to internal services 
+Monit oring Tools like cloud watch Log and monit or app performance 
+ Deplo ymen t Workflo w (CI/CD Pipeline)  We use GitHub Actions to automa te code integration, testing, and deplo ymen t with the 
+following
+ 
+steps:
+  
+1.
+ 
+Code
+ 
+Push
+ 
+-
+ 
+Developer s
+ 
+push
+ 
+code
+ 
+to
+ 
+GitHub
+ 
+reposit ories.
+ 
+2.
+ 
+Build
+ 
+&
+ 
+Test
+ 
+Phase
+ 
+●
+ 
+Each
+ 
+micr oser vice
+ 
+is
+ 
+built
+ 
+into
+ 
+a
+ 
+Dock er
+ 
+imag e.
+ 
+●
+ 
+Unit
+ 
+integration
+ 
+tests
+ 
+are
+ 
+automa tically
+ 
+execut ed.
+ 
+3.
+ 
+Dock er
+ 
+Imag e
+ 
+Push
+ 
+●
+ 
+Success ful
+ 
+builds
+ 
+are
+ 
+tagged
+ 
+and
+ 
+pushed
+ 
+to
+ 
+Dock er
+ 
+Hub
+ 
+and
+ 
+AWS
+ 
+ECR
+ 
+(Elas tic
+ 
+Container
+ 
+Registry).
+ 
+4.
+ 
+Deplo ymen t
+ 
+Phase
+ 
+●
+ 
+Services
+ 
+are
+ 
+deplo yed
+ 
+to
+ 
+EC2
+ 
+instances
+ 
+(initially)
+ 
+using
+ 
+Dock er
+ 
+Compose
+ 
+or
+ 
+directly
+ 
+to
+ 
+AWS
+ 
+ECS
+ 
+if
+ 
+scaled.
+ 
+●
+ 
+Configur ation
+ 
+files
+ 
+(e.g.,
+ 
+environmen t
+ 
+variables,
+ 
+secrets)
+ 
+are
+ 
+pulled
+ 
+from
+ 
+AWS
+ 
+Secr ets
+ 
+Manag er.
+ 
+5.
+ 
+Post-Deplo ymen t
+ 
+Tests
+ 
+●
+ 
+Health
+ 
+check s
+ 
+and
+ 
+smok e
+ 
+tests
+ 
+confirm
+ 
+that
+ 
+deplo ymen t
+ 
+succeeded.
+ 
+●
+ 
+Alerts
+ 
+are
+ 
+sent
+ 
+if
+ 
+any
+ 
+service
+ 
+fails.
+   
+ 
+
+--- PAGE 47 ---
+ 
+Infrastructur e and Orches tration Strategy  While we currently anticipa te deplo ying services to AWS EC2 with Dock er Compose, our 
+architectur e
+ 
+supports
+ 
+scaling
+ 
+to
+ 
+Kuberne tes
+ 
+(EKS)
+ 
+if
+ 
+needed.
+ 
+Using
+ 
+Infrastructur e-as-Code
+ 
+(IaC)
+ 
+with
+ 
+tools
+ 
+like
+ 
+Terraform
+ 
+or
+ 
+AWS
+ 
+CloudF orma tion
+ 
+is
+ 
+also
+ 
+under
+ 
+consider ation
+ 
+for
+ 
+repea table
+ 
+and
+ 
+consis tent
+ 
+environmen t
+ 
+setup.
+   7.8 Deplo ymen t Architectur e Diagr am 
+ 
+ 
+
+
+--- PAGE 48 ---
+ 
+7.9 Why These Choices Fit Our Project 
+●
+ 
+User -Cen tered
+ 
+Design
+:
+ 
+Our
+ 
+system
+ 
+is
+ 
+built
+ 
+for
+ 
+flexibility ,
+ 
+but
+ 
+also
+ 
+clarity .
+ 
+User s
+ 
+want
+ 
+a
+ 
+smooth,
+ 
+clean
+ 
+experience,
+ 
+and
+ 
+these
+ 
+patterns
+ 
+help
+ 
+us
+ 
+deliv er
+ 
+that
+ 
+while
+ 
+keeping
+ 
+the
+ 
+back end
+ 
+smart
+ 
+and
+ 
+scalable.
+ 
+MVC
+ 
+help s
+ 
+ensur e
+ 
+that
+ 
+chang es
+ 
+to
+ 
+the
+ 
+user
+ 
+interface
+ 
+don’t
+ 
+disrup t
+ 
+the
+ 
+underlying
+ 
+logic,
+ 
+and
+ 
+vice
+ 
+versa.
+ 
+With
+ 
+clean
+ 
+separ ation
+ 
+between
+ 
+concerns,
+ 
+we
+ 
+can
+ 
+focus
+ 
+on
+ 
+deliv ering
+ 
+features
+ 
+that
+ 
+feel
+ 
+intuitiv e
+ 
+and
+ 
+responsiv e,
+ 
+like
+ 
+customiz able
+ 
+dashboar ds
+ 
+or
+ 
+guided
+ 
+setup
+ 
+flows.
+ 
+Accessibility
+ 
+and
+ 
+responsiv eness
+ 
+are
+ 
+also
+ 
+key
+ 
+pillar s—ensuring
+ 
+that
+ 
+user s
+ 
+on
+ 
+different
+ 
+devices
+ 
+or
+ 
+with
+ 
+different
+ 
+needs
+ 
+all
+ 
+enjo y
+ 
+a
+ 
+seamless
+ 
+experience.
+ 
+●
+ 
+Team
+ 
+Collabor ation
+:
+ 
+With
+ 
+each
+ 
+part
+ 
+of
+ 
+the
+ 
+project
+ 
+split
+ 
+out
+ 
+into
+ 
+Model,
+ 
+View,
+ 
+and
+ 
+Controller
+ 
+layers,
+ 
+our
+ 
+team
+ 
+can
+ 
+contribut e
+ 
+without
+ 
+stepping
+ 
+on
+ 
+each
+ 
+other ’s
+ 
+toes.
+ 
+Frontend
+ 
+developer s
+ 
+can
+ 
+refine
+ 
+the
+ 
+UI
+ 
+and
+ 
+UX
+ 
+within
+ 
+the
+ 
+View
+ 
+layer,
+ 
+while
+ 
+back end
+ 
+developer s
+ 
+work
+ 
+on
+ 
+data
+ 
+models
+ 
+and
+ 
+business
+ 
+logic.
+ 
+Controller
+ 
+logic
+ 
+serves
+ 
+as
+ 
+the
+ 
+handshak e
+ 
+between
+ 
+the
+ 
+two,
+ 
+enabling
+ 
+parallel
+ 
+developmen t
+ 
+and
+ 
+faster
+ 
+iteration.
+ 
+This
+ 
+separ ation
+ 
+also
+ 
+mak es
+ 
+it
+ 
+easier
+ 
+to
+ 
+onboar d
+ 
+new
+ 
+team
+ 
+member s
+ 
+or
+ 
+deleg ate
+ 
+specific
+ 
+tasks
+ 
+without
+ 
+losing
+ 
+momen tum.
+ 
+●
+ 
+Futur e
+ 
+Growth
+:
+ 
+As
+ 
+more
+ 
+user s
+ 
+join
+ 
+or
+ 
+features
+ 
+are
+ 
+added—lik e
+ 
+bank
+ 
+account
+ 
+syncing ,
+ 
+predictiv e
+ 
+financial
+ 
+forecasting,
+ 
+or
+ 
+real-time
+ 
+spending
+ 
+alerts—our
+ 
+system
+ 
+can
+ 
+scale
+ 
+without
+ 
+needing
+ 
+a
+ 
+full
+ 
+rewrite.
+ 
+MVC
+ 
+and
+ 
+modular
+ 
+design
+ 
+mak e
+ 
+it
+ 
+easy
+ 
+to
+ 
+plug
+ 
+in
+ 
+new
+ 
+componen ts,
+ 
+APIs,
+ 
+or
+ 
+services
+ 
+without
+ 
+impacting
+ 
+existing
+ 
+functionality .
+ 
+We’re
+ 
+also
+ 
+planning
+ 
+for
+ 
+micr oser vice
+ 
+compa tibility ,
+ 
+allowing
+ 
+individual
+ 
+services
+ 
+(like
+ 
+budg eting
+ 
+tools
+ 
+or
+ 
+analy tics
+ 
+engines)
+ 
+to
+ 
+scale
+ 
+independen tly
+ 
+and
+ 
+efficien tly.
+ 
+●
+ 
+Security
+ 
+&
+ 
+Reliability
+:
+ 
+With
+ 
+2-Factor
+ 
+Authen tication
+ 
+(2FA),
+ 
+secur e
+ 
+JWT-based
+ 
+session
+ 
+manag emen t,
+ 
+data
+ 
+encr yption
+ 
+both
+ 
+at
+ 
+rest
+ 
+and
+ 
+in
+ 
+transit,
+ 
+and
+ 
+database
+ 
+failover
+ 
+strategies,
+ 
+the
+ 
+system
+ 
+is
+ 
+designed
+ 
+to
+ 
+protect
+ 
+user
+ 
+data
+ 
+and
+ 
+stay
+ 
+reliably
+ 
+available.
+ 
+We
+ 
+also
+ 
+implemen t
+ 
+role-based
+ 
+access
+ 
+control,
+ 
+rate-limiting ,
+ 
+and
+ 
+continuous
+ 
+vulner ability
+ 
+scanning
+ 
+to
+ 
+ensur e
+ 
+only
+ 
+authoriz ed
+ 
+user s
+ 
+interact
+ 
+with
+ 
+sensitiv e
+ 
+features.
+ 
+Automa ted
+ 
+testing
+ 
+and
+ 
+logging
+ 
+help
+ 
+us
+ 
+catch
+ 
+errors
+ 
+before
+ 
+they
+ 
+affect
+ 
+user s,
+ 
+and
+ 
+downtime
+ 
+is
+ 
+minimiz ed
+ 
+with
+ 
+automa ted
+ 
+back up
+ 
+and
+ 
+restore
+ 
+mechanisms.
+ 
+8.
+ 
+UX
+ 
+Design
+ 
+8.1 Aesthetic (UI Design) The finance dashboar d will adop t a minimalis tic visual style to promot e a seamless and 
+distraction- free
+ 
+user
+ 
+experience.
+ 
+By
+ 
+focusing
+ 
+on
+ 
+simplicity
+ 
+and
+ 
+clarity ,
+ 
+the
+ 
+design
+ 
+will
+ 
+allow
+ 
+user s
+ 
+to
+ 
+engage
+ 
+with
+ 
+key
+ 
+features
+ 
+effortlessly
+ 
+and
+ 
+stay
+ 
+focused
+ 
+on
+ 
+their
+ 
+financial
+ 
+goals.
+  Color Scheme: The color scheme will use a clean and straightforward pale tte to reduce visual clutter and 
+enhance
+ 
+usability .
+ 
+The
+ 
+design
+ 
+will
+ 
+draw
+ 
+inspir ation
+ 
+from
+ 
+OpenAI’ s
+ 
+interface,
+ 
+offering
+ 
+both
+ 
+light
+ 
+and
+ 
+dark
+ 
+modes
+ 
+to
+ 
+accommoda te
+ 
+user
+ 
+preferences.
+ 
+●
+ 
+Light
+ 
+Mode
+ 
+will
+ 
+feature
+ 
+a
+ 
+whit e
+ 
+backgr ound
+ 
+with
+ 
+black
+ 
+text,
+ 
+ensuring
+ 
+high
+ 
+contrast
+ 
+and
+ 
+readability .
+ 
+ 
+
+--- PAGE 49 ---
+ 
+●
+ 
+Dark
+ 
+Mode
+ 
+will
+ 
+incorpor ate
+ 
+a
+ 
+dark
+ 
+grey
+ 
+backgr ound
+ 
+with
+ 
+whit e
+ 
+text,
+ 
+providing
+ 
+a
+ 
+visually
+ 
+comfortable
+ 
+alterna tive
+ 
+for
+ 
+low-ligh t
+ 
+environmen ts.
+  
+  Typogr aphy: The select ed typogr aphy prioritiz es readability and visual simplicity . A sans-serif font such as 
+Open
+ 
+Sans
+ 
+or
+ 
+Helv etica
+ 
+Neue
+ 
+will
+ 
+be
+ 
+used
+ 
+to
+ 
+main tain
+ 
+a
+ 
+professional
+ 
+and
+ 
+user -friendly
+ 
+appear ance
+ 
+across
+ 
+all
+ 
+screens.
+ 
+These
+ 
+fonts
+ 
+are
+ 
+widely
+ 
+regarded
+ 
+for
+ 
+their
+ 
+legibility
+ 
+on
+ 
+digit al
+ 
+interfaces
+ 
+and
+ 
+align
+ 
+well
+ 
+with
+ 
+the
+ 
+overall
+ 
+minimalis t
+ 
+design
+ 
+appr oach
+ 
+of
+ 
+the
+ 
+applic ation.
+  
+  Layout: The layout will be modeled after other personal finance dashboar ds like Mint, which are known 
+for
+ 
+their
+ 
+clean,
+ 
+intuitiv e
+ 
+design.
+ 
+Key
+ 
+informa tion
+ 
+will
+ 
+be
+ 
+clearly
+ 
+organized
+ 
+and
+ 
+easy
+ 
+to
+ 
+locate,
+ 
+ensuring
+ 
+a
+ 
+streamlined
+ 
+navigation
+ 
+experience
+ 
+for
+ 
+user s.
+ 
+This
+ 
+familiar
+ 
+structur e
+ 
+help s
+ 
+reduce
+ 
+the
+ 
+learning
+ 
+curve
+ 
+and
+ 
+supports
+ 
+efficien t
+ 
+user
+ 
+interactions.
+  Iconogr aphy: We will incorpor ate simple and intuitiv e icons—such as dollar signs, calendar s, and pie 
+charts—t o
+ 
+enhance
+ 
+visual
+ 
+clarity
+ 
+and
+ 
+quick
+ 
+recognition.
+ 
+These
+ 
+familiar
+ 
+symbols
+ 
+support
+ 
+efficien t
+ 
+ 
+
+
+--- PAGE 50 ---
+ 
+visual scanning throughout the interface, helping user s locate key features and actions with 
+minimal
+ 
+cognitiv e
+ 
+effort.
+ 
+ 
+ 
+  Subtle anima tions, such as button feedback, loading indic ators, and toggle transitions, will be 
+integrated
+ 
+to
+ 
+guide
+ 
+user
+ 
+interactions
+ 
+and
+ 
+provide
+ 
+visual
+ 
+cues.
+  
+ 
+
+
+--- PAGE 51 ---
+ 
+  8.2 User Resear ch 
+To define our target user s, we conduct ed resear ch by analy zing compe titors (Min t, YNAB) and 
+user
+ 
+reviews.
+ 
+We
+ 
+iden tified
+ 
+three
+ 
+primar y
+ 
+user
+ 
+groups:
+ 
+young
+ 
+professionals,
+ 
+families,
+ 
+and
+ 
+small
+ 
+business
+ 
+owner s.
+ 
+Each
+ 
+group
+ 
+requir es
+ 
+a
+ 
+dashboar d
+ 
+that
+ 
+is
+ 
+intuitiv e,
+ 
+easy
+ 
+to
+ 
+navigate,
+ 
+and
+ 
+provides
+ 
+actionable
+ 
+insigh ts.
+ 
+We
+ 
+noticed
+ 
+that
+ 
+man y
+ 
+user s
+ 
+across
+ 
+these
+ 
+groups
+ 
+shar ed
+ 
+similar
+ 
+frustrations,
+ 
+mainly
+ 
+cluttered
+ 
+interfaces,
+ 
+confusing
+ 
+charts,
+ 
+and
+ 
+a
+ 
+lack
+ 
+of
+ 
+personaliz ation.
+ 
+Based
+ 
+on
+ 
+this,
+ 
+we
+ 
+focused
+ 
+on
+ 
+creating
+ 
+a
+ 
+clean
+ 
+and
+ 
+simple
+ 
+layout
+ 
+with
+ 
+just
+ 
+the
+ 
+right
+ 
+amoun t
+ 
+of
+ 
+detail.
+ 
+We
+ 
+also
+ 
+look ed
+ 
+into
+ 
+common
+ 
+features
+ 
+people
+ 
+wanted,
+ 
+such
+ 
+as
+ 
+easy
+ 
+budg et
+ 
+tracking ,
+ 
+notific ations
+ 
+for
+ 
+upcoming
+ 
+bills,
+ 
+and
+ 
+the
+ 
+ability
+ 
+to
+ 
+set
+ 
+and
+ 
+monit or
+ 
+financial
+ 
+goals.
+  To better under stand wha t user s cared about mos t, we also paid attention to app store reviews, 
+blog
+ 
+commen ts,
+ 
+and
+ 
+finance
+ 
+forums.
+ 
+Man y
+ 
+user s
+ 
+asked
+ 
+for
+ 
+faster
+ 
+load
+ 
+times,
+ 
+fewer
+ 
+pop-up s,
+ 
+and
+ 
+a
+ 
+smoother
+ 
+mobile
+ 
+experience.
+ 
+This
+ 
+helped
+ 
+us
+ 
+prioritiz e
+ 
+performance
+ 
+and
+ 
+mobile
+ 
+responsiv eness
+ 
+early
+ 
+in
+ 
+our
+ 
+design
+ 
+process.
+  By taking in both qualit ative and quan titative feedback, we were able to shape a dashboar d that 
+feels
+ 
+help ful,
+ 
+not
+ 
+overwhelming ,
+ 
+one
+ 
+that
+ 
+adap ts
+ 
+to
+ 
+real-lif e
+ 
+needs
+ 
+instead
+ 
+of
+ 
+trying
+ 
+to
+ 
+do
+ 
+too
+ 
+much
+ 
+at
+ 
+once.
+  8.3 User Personas 
+Persona 1:  Sarah Johnson 
+Attribut e Details 
+Age 29 
+Occupa tion Mark eting Specialis t 
+Income $100,000/y ear 
+Tech Com fort Level  Moder ate 
+ 
+
+
+--- PAGE 52 ---
+ 
+Goals 
+●
+ 
+Wants
+ 
+a
+ 
+simple
+ 
+method
+ 
+to
+ 
+track
+ 
+her
+ 
+mon thly
+ 
+expenses
+ 
+●
+ 
+Could
+ 
+bene fit
+ 
+from
+ 
+cost
+ 
+cutting
+ 
+insigh ts
+ 
+Frus trations 
+●
+ 
+Using
+ 
+spreadshee ts
+ 
+is
+ 
+too
+ 
+tedious
+ 
+●
+ 
+Curr ent
+ 
+apps
+ 
+are
+ 
+too
+ 
+cluttered
+ 
+and
+ 
+intimida ting
+ 
+Beha vior 
+●
+ 
+Uses
+ 
+a
+ 
+budg eting
+ 
+app
+ 
+several
+ 
+times
+ 
+a
+ 
+week
+ 
+●
+ 
+Likes
+ 
+cross
+ 
+platform
+ 
+dashboar ds
+ 
+browser/mobile
+ 
+ Persona 2: David Lee 
+Attribut e Details 
+Age 48 
+Occupa tion Small Business Owner 
+Income $85,000/y ear 
+Tech Com fort Level Moder ate 
+Goals 
+●
+ 
+Track
+ 
+personal
+ 
+and
+ 
+business
+ 
+expenses
+ 
+separ ately.
+ 
+●
+ 
+Forecast
+ 
+cash
+ 
+flow
+ 
+mon th-to-mon th.
+ 
+●
+ 
+Quickly
+ 
+view
+ 
+upcoming
+ 
+bill
+ 
+due
+ 
+dates
+ 
+and
+ 
+loan
+ 
+repaymen ts.
+ 
+Frus trations 
+●
+ 
+Overcomplic ated
+ 
+finance
+ 
+apps
+ 
+with
+ 
+too
+ 
+man y
+ 
+irrelevant
+ features. 
+●
+ 
+Hard-to-read
+ 
+graphs
+ 
+or
+ 
+cluttered
+ 
+dashboar ds.
+ 
+Beha vior 
+●
+ 
+Logs
+ 
+in
+ 
+weekly
+ 
+to
+ 
+upda te
+ 
+expenses.
+ 
+●
+ 
+Wants
+ 
+mobile
+ 
+notific ations
+ 
+for
+ 
+import ant
+ 
+financial
+ deadlines. 
+ Persona 3: Jasmine Patel 
+Attribut e Details 
+Age 22 
+Occupa tion Colleg e Studen t 
+Income High 
+Tech Com fort Level  $12,000/y ear 
+Goals 
+●
+ 
+Build
+ 
+an
+ 
+emer gency
+ 
+fund.
+ 
+●
+ 
+Under stand
+ 
+basic
+ 
+budg eting
+ 
+and
+ 
+credit
+ 
+manag emen t.
+ 
+ 
+
+--- PAGE 53 ---
+ 
+Frus trations 
+●
+ 
+Apps
+ 
+that
+ 
+assume
+ 
+user s
+ 
+already
+ 
+know
+ 
+about
+ 
+personal
+ finances. 
+●
+ 
+Overwhelming
+ 
+number
+ 
+of
+ 
+charts
+ 
+and
+ 
+options.
+ 
+Beha vior 
+●
+ 
+Uses
+ 
+mobile
+ 
+apps
+ 
+daily .
+ 
+●
+ 
+Prefers
+ 
+colorful,
+ 
+simple,
+ 
+gamified
+ 
+interfaces
+ 
+ Persona 4: Luis Ramir ez 
+Attribut e Details 
+Age 35 
+Occupa tion Freelance Graphic Designer 
+Income ~$50,000/y ear 
+Tech Com fort Level High 
+Goals 
+●
+ 
+Smoothly
+ 
+manag e
+ 
+irregular
+ 
+income
+ 
+●
+ 
+Separ ate
+ 
+personal
+ 
+vs
+ 
+business
+ 
+expenses
+ 
+Frus trations 
+●
+ 
+Mos t
+ 
+apps
+ 
+assume
+ 
+consis tent
+ 
+mon thly
+ 
+income
+ 
+●
+ 
+Difficult
+ 
+to
+ 
+track
+ 
+tax-deductible
+ 
+expenses
+ 
+Beha vior 
+●
+ 
+Logs
+ 
+in
+ 
+every
+ 
+few
+ 
+days
+ 
+●
+ 
+Prefers
+ 
+mobile- friendly
+ 
+apps
+ 
+with
+ 
+cloud
+ 
+sync
+ 
+ Persona 5: Brenda Thomp son 
+Attribut e Details 
+Age 63 
+Occupa tion Retired / Part-time caregiver 
+Income $28,000/y ear 
+Tech Com fort Level Low 
+Goals 
+●
+ 
+Track
+ 
+medic al
+ 
+and
+ 
+utility
+ 
+bills
+ 
+●
+ 
+Avoid
+ 
+overdraft
+ 
+fees
+ 
+or
+ 
+late
+ 
+paymen ts
+ 
+Frus trations 
+●
+ 
+Navigation-hea vy
+ 
+apps
+ 
+feel
+ 
+overwhelming
+ 
+ 
+
+--- PAGE 54 ---
+ 
+●
+ 
+Small
+ 
+text
+ 
+and
+ 
+unfamiliar
+ 
+icons
+ 
+Beha vior 
+●
+ 
+Logs
+ 
+in
+ 
+1–2
+ 
+times
+ 
+a
+ 
+week
+ 
+●
+ 
+Uses
+ 
+table t
+ 
+with
+ 
+accessibility
+ 
+settings
+ 
+turned
+ 
+on
+ 
+ Persona 6: Ali Reza 
+Attribut e Details 
+Age 31 
+Occupa tion Uber/L yft Driver 
+Income ~$40,000/y ear 
+Tech Com fort Level Moder ate 
+Goals 
+●
+ 
+Track
+ 
+daily
+ 
+earnings
+ 
+and
+ 
+fuel
+ 
+expenses
+ 
+●
+ 
+Set
+ 
+and
+ 
+monit or
+ 
+weekly
+ 
+savings
+ 
+goals
+ 
+Frus trations 
+●
+ 
+Hard
+ 
+to
+ 
+find
+ 
+tools
+ 
+that
+ 
+match
+ 
+gig
+ 
+work
+ 
+lifestyle
+ 
+●
+ 
+Wants
+ 
+faster
+ 
+input
+ 
+options
+ 
+while
+ 
+on
+ 
+the
+ 
+go
+ 
+Beha vior 
+●
+ 
+Uses
+ 
+mobile
+ 
+daily ,
+ 
+especially
+ 
+after
+ 
+shifts
+ 
+●
+ 
+Prefers
+ 
+voice
+ 
+input
+ 
+and
+ 
+simplified
+ 
+dashboar ds
+ 
+Persona 7: Emily Tran 
+Attribut e Details 
+Age 26 
+Occupa tion Softw are Engineer 
+Income $125,000/y ear 
+Tech Com fort Level Very high 
+Goals 
+●
+ 
+Automa te
+ 
+recurring
+ 
+financial
+ 
+tasks
+ 
+(e.g.,
+ 
+rent,
+ subscrip tions) 
+●
+ 
+View
+ 
+detailed
+ 
+analy tics
+ 
+for
+ 
+saving
+ 
+and
+ 
+investing
+ 
+habits
+ 
+Frus trations 
+●
+ 
+Limit ed
+ 
+customiz ation
+ 
+of
+ 
+financial
+ 
+categories
+ 
+●
+ 
+Apps
+ 
+that
+ 
+don’t
+ 
+sync
+ 
+well
+ 
+with
+ 
+investmen t
+ 
+platforms
+ 
+Beha vior 
+●
+ 
+Logs
+ 
+in
+ 
+daily
+ 
+on
+ 
+both
+ 
+desk top
+ 
+and
+ 
+mobile
+ 
+ 
+
+--- PAGE 55 ---
+ 
+●
+ 
+Expects
+ 
+API
+ 
+integration
+ 
+with
+ 
+external
+ 
+tools
+ 
+like
+ 
+Robinhood
+ and TurboT ax 
+Persona 8: Mar co Delg ado 
+Persona 9: Aisha Khan 
+ Attribut e Details 
+Age 42 
+Occupa tion Truck Driver 
+Income $90,000/y ear 
+Tech Com fort Level Low to Moder ate 
+Goals 
+●
+ 
+Track
+ 
+gas
+ 
+expenses
+ 
+and
+ 
+food
+ 
+costs
+ 
+while
+ 
+on
+ 
+the
+ 
+road
+ 
+●
+ 
+Get
+ 
+reminder s
+ 
+for
+ 
+bills
+ 
+and
+ 
+import ant
+ 
+financial
+ 
+dates
+ 
+Frus trations 
+●
+ 
+Mos t
+ 
+apps
+ 
+don’t
+ 
+work
+ 
+well
+ 
+offline
+ 
+or
+ 
+in
+ 
+areas
+ 
+with
+ 
+poor
+ recep tion 
+●
+ 
+Complic ated
+ 
+interfaces
+ 
+that
+ 
+are
+ 
+hard
+ 
+to
+ 
+use
+ 
+on
+ 
+the
+ 
+go
+ 
+Beha vior 
+●
+ 
+Uses
+ 
+mobile
+ 
+during
+ 
+breaks
+ 
+●
+ 
+Prefers
+ 
+simple
+ 
+visuals
+ 
+and
+ 
+voice
+ 
+alerts
+ 
+instead
+ 
+of
+ 
+charts
+ 
+Attribut e Details 
+Age 39 
+Occupa tion Single Part and Nurse 
+Income $60,000/y ear 
+Tech Com fort Level Moder ate 
+Goals 
+●
+ 
+Set
+ 
+mon thly
+ 
+budg ets
+ 
+for
+ 
+childc are,
+ 
+groceries,
+ 
+and
+ 
+utilities
+ 
+●
+ 
+Shar e
+ 
+financial
+ 
+progress
+ 
+with
+ 
+a
+ 
+trusted
+ 
+family
+ 
+member
+ 
+Frus trations 
+●
+ 
+Apps
+ 
+without
+ 
+shar ed
+ 
+access
+ 
+or
+ 
+family
+ 
+view
+ 
+modes
+ 
+●
+ 
+Overwhelmed
+ 
+by
+ 
+financial
+ 
+jargon
+ 
+and
+ 
+too
+ 
+man y
+ 
+charts
+ 
+Beha vior 
+●
+ 
+Logs
+ 
+in
+ 
+several
+ 
+times
+ 
+a
+ 
+week
+ 
+after
+ 
+work
+ 
+●
+ 
+Prefers
+ 
+clean
+ 
+UI
+ 
+with
+ 
+clear
+ 
+icons,
+ 
+summaries,
+ 
+and
+ 
+friendly
+ nudg es 
+
+--- PAGE 56 ---
+ 
+Persona 10: Carlos Rivera 
+ 8.4 UX Frame works 
+To guide the design of our Finance Manag er Dashboar d, we are adop ting the Double Diamond 
+UX
+ 
+frame work.
+ 
+This
+ 
+model
+ 
+ensur es
+ 
+that
+ 
+we
+ 
+under stand
+ 
+user
+ 
+needs
+ 
+before
+ 
+developing
+ 
+solutions,
+ 
+using
+ 
+the
+ 
+following
+ 
+four
+ 
+stages:
+ 
+●
+ 
+Discover:
+ 
+Conduct
+ 
+user
+ 
+resear ch
+ 
+and
+ 
+iden tify
+ 
+pain
+ 
+poin ts
+ 
+in
+ 
+personal
+ 
+finance
+ 
+apps.
+ 
+●
+ 
+Define:
+ 
+Narr ow
+ 
+down
+ 
+core
+ 
+features
+ 
+like
+ 
+budg eting,
+ 
+bill
+ 
+tracking ,
+ 
+and
+ 
+chatbot
+ 
+assis tance.
+ 
+●
+ 
+Develop
+:
+ 
+Create
+ 
+wireframes
+ 
+and
+ 
+mock ups,
+ 
+testing
+ 
+early
+ 
+designs
+ 
+for
+ 
+usability .
+ 
+●
+ 
+Deliv er
+:
+ 
+Finaliz e
+ 
+the
+ 
+interface
+ 
+and
+ 
+launch
+ 
+with
+ 
+an
+ 
+iterative
+ 
+feedback
+ 
+loop.
+ 
+We also apply Design Thinking during brainstorming and prototyping sessions to stay focused on 
+real
+ 
+user
+ 
+needs.
+ 
+This
+ 
+help s
+ 
+us
+ 
+explor e
+ 
+a
+ 
+wide
+ 
+range
+ 
+of
+ 
+ideas
+ 
+and
+ 
+refine
+ 
+them
+ 
+based
+ 
+on
+ 
+user
+ 
+feedback
+ 
+before
+ 
+building
+ 
+the
+ 
+final
+ 
+version.
+ 
+To support this process, we also use: 
+●
+ 
+Low-fidelity
+ 
+wireframes
+ 
+to
+ 
+quickly
+ 
+test
+ 
+ideas
+ 
+without
+ 
+overinvesting
+ 
+in
+ 
+full
+ 
+designs
+ 
+too
+ 
+early .
+ 
+ Attribut e Details 
+Age 19 
+Occupa tion Part Time Retail Worker and Colleg e Studen t 
+Income $10,000 a year 
+Tech Com fort Level High Level 
+Goals 
+●
+ 
+Track
+ 
+small,
+ 
+day-to-da y
+ 
+expenses
+ 
+like
+ 
+meals,
+ 
+transit,
+ 
+and
+ book s 
+●
+ 
+Start
+ 
+saving
+ 
+for
+ 
+emer gencies
+ 
+and
+ 
+futur e
+ 
+tuition
+ 
+costs
+ 
+Frus trations 
+●
+ 
+Mos t
+ 
+finance
+ 
+apps
+ 
+assume
+ 
+higher
+ 
+income
+ 
+or
+ 
+full-time
+ 
+work
+ 
+●
+ 
+Feels
+ 
+discouraged
+ 
+by
+ 
+comple x
+ 
+dashboar ds
+ 
+and
+ 
+long
+ 
+setup
+ processes 
+Beha vior 
+●
+ 
+Uses
+ 
+mobile
+ 
+apps
+ 
+daily ,
+ 
+often
+ 
+between
+ 
+classes
+ 
+or
+ 
+during
+ work breaks 
+●
+ 
+Prefers
+ 
+fast-loading ,
+ 
+minimal
+ 
+interfaces
+ 
+with
+ 
+goal
+ 
+tracking
+ features 
+●
+ 
+Interested
+ 
+in
+ 
+short
+ 
+tips
+ 
+or
+ 
+reminder s
+ 
+that
+ 
+help
+ 
+build
+ 
+good
+ mone y habits over time 
+
+--- PAGE 57 ---
+ 
+●
+ 
+User
+ 
+feedback
+ 
+loop s
+ 
+throughout
+ 
+the
+ 
+developmen t
+ 
+process
+ 
+to
+ 
+catch
+ 
+issues
+ 
+early
+ 
+and
+ 
+mak e
+ 
+impr ovemen ts
+ 
+continuously .
+ 
+●
+ 
+Simple
+ 
+usability
+ 
+testing
+ 
+with
+ 
+everyday
+ 
+user s
+ 
+to
+ 
+see
+ 
+how
+ 
+they
+ 
+interact
+ 
+with
+ 
+the
+ 
+dashboar d
+ 
+and
+ 
+wher e
+ 
+they
+ 
+migh t
+ 
+get
+ 
+stuck.
+ 
+●
+ 
+Agile
+ 
+design
+ 
+principles
+ 
+to
+ 
+stay
+ 
+flexible
+ 
+and
+ 
+mak e
+ 
+chang es
+ 
+as
+ 
+we
+ 
+go,
+ 
+instead
+ 
+of
+ 
+waiting
+ 
+until
+ 
+the
+ 
+end
+ 
+to
+ 
+fix
+ 
+problems.
+ 
+●
+ 
+Click -through
+ 
+prototypes
+ 
+to
+ 
+simula te
+ 
+real
+ 
+user
+ 
+flows
+ 
+before
+ 
+coding ,
+ 
+which
+ 
+help s
+ 
+spot
+ 
+confusion
+ 
+poin ts
+ 
+early .
+ 
+●
+ 
+Collabor ative
+ 
+design
+ 
+reviews,
+ 
+wher e
+ 
+team
+ 
+member s
+ 
+give
+ 
+feedback
+ 
+on
+ 
+each
+ 
+version
+ 
+to
+ 
+impr ove
+ 
+clarity ,
+ 
+consis tency ,
+ 
+and
+ 
+functionality .
+ 
+By combining these appr oaches, our team can build a dashboar d that feels intuitiv e, works 
+smoothly ,
+ 
+and
+ 
+mee ts
+ 
+the
+ 
+real
+ 
+needs
+ 
+of
+ 
+our
+ 
+user s.
+ 
+8.4.1 Frame work Diagr am (Double Diamond Diagr am) 
+ 
+8.5 UX Architectur e and Design 
+Our dashboar d is built around a simple, layered structur e that mak es it easy for user s to find 
+wha t
+ 
+they
+ 
+need
+ 
+and
+ 
+take
+ 
+action
+ 
+quickly .
+ 
+The
+ 
+top
+ 
+navigation
+ 
+bar
+ 
+gives
+ 
+access
+ 
+to
+ 
+the
+ 
+main
+ 
+sections:
+ 
+Dashboar d,
+ 
+Expenses,
+ 
+Goals,
+ 
+Insigh ts,
+ 
+and
+ 
+Settings.
+ 
+Each
+ 
+section
+ 
+shows
+ 
+a
+ 
+clean
+ 
+workspace
+ 
+with
+ 
+only
+ 
+the
+ 
+mos t
+ 
+import ant
+ 
+info
+ 
+up
+ 
+front.
+ 
+ 
+
+
+--- PAGE 58 ---
+ 
+We use quick -add buttons, pop-up confirma tions, and progress bars to guide user s as they 
+interact
+ 
+with
+ 
+the
+ 
+system.
+ 
+For
+ 
+example,
+ 
+adding
+ 
+a
+ 
+new
+ 
+expense
+ 
+or
+ 
+goal
+ 
+only
+ 
+takes
+ 
+a
+ 
+few
+ 
+click s,
+ 
+and
+ 
+user s
+ 
+get
+ 
+instant
+ 
+feedback.
+ 
+The layout follows natural reading patterns (top-do wn, left to right) and adjus ts automa tically 
+for
+ 
+different
+ 
+screen
+ 
+sizes.
+ 
+Whe ther
+ 
+someone’ s
+ 
+on
+ 
+a
+ 
+laptop
+ 
+or
+ 
+phone,
+ 
+the
+ 
+design
+ 
+stays
+ 
+clear
+ 
+and
+ 
+easy
+ 
+to
+ 
+use.
+ 
+We also built in accessibility features like keyboar d navigation, screen reader support, and 
+high-c ontrast
+ 
+options.
+ 
+Everything
+ 
+is
+ 
+organized
+ 
+so
+ 
+user s
+ 
+can
+ 
+get
+ 
+things
+ 
+done
+ 
+with
+ 
+as
+ 
+little
+ 
+clutter
+ 
+and
+ 
+confusion
+ 
+as
+ 
+possible.
+ 
+To impr ove user flow and reduce frustration: 
+●
+ 
+Each
+ 
+section
+ 
+loads
+ 
+independen tly,
+ 
+which
+ 
+keeps
+ 
+the
+ 
+app
+ 
+fast
+ 
+and
+ 
+responsiv e.
+ 
+●
+ 
+Help ful
+ 
+tooltip s
+ 
+and
+ 
+labels
+ 
+are
+ 
+included
+ 
+next
+ 
+to
+ 
+icons
+ 
+or
+ 
+new
+ 
+features
+ 
+to
+ 
+explain
+ 
+wha t
+ 
+they
+ 
+do.
+ 
+●
+ 
+We
+ 
+added
+ 
+a
+ 
+collap sible
+ 
+sidebar
+ 
+option
+ 
+to
+ 
+give
+ 
+user s
+ 
+more
+ 
+screen
+ 
+space
+ 
+when
+ 
+needed.
+ 
+●
+ 
+Confirma tion
+ 
+messag es
+ 
+and
+ 
+undo
+ 
+options
+ 
+help
+ 
+prevent
+ 
+mistakes
+ 
+and
+ 
+boos t
+ 
+confidence
+ 
+when
+ 
+taking
+ 
+actions.
+ 
+●
+ 
+Overall,
+ 
+the
+ 
+architectur e
+ 
+is
+ 
+built
+ 
+to
+ 
+support
+ 
+both
+ 
+new
+ 
+user s
+ 
+who
+ 
+want
+ 
+simplicity
+ 
+and
+ 
+experienced
+ 
+user s
+ 
+who
+ 
+need
+ 
+efficiency .
+ 
+ 
+8.5.1 UX Architectur e Diagr am (Informa tion Architectur e Diagr am) 
+   
+8.6 UX Mock up  
+ 
+
+
+--- PAGE 59 ---
+ 
+Our initial mock up presen ts a streamlined, mobile-r esponsiv e dashboar d. Key features include: 
+●
+ 
+Top
+ 
+Navigation
+ 
+Bar
+:
+ 
+Home,
+ 
+Expenses,
+ 
+Goals,
+ 
+AI
+ 
+Chatbot,
+ 
+Settings
+ 
+●
+ 
+Sidebar
+ 
+or
+ 
+Dashboar d
+ 
+Tiles
+:
+ 
+Each
+ 
+major
+ 
+function
+ 
+is
+ 
+accessible
+ 
+via
+ 
+visually
+ 
+distinct
+ 
+cards
+ 
+(e.g.,
+ 
+“View
+ 
+Budg et,”
+ 
+“Ask
+ 
+Chatbot, ”
+ 
+“Track
+ 
+Bills”)
+ 
+●
+ 
+Central
+ 
+Area
+:
+ 
+Displa ys
+ 
+activ e
+ 
+charts
+ 
+(mon thly
+ 
+spending ,
+ 
+cash
+ 
+flow
+ 
+trends),
+ 
+upda ted
+ 
+in
+ 
+real-time
+ 
+●
+ 
+AI
+ 
+Chatbot
+ 
+Widg et
+:
+ 
+Dock ed
+ 
+in
+ 
+the
+ 
+bottom
+ 
+right
+ 
+for
+ 
+ongoing
+ 
+financial
+ 
+insigh ts
+ 
+and
+ 
+support
+ 
+●
+ 
+Dark
+ 
+Mode
+ 
+Toggle
+:
+ 
+Instantly
+ 
+chang es
+ 
+color
+ 
+theme
+ 
+based
+ 
+on
+ 
+user
+ 
+preference
+ 
+●
+ 
+Responsiv e
+ 
+Design
+:
+ 
+Scales
+ 
+smoothly
+ 
+across
+ 
+devices
+ 
+from
+ 
+desk tops
+ 
+to
+ 
+phones
+ 
+●
+ 
+Quick
+ 
+Actions
+ 
+Panel:
+ 
+One-click
+ 
+access
+ 
+to
+ 
+add
+ 
+expenses,
+ 
+set
+ 
+savings
+ 
+goals,
+ 
+or
+ 
+check
+ 
+recen t
+ 
+transactions
+ 
+●
+ 
+Daily/W eekly
+ 
+Highligh ts:
+ 
+A
+ 
+banner
+ 
+or
+ 
+tile
+ 
+at
+ 
+the
+ 
+top
+ 
+of
+ 
+the
+ 
+dashboar d
+ 
+showing
+ 
+help ful
+ 
+summaries,
+ 
+like
+ 
+"You’re
+ 
+$50
+ 
+under
+ 
+budg et
+ 
+this
+ 
+week!"
+ 
+●
+ 
+Customiz able
+ 
+Widg ets:
+ 
+User s
+ 
+can
+ 
+drag-and-dr op
+ 
+cards
+ 
+to
+ 
+rearrange
+ 
+sections
+ 
+based
+ 
+on
+ 
+wha t
+ 
+matters
+ 
+mos t
+ 
+to
+ 
+them
+ 
+●
+ 
+Status
+ 
+Icons
+ 
+and
+ 
+Alerts:
+ 
+Small
+ 
+icons
+ 
+and
+ 
+color
+ 
+indic ators
+ 
+(e.g.,
+ 
+red
+ 
+for
+ 
+overdue
+ 
+bills,
+ 
+green
+ 
+for
+ 
+goal
+ 
+progress)
+ 
+provide
+ 
+quick
+ 
+visual
+ 
+upda tes
+ 
+ 
+ 
+ 
+
+
+--- PAGE 60 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+9.
+ 
+Prototype 
+This is the landing page for our Finance manag er dashboar d which provides quick links to pages 
+they
+ 
+migh t
+ 
+want,
+ 
+as
+ 
+well
+ 
+as
+ 
+a
+ 
+get
+ 
+started
+ 
+link
+ 
+to
+ 
+provide
+ 
+import ant
+ 
+informa tion.
+  
+ 
+
+
+--- PAGE 61 ---
+ 
+          
+   This is the AI assis tant page which will be able to provide the user with tailor ed informa tion 
+regarding
+ 
+the
+ 
+informa tion
+ 
+that
+ 
+they
+ 
+submit
+ 
+from
+ 
+the
+ 
+other
+ 
+pages/forms.
+         
+ 
+
+
+--- PAGE 62 ---
+ 
+ This is the Finance goals page wher e user s will be able to insert their informa tion and gener ate 
+custom
+ 
+savings
+ 
+goals
+ 
+for
+ 
+specific
+ 
+things.
+                
+ 
+
+
+--- PAGE 63 ---
+ 
+   
+ This is the Budg et plans Page which will displa y the user s current status in relation to their 
+savings
+ 
+goals.
+          
+ 
+
+
+--- PAGE 64 ---
+ 
+ 
+  This is the Financial trends page which will displa y how the user alloc ates their funds for the 
+time
+ 
+frame
+ 
+that
+ 
+they
+ 
+specif y.
+             
+ 
+
+
+--- PAGE 65 ---
+ 
+   This is a simple settings page wher e the user can chang e basic account informa tion, displa y 
+preferences,
+ 
+as
+ 
+well
+ 
+as
+ 
+log
+ 
+out,
+ 
+and
+ 
+dele te
+ 
+their
+ 
+account.
+        
+ 
+
+
+--- PAGE 66 ---
+ 
+ 
+
+
+--- PAGE 67 ---
+ 
+ Youtube Video Prototype: h t t p s : / / y o u t u . b e / i k t k C m 6 e E O 4 
+  Github Link: Jac obH123/CPSC-490-Pr ot otype              
+ 
+ 
+
+
+--- PAGE 68 ---
+ 
+References 
+Addison Wesley - UML Distilled, 3rd Ed - 2003. (n.d.). UAH. Retrieved May 15, 2025, from 
+http://w ww.cs.uah.edu/~r coleman/CS307/ Announcemen ts/UML%20Dis tilled.pdf
+ 
+The Double Diamond templat e. (n.d.). Mur al. Retrieved May 15, 2025, from 
+https://w ww.mur al.co/templa tes/double-diamond
+ 
+Gema yel, T. (n.d.). Information Archit ecture Diagram. Figma. Retrieved May 15, 2025, from 
+https://w ww.figma.c om/community/file/1007804018270351087
+ 
+Nielsen, J. (1994, April 24). 10 Usability Heuris tics for User Interface Design - NN/g. Nielsen 
+Norman
+ 
+Group.
+ 
+Retrieved
+ 
+May
+ 
+15,
+ 
+2025,
+ 
+from
+ 
+https://w ww.nngr oup.c om/articles/t en-usability -heuris tics/
+ 
+Pikover, J. (n.d.). The UX Proc ess for Information Archit ecture. Toptal. Retrieved May 15, 2025, 
+from
+ 
+https://w ww.toptal.com/designer s/ia/ guide-t o-informa tion-ar chitectur e
+ 
+Storyboards & Design Thinking. (2024, September 26). DevSquad. Retrieved May 15, 2025, from 
+https://de vsquad.c om/blog /storyboar d-design
+ 
+UML Activity Diagram Tutorial. (n.d.). Lucidchart. Retrieved May 15, 2025, from 
+https://w ww.lucidchart.c om/pag es/uml-activity -diagr am
+ 
+UX Daily: The World's Larges t Open-Sourc e UX Design librar y. (n.d.). The Interaction Design 
+Founda tion.
+ 
+Retrieved
+ 
+May
+ 
+15,
+ 
+2025,
+ 
+from
+ 
+https://w ww.interaction-design.or g/literature/article/ overview
+ 
+ 
+ 
+ 

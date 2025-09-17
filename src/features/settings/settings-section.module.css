@@ -1,0 +1,357 @@
+.section {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.sectionHeader {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  font-weight: 600;
+}
+
+.sectionSubtitle {
+  margin: 0;
+  color: var(--color-text-muted);
+  max-width: 52ch;
+  font-size: 0.95rem;
+}
+
+.gridTwoColumn {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-lg);
+}
+
+@media (max-width: 900px) {
+  .gridTwoColumn {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fieldset {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  display: grid;
+  gap: var(--space-md);
+  background: var(--glass-background);
+}
+
+.legend {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 var(--space-sm);
+}
+
+.formActions {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.statusMessage {
+  min-height: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.accountList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-md);
+}
+
+.accountListItem {
+  display: grid;
+  gap: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  background: var(--glass-background);
+}
+
+@media (min-width: 720px) {
+  .accountListItem {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
+    align-items: center;
+  }
+}
+
+.accountDetails {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.accountHeading {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  font-weight: 600;
+}
+
+.accountMask {
+  font-family: var(--font-mono, "DM Mono", monospace);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.accountMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  text-transform: capitalize;
+}
+
+.accountStatus {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.accountStatus[data-status="syncing"] {
+  color: var(--color-warning, #b45309);
+}
+
+.accountStatus[data-status="error"] {
+  color: var(--color-danger);
+}
+
+.accountSynced {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.accountActions {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.ghostButton {
+  background: transparent;
+}
+
+.preferenceList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-md);
+}
+
+.preferenceItem {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  background: var(--glass-background);
+  display: grid;
+  gap: 0.4rem;
+}
+
+.preferenceHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.preferenceLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-weight: 600;
+}
+
+.checkbox {
+  width: 1rem;
+  height: 1rem;
+}
+
+.requiredBadge {
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  padding: 0.15rem 0.65rem;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.preferenceDescription {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.securitySection {
+  display: grid;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.securitySection:first-of-type {
+  margin-top: 0;
+}
+
+.securityList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-md);
+}
+
+.securityItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  background: var(--glass-background);
+}
+
+.securityLabel {
+  margin: 0 0 0.35rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.securityDescription {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  max-width: 38ch;
+}
+
+.switch {
+  position: relative;
+  width: 2.6rem;
+  height: 1.45rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--input-background);
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.switchThumb {
+  position: absolute;
+  left: 0.2rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 999px;
+  background: var(--color-surface, #ffffff);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.switchOn {
+  background: var(--color-accent-soft);
+  border-color: var(--color-accent-strong);
+}
+
+.switchOff {
+  background: var(--input-background);
+}
+
+.switchOn .switchThumb {
+  transform: translateX(1.1rem);
+  background: var(--color-accent-strong);
+}
+
+.switchOff .switchThumb {
+  transform: translateX(0);
+}
+
+.switch:focus-visible {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 2px;
+}
+
+.securitySubheader {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.securitySubheader h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.securitySubheader p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.sessionList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.sessionItem {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  background: var(--glass-background);
+}
+
+.sessionDevice {
+  display: block;
+  font-weight: 600;
+}
+
+.sessionMeta {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.currentSession {
+  font-size: 0.8rem;
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+.dangerCard {
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.dangerCopy {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.code {
+  font-family: var(--font-mono, "DM Mono", monospace);
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--color-danger);
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.35rem;
+}

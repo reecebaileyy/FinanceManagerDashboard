@@ -1,0 +1,150 @@
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: 1.1rem 1.35rem;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--shell-topbar-background);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(14px);
+}
+
+.menuToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--menu-toggle-border);
+  background: var(--menu-toggle-background);
+  color: var(--color-text-primary);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.menuToggle:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.menuToggleIcon {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 18px;
+  height: 14px;
+  color: inherit;
+}
+
+.menuToggleBar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  transform-origin: center;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.topbar[data-sidebar-open="true"] .menuToggleBar[data-position="top"] {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.topbar[data-sidebar-open="true"] .menuToggleBar[data-position="middle"] {
+  opacity: 0;
+}
+
+.topbar[data-sidebar-open="true"] .menuToggleBar[data-position="bottom"] {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.menuToggleLabel {
+  font-size: 0.7rem;
+}
+
+.search {
+  flex: 1;
+  display: flex;
+  gap: 0.65rem;
+  min-width: 14rem;
+}
+
+.searchInput {
+  flex: 1;
+  border-radius: 0.75rem;
+  border: 1px solid var(--input-border);
+  background: var(--search-background);
+  padding: 0.75rem 1rem;
+  color: inherit;
+}
+
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: auto;
+}
+
+.themeToggle {
+  white-space: nowrap;
+  min-width: 8.5rem;
+}
+
+.userChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--chip-border);
+  background: var(--chip-background);
+  font-weight: 600;
+}
+
+.userChip span:first-child {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+@media (min-width: 1025px) {
+  .menuToggle {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    gap: var(--space-sm);
+  }
+
+  .search {
+    width: 100%;
+    order: 3;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .themeToggle {
+    flex: 1;
+  }
+
+  .userChip {
+    margin-left: auto;
+  }
+}

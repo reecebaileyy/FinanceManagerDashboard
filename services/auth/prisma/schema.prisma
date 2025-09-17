@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String                   @id @default(uuid())
+  email             String                   @unique
+  status            UserStatus               @default(active)
+  planTier          PlanTier                 @default(free)
+  emailVerifiedAt   DateTime?
+  createdAt         DateTime                 @default(now())
+  updatedAt         DateTime                 @updatedAt
+  lastLoginAt       DateTime?
+  timezone          String?                  @db.VarChar(64)
+  firstName         String?                  @db.VarChar(100)
+  lastName          String?                  @db.VarChar(100)
+  passwordCredential PasswordCredential?
+  refreshTokens     RefreshToken[]
+  auditEvents       AuditEvent[]
+  emailTokens       EmailVerificationToken[]
+  passwordResets    PasswordResetToken[]
+
+  @@index([email])
+}
+
+model PasswordCredential {
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  passwordHash String   @db.VarChar(255)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  disabledAt   DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model EmailVerificationToken {
+  id          String   @id @default(uuid())
+  userId      String
+  token       String   @unique
+  expiresAt   DateTime
+  consumedAt  DateTime?
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+  @@index([expiresAt])
+}
+
+model PasswordResetToken {
+  id         String   @id @default(uuid())
+  userId     String
+  token      String   @unique
+  expiresAt  DateTime
+  consumedAt DateTime?
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+  @@index([expiresAt])
+}
+
+model RefreshToken {
+  id               String   @id @default(uuid())
+  userId           String
+  tokenHash        String   @db.VarChar(255)
+  issuedAt         DateTime @default(now())
+  expiresAt        DateTime
+  revokedAt        DateTime?
+  replacedByTokenId String?
+  ipAddress        String?  @db.VarChar(64)
+  userAgent        String?  @db.VarChar(255)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model AuditEvent {
+  id        String   @id @default(uuid())
+  userId    String?
+  actor     String   @db.VarChar(64)
+  action    String   @db.VarChar(128)
+  ipAddress String?  @db.VarChar(64)
+  userAgent String?  @db.VarChar(255)
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+enum UserStatus {
+  active
+  invited
+  suspended
+}
+
+enum PlanTier {
+  free
+  pro
+  family
+}

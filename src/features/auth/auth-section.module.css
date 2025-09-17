@@ -1,0 +1,120 @@
+.section {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.formActions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.infoList {
+  margin-top: var(--space-sm);
+  color: var(--color-text-muted);
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+}
+
+.helperText {
+  margin-top: var(--space-xs);
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.fieldError {
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  color: var(--color-danger);
+}
+
+.formAlert {
+  margin-bottom: var(--space-sm);
+  padding: 0.75rem 0.9rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: rgba(15, 27, 45, 0.02);
+  font-size: 0.85rem;
+}
+
+.formAlertSuccess {
+  border-color: rgba(22, 163, 74, 0.35);
+  background: rgba(22, 163, 74, 0.08);
+  color: var(--color-success);
+}
+
+.formAlertError {
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.08);
+  color: var(--color-danger);
+}
+
+.formAlertInfo {
+  border-color: rgba(55, 107, 255, 0.3);
+  background: rgba(55, 107, 255, 0.08);
+  color: var(--color-accent-strong);
+}
+
+.linkButton {
+  border: none;
+  background: none;
+  color: var(--color-accent);
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  text-decoration: underline;
+}
+
+.linkButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.secondaryActions {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.secondaryActions > * {
+  font-size: 0.85rem;
+}
+
+.codeInput {
+  font-size: 1.65rem;
+  letter-spacing: 0.45rem;
+  text-align: center;
+  padding: 0.85rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--color-border-strong);
+  background: var(--input-background);
+}
+
+.backupActions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.backupHint {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.checkboxRow {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.checkboxRow input {
+  margin-top: 0.2rem;
+}

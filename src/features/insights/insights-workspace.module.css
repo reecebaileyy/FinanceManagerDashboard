@@ -1,0 +1,253 @@
+.section {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.workspace {
+  display: grid;
+  gap: var(--space-xl);
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+@media (max-width: 1080px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chatCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chatBody {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.messageList {
+  display: grid;
+  gap: var(--space-sm);
+  max-height: 26rem;
+  overflow-y: auto;
+  padding-right: 0.2rem;
+}
+
+.emptyState {
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.messageRow {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-start;
+}
+
+.messageRowUser {
+  justify-content: flex-end;
+}
+
+.messageBubble {
+  max-width: min(40rem, 100%);
+  padding: 0.85rem 1rem;
+  border-radius: 1rem;
+  line-height: 1.45;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s ease;
+}
+
+.userBubble {
+  background: linear-gradient(180deg, rgba(55, 107, 255, 0.42), rgba(55, 107, 255, 0.24));
+  color: var(--color-text-inverse);
+  border: 1px solid rgba(55, 107, 255, 0.4);
+}
+
+.assistantBubble {
+  background: var(--glass-background);
+  border: 1px solid var(--glass-border);
+}
+
+.messagePending {
+  opacity: 0.8;
+  font-style: italic;
+}
+
+.messageMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.feedbackGroup {
+  display: inline-flex;
+  gap: 0.4rem;
+}
+
+.feedbackButton {
+  border: 1px solid transparent;
+  background: rgba(55, 107, 255, 0.08);
+  color: inherit;
+  padding: 0.3rem 0.45rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.feedbackButton:hover {
+  background: rgba(55, 107, 255, 0.18);
+}
+
+.feedbackButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.feedbackPositive {
+  border-color: rgba(22, 163, 74, 0.4);
+  background: rgba(22, 163, 74, 0.18);
+  color: var(--color-success);
+}
+
+.feedbackNegative {
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.18);
+  color: var(--color-danger);
+}
+
+.errorText {
+  color: var(--color-danger);
+  font-size: 0.85rem;
+}
+
+.inputArea {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.textArea {
+  min-height: 4.25rem;
+  resize: vertical;
+}
+
+.promptList {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.promptLabel {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.promptChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.disclaimerList {
+  margin: 0;
+  padding-left: 1rem;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.recommendationsColumn {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.recommendationList {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.recommendationItem {
+  display: grid;
+  gap: var(--space-sm);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--aside-card-border);
+  background: var(--aside-card-background);
+}
+
+.recommendationHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.recommendationHeader h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.recommendationTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.recommendationBody {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.recommendationFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.recommendationActions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.linkButton {
+  border-color: var(--color-accent-strong);
+  background: linear-gradient(180deg, rgba(55, 107, 255, 0.28), rgba(55, 107, 255, 0.18));
+  color: var(--color-text-inverse);
+}
+
+.secondaryButton {
+  background: rgba(55, 107, 255, 0.12);
+}
+
+.ghostButton {
+  background: transparent;
+  border-color: var(--color-border);
+}
+
+@media (max-width: 720px) {
+  .messageList {
+    max-height: 22rem;
+  }
+
+  .recommendationFooter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .recommendationActions {
+    justify-content: space-between;
+  }
+}

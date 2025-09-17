@@ -1,0 +1,527 @@
+
+.section {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.cardBody {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.headerActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+}
+
+.topGrid,
+.bottomGrid {
+  align-items: stretch;
+}
+
+.summaryCard,
+.chartCard,
+.alertsPanel,
+.summaryPanel,
+.tableCard {
+  padding: var(--space-lg);
+  display: grid;
+  gap: var(--space-md);
+}
+
+.summaryHeader {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.summaryUpdated {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.summaryMetrics,
+.summaryMetricsGrid {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.metric,
+.summaryMetric {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.metricLabel {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.metricValue,
+.summaryMetricValue {
+  font-size: 1.45rem;
+  font-weight: 600;
+}
+
+.metricDeltaPositive,
+.variancePositive {
+  color: var(--color-success);
+}
+
+.metricDeltaNegative,
+.varianceNegative {
+  color: var(--color-danger);
+}
+
+.summaryFooter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-md);
+}
+
+.chartLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.chartKey {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.chartSwatch {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 999px;
+}
+
+.chartSwatchSpent {
+  background: var(--progress-fill);
+}
+
+.chartSwatchTarget {
+  background: rgba(49, 73, 119, 0.28);
+}
+
+.chartBars {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.chartBar {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.chartBarLabel {
+  font-weight: 600;
+}
+
+.chartBarTrack {
+  position: relative;
+  height: 0.85rem;
+  border-radius: 999px;
+  background: var(--progress-track);
+  overflow: hidden;
+}
+
+.chartBarTarget {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: rgba(49, 73, 119, 0.25);
+  border-radius: inherit;
+}
+
+.chartBarSpent {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--progress-fill);
+  border-radius: inherit;
+}
+
+.chartBarMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+
+.alertsList {
+  display: grid;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.alertItem {
+  padding: 0.75rem 0.95rem;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  background: rgba(55, 107, 255, 0.08);
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-start;
+}
+
+.alertMessage {
+  font-size: 0.9rem;
+}
+
+.alertWarning {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.12);
+}
+
+.alertCritical {
+  border-color: rgba(239, 68, 68, 0.45);
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.alertEmpty {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.summaryContext {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.summaryActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.budgetList {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.budgetRow {
+  display: grid;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(49, 73, 119, 0.18);
+  background: var(--color-surface-variant);
+}
+
+.budgetHeader {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.budgetTitle {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.budgetMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.budgetProgress {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.progressTrack {
+  height: 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--progress-track);
+  overflow: hidden;
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  background: var(--progress-fill);
+  border-radius: inherit;
+}
+
+.progressFillWarning {
+  background: var(--progress-fill-warn);
+}
+
+.progressFillCritical {
+  background: var(--progress-fill-danger);
+}
+
+.budgetMetrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+}
+
+.budgetMetric {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.budgetMetricLabel {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.budgetMetricValue {
+  font-weight: 600;
+}
+
+.categoryList {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.categoryRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.categoryInfo {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.categoryAmounts {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.categoryProgress {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.categoryProgressBar {
+  position: relative;
+  width: min(220px, 48vw);
+  height: 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--progress-track);
+  overflow: hidden;
+}
+
+.categoryAlert {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.categoryAlertWarning {
+  border-color: rgba(245, 158, 11, 0.4);
+  color: var(--color-warning);
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.categoryAlertCritical {
+  border-color: rgba(239, 68, 68, 0.45);
+  color: var(--color-danger);
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--space-lg);
+  background: var(--color-overlay);
+  backdrop-filter: blur(6px);
+  z-index: 50;
+}
+
+.modal {
+  width: min(720px, 94vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-strong);
+  box-shadow: var(--shadow-lg, 0 20px 45px rgba(15, 23, 42, 0.35));
+  display: grid;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.modalTitle {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.modalBody {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.modalForm {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.modalGrid,
+.categoryFormGrid {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.checkboxRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+  font-size: 0.9rem;
+}
+
+.checkboxLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modalSection {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.modalSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.modalSectionList {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.categoryFormRow {
+  display: grid;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-inset);
+}
+
+.categoryControls {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modalActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+}
+
+.errorList {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.35rem;
+  color: var(--color-danger);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 1080px) {
+  .summaryMetrics,
+  .summaryMetricsGrid,
+  .modalGrid,
+  .categoryFormGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 840px) {
+  .topGrid,
+  .bottomGrid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .modal {
+    padding: var(--space-lg);
+  }
+
+  .tableHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+}

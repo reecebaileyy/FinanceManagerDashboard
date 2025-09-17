@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Finance Manager Dashboard
 
-## Getting Started
+This repository contains the Next.js App Router shell for the Finance Manager platform described in `docs/architecture.md` and `CS490 Starter 26.pdf`. It stitches together the landing, authentication previews, and dashboard mock modules while the backend services are implemented as independent Node.js microservices (see the docs for interfaces and contracts).
 
-First, run the development server:
+## Prerequisites
+- Node.js 20.x and npm 10.x
+- PostgreSQL 15 and Redis 7 for local prototyping (Docker compose templates arrive in later tasks)
+- Access to Plaid, Azure OpenAI, Twilio, AWS accounts for staging/production secrets
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Environment configuration
+1. Copy the example file that matches your target stage:
+   - Local: `cp .env.local.example .env.local`
+   - Staging: `cp .env.staging.example .env.staging`
+   - Production: `cp .env.production.example .env.production`
+2. Replace placeholder values with real credentials or configure your secrets provider to inject them at runtime. The example files show the minimum shape and reference where secrets should come from (AWS Secrets Manager, Doppler, etc.).
+3. Run `npm install` (or `pnpm install`) and then `npm run env:check`. The script loads the relevant `.env.*` file, validates it with the shared Zod schemas, and ensures both server and client variables stay in sync.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`src/lib/config/env/` exposes `getServerEnv`/`getClientEnv` helpers so components and services can read configuration in a typed way without leaking secrets into the browser bundle. The helper normalises blank values, enforces required keys per environment, and caches results for repeated lookups.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
+- `npm run dev` – start the Next.js development server
+- `npm run build` / `npm run start` – build and serve the production bundle
+- `npm run lint` / `npm run lint:fix` – lint the repository with the hardened ESLint setup
+- `npm run typecheck` – run the TypeScript compiler in no-emit mode
+- `npm run format` / `npm run format:check` – Prettier formatting helpers
+- `npm run env:check` – validate environment variables against the Zod schemas
+- `npm run prepare` – install Husky hooks
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Repository layout
+- `src/app` – Next.js App Router entry points (`layout.tsx`, `page.tsx`, global styles)
+- `src/components` – reusable dashboard UI primitives (sidebar, top bar, cards)
+- `src/features` – feature-specific sections rendered inside the dashboard shell
+- `src/lib/config/env` – strongly typed environment configuration helpers
+- `docs/` – architecture, API contracts, domain model, non-functional requirements, and tech stack references
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For deeper context on service boundaries, API contracts, and non-functional commitments refer to the documents inside `docs/` alongside the annotated `task` backlog.
