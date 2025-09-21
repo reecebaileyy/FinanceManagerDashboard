@@ -1,30 +1,37 @@
-import { cookies } from "next/headers";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono } from 'next/font/google';
+import { cookies } from 'next/headers';
 
-import "./globals.css";
-import { AppProviders } from "./providers";
-import { getServerSession } from "@features/auth/server/session";
-import { DEFAULT_CURRENCY, DEFAULT_LOCALE, DEFAULT_TIME_ZONE } from "@features/i18n/localization-constants";
-import { DEFAULT_THEME, THEME_COOKIE_NAME, coerceTheme } from "@features/theme";
-import { CSRF_COOKIE_NAME } from "@lib/security";
+import './globals.css';
+import ChatWidget from '@/features/ai-chat/ChatWidget';
 
-import type { Metadata } from "next";
-import type { ReactNode } from "react";
+import { getServerSession } from '@features/auth/server/session';
+import {
+  DEFAULT_CURRENCY,
+  DEFAULT_LOCALE,
+  DEFAULT_TIME_ZONE,
+} from '@features/i18n/localization-constants';
+import { DEFAULT_THEME, THEME_COOKIE_NAME, coerceTheme } from '@features/theme';
+import { CSRF_COOKIE_NAME } from '@lib/security';
+
+import { AppProviders } from './providers';
+
+import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: "Finance Manager Dashboard",
+  title: 'Finance Manager Dashboard',
   description:
-    "Prototype dashboard shell for the Finance Manager platform referenced in the CS490 starter proposal.",
+    'Prototype dashboard shell for the Finance Manager platform referenced in the CS490 starter proposal.',
 };
 
 export default async function RootLayout({
@@ -55,8 +62,8 @@ export default async function RootLayout({
         >
           {children}
         </AppProviders>
+        <ChatWidget />
       </body>
     </html>
   );
 }
-
