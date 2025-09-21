@@ -56,12 +56,14 @@
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
+    "@types/jsdom": "^21.1.7",
     "@types/jsonwebtoken": "^9.0.6",
-    "@types/node": "^20.0.0",
+    "@types/node": "^20.19.17",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@typescript-eslint/eslint-plugin": "^8.44.0",
     "@typescript-eslint/parser": "^8.44.0",
+    "@vitejs/plugin-react": "^5.0.3",
     "eslint": "^9.0.0",
     "eslint-config-next": "15.5.3",
     "eslint-config-prettier": "^10.1.8",
@@ -80,6 +82,7 @@
     "tailwindcss": "^4.0.0",
     "tsx": "^4.19.2",
     "typescript": "^5.0.0",
+    "vite": "^7.1.6",
     "vitest": "^3.2.4"
   }
 }
