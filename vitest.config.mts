@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config';
+import { configDefaults, defineConfig } from 'vitest/config';
 import path from 'node:path';
 import react from '@vitejs/plugin-react';
 
@@ -20,6 +20,16 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
     },
+    exclude: [...configDefaults.exclude, 'backend/server/**/*.test.ts'],
+    projects: [
+      {
+        test: {
+          name: 'backend',
+          include: ['backend/server/**/*.test.ts'],
+          environment: 'node',
+        },
+      },
+    ],
   },
   resolve: {
     alias: {
