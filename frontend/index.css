@@ -21,6 +21,24 @@
   --fw-600: 600;
 }
 
+/* Light theme override */
+:root.light {
+  --bg: #f8f9fa;
+  --panel: #ffffff;
+  --panel-2: #f1f3f5;
+  --muted: #555;
+  --text: #111;
+  --accent: #0066ff;
+  --accent-2: #00c67c;
+  --danger: #e63946;
+  --warn: #ffb703;
+  --ok: #2d6a4f;
+  --border: #ddd;
+  --shadow: 0 5px 15px rgba(0,0,0,.1);
+}
+
+
+
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
@@ -354,3 +372,4 @@ footer{
   color:var(--muted); 
   border-top:1px solid var(--border)
 }
+
