@@ -31,3 +31,25 @@ document.querySelectorAll('a[href="#dashboard"]').forEach(el => {
     if (userChip) userChip.textContent = "Alex Doe"; // Replace with actual username
   });
 });
+
+// Dark mode toggle
+const toggleBtn = document.getElementById("themeToggle");
+
+// Load saved theme
+if (localStorage.getItem("theme") === "light") 
+  {
+    document.documentElement.classList.add("light");
+    toggleBtn.textContent = "☀️ Light";
+}
+
+toggleBtn.addEventListener("click", () => {
+  document.documentElement.classList.toggle("light");
+  if (document.documentElement.classList.contains("light")) {
+    localStorage.setItem("theme", "light");
+    toggleBtn.textContent = "☀️ Light";
+  } else {
+    localStorage.setItem("theme", "dark");
+    toggleBtn.textContent = "🌙 Dark";
+  }
+});
+
