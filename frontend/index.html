@@ -16,23 +16,23 @@
       </div>
 
 <nav class="nav">
-  <a href="#home" class="active">🏠 Home</a>
-  <a href="#login">🔐 Login</a>
-  <a href="#signup">✨ Create Account</a>
+  <a href="home.html" class="active">🏠 Home</a>
+  <a href="login.html">🔐 Login</a>
+  <a href="signup.html">✨ Create Account</a>
 
   <div id="protectedLinks">
+    <a href="#dashboard"><i>💬</i> AI Assistant</a>
     <a href="#dashboard">📊 Dashboard</a>
     <a href="#transactions">🧾 Transactions</a>
-    <a href="#budgets">🎯 Budgets</a>
+    <a href="#budgets">🎯 Budget Plan</a>
     <a href="#settings">⚙️ Settings</a>
   </div>
-
 
   <!-- TIPS Content -->
       <div id="tipBox" class="aside-card"></div>
 
 
-   </aside>
+    </aside>
 
     <main>
       <!-- Topbar -->
@@ -41,16 +41,19 @@
           <input aria-label="Search" placeholder="Search transactions, categories, notes…" />
           <a class="btn" href="#transactions">Search</a>
         </div>
-         <button id="themeToggle" class="btn">🌙 Dark</button>
+        <button id="themeToggle" class="btn">🌙 Dark</button>
         <div class="user-chip">
           <span>👤</span>
           <span>Guest</span>
         </div>
       </div>
+
+
       <div>
-      <div class="content">
+        <div class="content">
         <!-- ============ HOME / LANDING ============ -->
         <section id="home" class="page default">
+          
           <div class="hero">
             <div>
               <h2>Take control of your money with a clean, focused dashboard.</h2>
@@ -61,6 +64,7 @@
               </div>
               <div style="margin-top:18px; color:var(--muted); font-size:13px">MVP: Auth · Accounts · Transactions · Budgets · Export</div>
             </div>
+
             <div class="glass card">
               <div class="card-hd"><strong>Preview</strong><span class="pill">static demo</span></div>
               <div class="card-bd">
@@ -126,80 +130,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ============ LOGIN ============ -->
-        <section id="login" class="page">
-          <div class="grid cols-2">
-            <div class="card">
-              <div class="card-hd"><strong>Login</strong><span class="pill">welcome back</span></div>
-              <div class="card-bd">
-                <form>
-                  <div>
-                    <label for="lemail">Email</label>
-                    <input id="lemail" type="email" placeholder="you@example.com" required />
-                  </div>
-                  <div>
-                    <label for="lpass">Password</label>
-                    <input id="lpass" type="password" placeholder="••••••••" required />
-                  </div>
-                  <div style="display:flex; justify-content:space-between; align-items:center">
-                    <a class="btn" href="#signup">Create account</a>
-                    <a class="btn primary" href="#dashboard">Login</a>
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-hd"><strong>Security</strong></div>
-              <div class="card-bd">
-                <p style="color:var(--muted)">Passwords are stored with strong hashing on the server. Add 2FA later for extra protection.</p>
-                <ul style="margin-top:10px; color:var(--muted)">
-                  <li>Rate-limited login</li>
-                  <li>Secure cookies / HTTPS</li>
-                  <li>Session timeout</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ============ SIGNUP ============ -->
-        <section id="signup" class="page">
-          <div class="card">
-            <div class="card-hd"><strong>Create Account</strong><span class="pill">free</span></div>
-            <div class="card-bd">
-              <form>
-                <div class="row">
-                  <div>
-                    <label for="sname">Full Name</label>
-                    <input id="sname" placeholder="First Last" />
-                  </div>
-                  <div>
-                    <label for="semail">Email</label>
-                    <input id="semail" type="email" placeholder="alex@example.com" />
-                  </div>
-                </div>
-                <div class="row">
-                  <div>
-                    <label for="spass">Password</label>
-                    <input id="spass" type="password" placeholder="••••••••" />
-                  </div>
-                  <div>
-                    <label for="srole">Role</label>
-                    <select id="srole">
-                      <option>User</option>
-                      <option>Admin</option>
-                    </select>
-                  </div>
-                </div>
-                <div style="display:flex; gap:12px; justify-content:flex-end">
-                  <a class="btn" href="#home">Cancel</a>
-                  <a class="btn primary" href="#dashboard">Create Account</a>
-                </div>
-              </form>
             </div>
           </div>
         </section>
@@ -327,7 +257,7 @@
         <!-- ============ BUDGETS ============ -->
         <section id="budgets" class="page">
           <div class="card">
-            <div class="card-hd"><strong>Budgets</strong><span class="pill">September</span></div>
+            <div class="card-hd"><strong>Budget</strong><span class="pill">September</span></div>
             <div class="card-bd">
               <div class="grid cols-2">
                 <div class="glass" style="padding:18px">
@@ -437,19 +367,19 @@
             </div>
           </div>
         </section>
+
       </div>
+
         <footer>
           © 2025 Finance Manager. All rights reserved. CS491 Senior Project – California State University, Fullerton
         </footer>
+
       </div>
     </main>
   </div>
 </body>
 </html>
 <script src="index.js"></script>
-
-
-
 
 
 
