@@ -1,48 +1,48 @@
-import { useMemo, useState, type ChangeEvent, type FocusEvent, type FormEvent } from "react";
+import { useMemo, useState, type ChangeEvent, type FocusEvent, type FormEvent } from 'react';
+import { z } from 'zod';
 
-import { Card, CardBody, CardHeader } from "@components/dashboard/card";
+import { Card, CardBody, CardHeader } from '@components/dashboard/card';
 
-import styles from "./auth-section.module.css";
-import controls from "../../styles/controls.module.css";
-import patterns from "../../styles/patterns.module.css";
-import { z } from "zod";
+import styles from './auth-section.module.css';
+import controls from '../../styles/controls.module.css';
+import patterns from '../../styles/patterns.module.css';
 
 const passwordSchema = z
-  .string({ required_error: "Password is required." })
-  .min(12, "Use at least 12 characters for stronger security.")
-  .regex(/[A-Z]/, "Include at least one uppercase letter.")
-  .regex(/[a-z]/, "Include at least one lowercase letter.")
-  .regex(/\d/, "Include at least one number.")
-  .regex(/[^A-Za-z0-9]/, "Include at least one special character.");
+  .string({ required_error: 'Password is required.' })
+  .min(12, 'Use at least 12 characters for stronger security.')
+  .regex(/[A-Z]/, 'Include at least one uppercase letter.')
+  .regex(/[a-z]/, 'Include at least one lowercase letter.')
+  .regex(/\d/, 'Include at least one number.')
+  .regex(/[^A-Za-z0-9]/, 'Include at least one special character.');
 
 const signupSchema = z
   .object({
     fullName: z
-      .string({ required_error: "Full name is required." })
-      .min(2, "Enter your full name.")
-      .max(80, "Name cannot exceed 80 characters."),
-    email: z
-      .string({ required_error: "Email is required." })
-      .email("Enter a valid email address."),
+      .string({ required_error: 'Full name is required.' })
+      .min(2, 'Enter your full name.')
+      .max(80, 'Name cannot exceed 80 characters.'),
+    email: z.string({ required_error: 'Email is required.' }).email('Enter a valid email address.'),
     password: passwordSchema,
-    confirmPassword: z.string({ required_error: "Confirm your password." }),
-    role: z.enum(["user", "admin"], { errorMap: () => ({ message: "Select a role." }) }),
+    confirmPassword: z.string({ required_error: 'Confirm your password.' }),
+    role: z.enum(['individual', 'advisor', 'admin'], {
+      errorMap: () => ({ message: 'Select a role.' }),
+    }),
     acceptTerms: z.boolean(),
   })
   .superRefine((data, context) => {
     if (!data.acceptTerms) {
       context.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "You must accept the terms of use to continue.",
-        path: ["acceptTerms"],
+        message: 'You must accept the terms of use to continue.',
+        path: ['acceptTerms'],
       });
     }
 
     if (data.password !== data.confirmPassword) {
       context.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Passwords do not match.",
-        path: ["confirmPassword"],
+        message: 'Passwords do not match.',
+        path: ['confirmPassword'],
       });
     }
   });
@@ -51,7 +51,7 @@ export type SignupFormValues = z.infer<typeof signupSchema>;
 
 type SignupFormErrors = Partial<Record<keyof SignupFormValues, string>>;
 
-type Status = "idle" | "success" | "error";
+type Status = 'idle' | 'success' | 'error';
 
 export interface SignupSectionProps {
   onCreateAccount: (values: SignupFormValues) => Promise<void> | void;
@@ -60,11 +60,11 @@ export interface SignupSectionProps {
 
 function firstNameFrom(fullName: string): string {
   if (!fullName.trim()) {
-    return "there";
+    return 'there';
   }
 
   const [first, second] = fullName.trim().split(/\s+/);
-  return first ?? second ?? "there";
+  return first ?? second ?? 'there';
 }
 
 function mapErrors(issues: z.ZodIssue[]): SignupFormErrors {
@@ -72,7 +72,7 @@ function mapErrors(issues: z.ZodIssue[]): SignupFormErrors {
 
   for (const issue of issues) {
     const key = issue.path[0];
-    if (typeof key === "string" && !result[key as keyof SignupFormValues]) {
+    if (typeof key === 'string' && !result[key as keyof SignupFormValues]) {
       result[key as keyof SignupFormValues] = issue.message;
     }
   }
@@ -85,24 +85,24 @@ function messageFrom(error: unknown): string {
     return error.message;
   }
 
-  if (typeof error === "string" && error.trim().length > 0) {
+  if (typeof error === 'string' && error.trim().length > 0) {
     return error;
   }
 
-  return "We could not complete your registration. Try again in a few moments.";
+  return 'We could not complete your registration. Try again in a few moments.';
 }
 
 export function SignupSection({ onCreateAccount, onCancel }: SignupSectionProps) {
   const [values, setValues] = useState<SignupFormValues>({
-    fullName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    role: "user",
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    role: 'individual',
     acceptTerms: false,
   });
   const [errors, setErrors] = useState<SignupFormErrors>({});
-  const [status, setStatus] = useState<Status>("idle");
+  const [status, setStatus] = useState<Status>('idle');
   const [message, setMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -129,15 +129,19 @@ export function SignupSection({ onCreateAccount, onCancel }: SignupSectionProps)
           }
         }
 
-        if (field === "password" || field === "confirmPassword") {
-          if (nextValues.password && nextValues.confirmPassword && nextValues.password !== nextValues.confirmPassword) {
-            nextErrors.confirmPassword = "Passwords do not match.";
+        if (field === 'password' || field === 'confirmPassword') {
+          if (
+            nextValues.password &&
+            nextValues.confirmPassword &&
+            nextValues.password !== nextValues.confirmPassword
+          ) {
+            nextErrors.confirmPassword = 'Passwords do not match.';
           } else if (nextValues.confirmPassword) {
             delete nextErrors.confirmPassword;
           }
         }
 
-        if (field === "acceptTerms" && nextValues.acceptTerms) {
+        if (field === 'acceptTerms' && nextValues.acceptTerms) {
           delete nextErrors.acceptTerms;
         }
 
@@ -148,65 +152,75 @@ export function SignupSection({ onCreateAccount, onCancel }: SignupSectionProps)
     });
   };
 
-  const handleInputChange = (field: keyof SignupFormValues) => (
-    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
-    const input = event.target;
-    const value = input instanceof HTMLInputElement && input.type === "checkbox" ? input.checked : input.value;
-    updateField(field, value);
-  };
+  const handleInputChange =
+    (field: keyof SignupFormValues) =>
+    (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      const input = event.target;
+      const value =
+        input instanceof HTMLInputElement && input.type === 'checkbox'
+          ? input.checked
+          : input.value;
+      updateField(field, value);
+    };
 
-  const handleBlur = (field: keyof SignupFormValues) => (
-    event: FocusEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
-    const input = event.target;
-    const value = input instanceof HTMLInputElement && input.type === "checkbox" ? input.checked : input.value;
-    const fieldSchema = signupSchema.shape[field];
-    const nextValues = { ...values, [field]: value } as SignupFormValues;
+  const handleBlur =
+    (field: keyof SignupFormValues) =>
+    (event: FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
+      const input = event.target;
+      const value =
+        input instanceof HTMLInputElement && input.type === 'checkbox'
+          ? input.checked
+          : input.value;
+      const fieldSchema = signupSchema.shape[field];
+      const nextValues = { ...values, [field]: value } as SignupFormValues;
 
-    setErrors((previous) => {
-      const next = { ...previous };
+      setErrors((previous) => {
+        const next = { ...previous };
 
-      if (fieldSchema) {
-        const result = fieldSchema.safeParse(value);
+        if (fieldSchema) {
+          const result = fieldSchema.safeParse(value);
 
-        if (result.success) {
-          delete next[field];
-        } else {
-          const issue = result.error.issues[0];
-          if (issue) {
-            next[field] = issue.message;
+          if (result.success) {
+            delete next[field];
+          } else {
+            const issue = result.error.issues[0];
+            if (issue) {
+              next[field] = issue.message;
+            }
           }
         }
-      }
 
-      if (field === "password" || field === "confirmPassword") {
-        if (nextValues.password && nextValues.confirmPassword && nextValues.password !== nextValues.confirmPassword) {
-          next.confirmPassword = "Passwords do not match.";
-        } else if (nextValues.confirmPassword) {
-          delete next.confirmPassword;
+        if (field === 'password' || field === 'confirmPassword') {
+          if (
+            nextValues.password &&
+            nextValues.confirmPassword &&
+            nextValues.password !== nextValues.confirmPassword
+          ) {
+            next.confirmPassword = 'Passwords do not match.';
+          } else if (nextValues.confirmPassword) {
+            delete next.confirmPassword;
+          }
         }
-      }
 
-      if (field === "acceptTerms" && nextValues.acceptTerms) {
-        delete next.acceptTerms;
-      }
+        if (field === 'acceptTerms' && nextValues.acceptTerms) {
+          delete next.acceptTerms;
+        }
 
-      return next;
-    });
-  };
+        return next;
+      });
+    };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setStatus("idle");
+    setStatus('idle');
     setMessage(null);
 
     const parsed = signupSchema.safeParse(values);
 
     if (!parsed.success) {
       setErrors(mapErrors(parsed.error.issues));
-      setStatus("error");
-      setMessage("Let\'s tidy up the highlighted fields and try again.");
+      setStatus('error');
+      setMessage("Let's tidy up the highlighted fields and try again.");
       return;
     }
 
@@ -215,15 +229,17 @@ export function SignupSection({ onCreateAccount, onCancel }: SignupSectionProps)
 
     try {
       await onCreateAccount(parsed.data);
-      setStatus("success");
-      setMessage(`Welcome aboard, ${firstNameFrom(parsed.data.fullName)}! Check your inbox to verify your account.`);
+      setStatus('success');
+      setMessage(
+        `Welcome aboard, ${firstNameFrom(parsed.data.fullName)}! Check your inbox to verify your account.`,
+      );
       setValues((previous) => ({
         ...previous,
-        password: "",
-        confirmPassword: "",
+        password: '',
+        confirmPassword: '',
       }));
     } catch (error) {
-      setStatus("error");
+      setStatus('error');
       setMessage(messageFrom(error));
     } finally {
       setIsSubmitting(false);
@@ -233,10 +249,14 @@ export function SignupSection({ onCreateAccount, onCancel }: SignupSectionProps)
   const alertClassName = message
     ? [
         styles.formAlert,
-        status === "success" ? styles.formAlertSuccess : status === "error" ? styles.formAlertError : styles.formAlertInfo,
+        status === 'success'
+          ? styles.formAlertSuccess
+          : status === 'error'
+            ? styles.formAlertError
+            : styles.formAlertInfo,
       ]
         .filter(Boolean)
-        .join(" ")
+        .join(' ')
     : undefined;
 
   return (
@@ -256,13 +276,15 @@ export function SignupSection({ onCreateAccount, onCancel }: SignupSectionProps)
                     className={patterns.input}
                     placeholder="First Last"
                     value={values.fullName}
-                    onChange={handleInputChange("fullName")}
-                    onBlur={handleBlur("fullName")}
+                    onChange={handleInputChange('fullName')}
+                    onBlur={handleBlur('fullName')}
                     autoComplete="name"
                     required
                     aria-invalid={Boolean(errors.fullName)}
                   />
-                  {errors.fullName ? <span className={styles.fieldError}>{errors.fullName}</span> : null}
+                  {errors.fullName ? (
+                    <span className={styles.fieldError}>{errors.fullName}</span>
+                  ) : null}
                 </label>
                 <label className={patterns.formLabel} htmlFor="signup-email">
                   Email
@@ -273,8 +295,8 @@ export function SignupSection({ onCreateAccount, onCancel }: SignupSectionProps)
                     className={patterns.input}
                     placeholder="alex@example.com"
                     value={values.email}
-                    onChange={handleInputChange("email")}
-                    onBlur={handleBlur("email")}
+                    onChange={handleInputChange('email')}
+                    onBlur={handleBlur('email')}
                     autoComplete="email"
                     required
                     aria-invalid={Boolean(errors.email)}
@@ -292,13 +314,15 @@ export function SignupSection({ onCreateAccount, onCancel }: SignupSectionProps)
                     className={patterns.input}
                     placeholder="Create a strong password"
                     value={values.password}
-                    onChange={handleInputChange("password")}
-                    onBlur={handleBlur("password")}
+                    onChange={handleInputChange('password')}
+                    onBlur={handleBlur('password')}
                     autoComplete="new-password"
                     required
                     aria-invalid={Boolean(errors.password)}
                   />
-                  {errors.password ? <span className={styles.fieldError}>{errors.password}</span> : null}
+                  {errors.password ? (
+                    <span className={styles.fieldError}>{errors.password}</span>
+                  ) : null}
                 </label>
                 <label className={patterns.formLabel} htmlFor="signup-confirm-password">
                   Confirm password
@@ -309,13 +333,15 @@ export function SignupSection({ onCreateAccount, onCancel }: SignupSectionProps)
                     className={patterns.input}
                     placeholder="Repeat password"
                     value={values.confirmPassword}
-                    onChange={handleInputChange("confirmPassword")}
-                    onBlur={handleBlur("confirmPassword")}
+                    onChange={handleInputChange('confirmPassword')}
+                    onBlur={handleBlur('confirmPassword')}
                     autoComplete="new-password"
                     required
                     aria-invalid={Boolean(errors.confirmPassword)}
                   />
-                  {errors.confirmPassword ? <span className={styles.fieldError}>{errors.confirmPassword}</span> : null}
+                  {errors.confirmPassword ? (
+                    <span className={styles.fieldError}>{errors.confirmPassword}</span>
+                  ) : null}
                 </label>
               </div>
               <div className={patterns.formRow}>
@@ -326,11 +352,12 @@ export function SignupSection({ onCreateAccount, onCancel }: SignupSectionProps)
                     name="role"
                     className={patterns.select}
                     value={values.role}
-                    onChange={handleInputChange("role")}
-                    onBlur={handleBlur("role")}
+                    onChange={handleInputChange('role')}
+                    onBlur={handleBlur('role')}
                     aria-invalid={Boolean(errors.role)}
                   >
-                    <option value="user">User</option>
+                    <option value="individual">Individual</option>
+                    <option value="advisor">Advisor</option>
                     <option value="admin">Admin</option>
                   </select>
                   {errors.role ? <span className={styles.fieldError}>{errors.role}</span> : null}
@@ -342,14 +369,16 @@ export function SignupSection({ onCreateAccount, onCancel }: SignupSectionProps)
                   name="acceptTerms"
                   type="checkbox"
                   checked={values.acceptTerms}
-                  onChange={handleInputChange("acceptTerms")}
-                  onBlur={handleBlur("acceptTerms")}
+                  onChange={handleInputChange('acceptTerms')}
+                  onBlur={handleBlur('acceptTerms')}
                   aria-invalid={Boolean(errors.acceptTerms)}
                 />
                 <span>
-                  I agree to the Finance Manager Terms of Use, Privacy Policy, and consent to receive critical account
-                  communications.
-                  {errors.acceptTerms ? <span className={styles.fieldError}>{errors.acceptTerms}</span> : null}
+                  I agree to the Finance Manager Terms of Use, Privacy Policy, and consent to
+                  receive critical account communications.
+                  {errors.acceptTerms ? (
+                    <span className={styles.fieldError}>{errors.acceptTerms}</span>
+                  ) : null}
                 </span>
               </label>
               <div className={styles.formActions}>
@@ -361,7 +390,7 @@ export function SignupSection({ onCreateAccount, onCancel }: SignupSectionProps)
                   className={`${controls.button} ${controls.buttonPrimary}`}
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Creating account..." : "Create account"}
+                  {isSubmitting ? 'Creating account...' : 'Create account'}
                 </button>
               </div>
             </form>
@@ -371,8 +400,8 @@ export function SignupSection({ onCreateAccount, onCancel }: SignupSectionProps)
           <CardHeader title="Why we ask for this" subtitle="Security-first onboarding" />
           <CardBody>
             <p className={styles.helperText}>
-              We onboard every member with security best practices enabled by default. Strong passwords and account
-              roles protect finances from day one.
+              We onboard every member with security best practices enabled by default. Strong
+              passwords and account roles protect finances from day one.
             </p>
             <ul className={styles.infoList}>
               <li>Password manager friendly with copy-to-clipboard shortcuts</li>
@@ -381,7 +410,8 @@ export function SignupSection({ onCreateAccount, onCancel }: SignupSectionProps)
               <li>Personalised onboarding checklist tailored for {friendlyName}</li>
             </ul>
             <p className={styles.helperText}>
-              Need a custom onboarding for your organisation? Reach out to success@financemanager.app.
+              Need a custom onboarding for your organisation? Reach out to
+              success@financemanager.app.
             </p>
           </CardBody>
         </Card>
