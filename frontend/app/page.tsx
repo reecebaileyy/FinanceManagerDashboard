@@ -24,7 +24,7 @@ export default function HomePage() {
               <Link href="/learn-more">Learn</Link>
             </li>
             <li>
-              <Link href="/Dash">Dashboard</Link>
+              <Link href="/dash">Dashboard</Link>
             </li>
             <li>
               <Link href="/contact">Contact</Link>
