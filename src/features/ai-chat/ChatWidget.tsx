@@ -27,9 +27,9 @@ export default function ChatWidget() {
         <button
           onClick={() => setOpen(true)}
           aria-label="Open AI Assistant"
-          className="rounded-full border border-gray-200 bg-white px-4 py-3 font-medium text-gray-900 shadow-lg hover:shadow-xl focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+          className="rounded-full border border-gray-200 bg-blue-600 px-5 py-3 font-semibold text-white shadow-lg transition-all hover:bg-blue-700 hover:shadow-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
         >
-          🤖 Ask AI
+          🤖 Finance AI
         </button>
       </div>
 
