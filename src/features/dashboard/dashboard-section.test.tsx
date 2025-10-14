@@ -1,5 +1,4 @@
-import { QueryClientProvider } from '@tanstack/react-query';
-import { render, screen, within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 
@@ -77,17 +76,12 @@ describe('DashboardSection', () => {
       recentTransactions: [],
     });
 
-    const view = render(
-      <QueryClientProvider client={queryClient}>
-        <DashboardSection />
-      </QueryClientProvider>,
-    );
+    const view = renderWithProviders(<DashboardSection />, { queryClient });
 
     expect(await screen.findByText(/KPI data will appear/i)).toBeInTheDocument();
     expect(screen.getByText(/Category insights will populate/i)).toBeInTheDocument();
     expect(screen.getByText(/Recent transactions will surface/i)).toBeInTheDocument();
 
     view.unmount();
-    queryClient.clear();
   });
 });
