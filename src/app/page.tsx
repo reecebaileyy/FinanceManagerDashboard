@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function HomePage() {
@@ -5,7 +6,7 @@ export default function HomePage() {
     <>
       {/* Header */}
       <header className="sticky top-0 z-10 border-b border-gray-200 bg-white/80 backdrop-blur">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+        <nav className="mx-auto flex w-full max-w-screen-xl items-center justify-between px-6 py-4">
           <div className="flex items-center">
             <Link href="/">
               <h1 className="font-[Playfair_Display] text-3xl font-bold text-gray-900 drop-shadow-sm">
@@ -55,15 +56,34 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <main className="mx-auto max-w-7xl px-6 py-16 text-center">
-        <section className="space-y-4">
-          <h1 className="text-4xl font-extrabold text-gray-900">
+      <main className="mx-auto max-w-screen-xl px-6 py-16 text-center">
+        <section className="flex w-full flex-col items-center">
+          <h1 className="text-4xl font-extrabold text-gray-900 md:text-5xl">
             Smart Tools for Smarter Financial Decisions
           </h1>
-          <p className="mx-auto max-w-2xl text-gray-500">
+          <p className="mx-auto mt-4 max-w-2xl text-center leading-relaxed text-gray-600">
             Empower your financial future with smart tools designed to help you save smarter, track
             better, and make confident decisions every step of the way.
           </p>
+
+          <div className="relative mx-auto mt-12 max-w-4xl">
+            <Image
+              src="/image/HomeImage.jpg"
+              alt="Budget Planner"
+              width={1000}
+              height={600}
+              className="h-auto w-full rounded-xl object-cover shadow-md"
+            />
+            <div className="absolute inset-0 flex flex-col items-center justify-center rounded-xl bg-black/30 text-white">
+              <h2 className="mb-2 text-2xl font-bold drop-shadow-lg md:text-3xl">
+                &ldquo;Financial freedom begins with smart decisions.&ldquo;
+              </h2>
+              <p className="max-w-xl text-gray-200 italic">
+                From budgeting to goal tracking, our platform helps you make informed choices every
+                step of the way.
+              </p>
+            </div>
+          </div>
         </section>
       </main>
 
