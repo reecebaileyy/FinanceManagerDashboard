@@ -1,24 +1,27 @@
-import { render, screen } from "@testing-library/react";
+﻿import { render, screen } from '@testing-library/react';
 
-import { CSRF_COOKIE_NAME } from "./csrf";
-import { CsrfProvider, useCsrf, useCsrfHeader } from "./csrf-context";
+import { CSRF_COOKIE_NAME } from './csrf';
+import { CsrfProvider, useCsrf, useCsrfHeader } from './csrf-context';
 
 afterEach(() => {
   document.cookie = `${CSRF_COOKIE_NAME}=; Max-Age=0; path=/`;
 });
 
-describe("CsrfProvider", () => {
-  it("throws when hook used outside of provider", () => {
+describe('CsrfProvider', () => {
+  it('throws when hook used outside of provider', () => {
     const TestComponent = () => {
       useCsrf();
       return null;
     };
 
-    expect(() => render(<TestComponent />)).toThrowError(/useCsrf must be used within a CsrfProvider/);
+    expect(() => render(<TestComponent />)).toThrowError(
+      /useCsrf must be used within a CsrfProvider/,
+    );
   });
 
-  it("exposes the initial token", async () => {
-    const initialToken = "initial-token";
+  it('exposes the initial token', async () => {
+    const initialToken = 'initial-token';
+    document.cookie = `${CSRF_COOKIE_NAME}=${initialToken}`;
 
     const TestComponent = () => {
       const { token } = useCsrf();
@@ -34,13 +37,13 @@ describe("CsrfProvider", () => {
     expect(await screen.findByText(initialToken)).toBeInTheDocument();
   });
 
-  it("refreshes token from document cookie", async () => {
-    const cookieToken = "cookie-token";
+  it('refreshes token from document cookie', async () => {
+    const cookieToken = 'cookie-token';
     document.cookie = `${CSRF_COOKIE_NAME}=${cookieToken}`;
 
     const TestComponent = () => {
       const headers = useCsrfHeader();
-      return <span>{headers["x-csrf-token"] ?? "missing"}</span>;
+      return <span>{headers['x-csrf-token'] ?? 'missing'}</span>;
     };
 
     render(
