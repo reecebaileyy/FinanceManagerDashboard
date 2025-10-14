@@ -1,5 +1,6 @@
 'use client';
 
+import { motion, AnimatePresence } from 'framer-motion';
 import * as React from 'react';
 
 type Role = 'user' | 'assistant';
@@ -18,11 +19,17 @@ export default function ChatPanel() {
     {
       role: 'assistant',
       content:
-        'Hi! I’m your Finance Manager AI. I can help with budgets, spending categories, and savings plans. What would you like to do?',
+        '👋 Hi! I’m your Finance Manager AI — here to help with budgets, spending categories, and savings plans. How can I help today?',
     },
   ]);
   const [input, setInput] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to bottom
+  React.useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
+  }, [messages]);
 
   async function onSend(e: React.FormEvent) {
     e.preventDefault();
@@ -39,36 +46,13 @@ export default function ChatPanel() {
     setIsLoading(true);
 
     try {
-      interface ChatMsg {
-        role: 'system' | 'user' | 'assistant';
-        content: string;
-      }
-      const payload: ChatMsg[] = next.map((m) => ({ role: m.role, content: m.content }));
-
       const res = await fetch('/api/ai/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: payload }),
+        body: JSON.stringify({ messages: next }),
       });
 
-      if (!res.ok || !res.body) {
-        // read body text and try to parse JSON for detail/error
-        const bodyText = await res.text();
-        let msg: string | undefined;
-        try {
-          const j: unknown = JSON.parse(bodyText);
-          if (typeof j === 'object' && j !== null) {
-            const detail = (j as { detail?: unknown }).detail;
-            const error = (j as { error?: unknown }).error;
-            if (typeof detail === 'string') msg = detail;
-            else if (typeof error === 'string') msg = error;
-          }
-        } catch {
-          // ignore parse error, fall back to text or generic
-          if (bodyText) msg = bodyText;
-        }
-        throw new Error(msg ?? 'Network error');
-      }
+      if (!res.ok || !res.body) throw new Error(`Server returned ${res.status}`);
 
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
@@ -83,18 +67,26 @@ export default function ChatPanel() {
           if (!line.startsWith('data:')) continue;
           const data = line.slice(5).trim();
           if (data === '[DONE]') break;
-          aiText += data;
+          // Normalize streaming chunks (insert missing spaces and line breaks)
+          const cleanChunk = data
+            .replace(/([a-z0-9])([A-Z])/g, '$1 $2') // separate joined words like "income,suchas"
+            .replace(/(\.)([A-Z])/g, '$1 $2') // add space after period
+            .replace(/([:,;])([^\s])/g, '$1 $2') // space after punctuation
+            .replace(/\s+/g, ' ') // collapse weird spacing
+            .trim();
+
+          aiText += cleanChunk + ' ';
+
           setMessages((prev) => {
             const copy = [...prev];
-            copy[copy.length - 1] = { role: 'assistant', content: aiText };
+            copy[copy.length - 1] = { role: 'assistant', content: aiText.trim() };
             return copy;
           });
         }
       }
-    } catch (e: unknown) {
-      const errMsg = errorMessage(e) ?? 'Sorry—something went wrong.';
-      // replace the empty placeholder with the error message
-      setMessages((prev) => [...prev.slice(0, -1), { role: 'assistant', content: errMsg }]);
+    } catch (e) {
+      const msg = errorMessage(e);
+      setMessages((prev) => [...prev.slice(0, -1), { role: 'assistant', content: msg }]);
     } finally {
       setIsLoading(false);
     }
@@ -111,39 +103,51 @@ export default function ChatPanel() {
   }
 
   return (
-    <div className="flex h-full flex-col bg-white dark:bg-slate-900">
-      <div className="flex-1 space-y-3 overflow-y-auto p-4">
-        {messages.map((m, i) => {
-          const isUser = m.role === 'user';
-          const isEmptyAssistant = !isUser && m.content === '';
-          return (
-            <div
-              key={i}
-              className={`max-w-[85%] rounded-2xl border px-4 py-2 text-[0.95rem] leading-relaxed shadow-sm ${
-                isUser
-                  ? 'ml-auto border-blue-700 bg-blue-600 text-white'
-                  : 'border-gray-200 bg-gray-50 text-gray-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100'
-              }`}
-            >
-              {isEmptyAssistant ? <TypingDots /> : m.content}
-            </div>
-          );
-        })}
+    <div className="flex h-full flex-col bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-950">
+      {/* Messages */}
+      <div
+        ref={scrollRef}
+        className="scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-slate-700 flex-1 space-y-4 overflow-y-auto px-4 py-4"
+      >
+        <AnimatePresence initial={false}>
+          {messages.map((m, i) => {
+            const isUser = m.role === 'user';
+            const isEmptyAssistant = !isUser && m.content === '';
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className={`max-w-[85%] rounded-2xl px-4 py-2 text-[0.95rem] leading-relaxed shadow-md transition-colors ${
+                  isUser
+                    ? 'ml-auto bg-blue-600 font-medium text-white'
+                    : 'border border-gray-200 bg-white text-gray-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100'
+                }`}
+              >
+                {isEmptyAssistant ? <TypingDots /> : m.content}
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
       </div>
 
+      {/* Input bar */}
       <form
         onSubmit={onSend}
         className="flex gap-2 border-t border-gray-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-900"
       >
         <input
-          className="flex-1 rounded-xl border border-gray-300 bg-white px-3 py-2 text-gray-900 outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-400"
-          placeholder="Ask about budgets, categories, or trends…"
+          className="flex-1 rounded-xl border border-blue-500 bg-[#0b1222] px-3 py-2 outline-none placeholder:text-gray-300 focus:shadow-[0_0_10px_#3b82f6] focus:ring-2 focus:ring-blue-400 dark:border-blue-500 dark:bg-[#0b1222]"
+          style={{ color: '#f9fafb' }} // 🔥 Forces bright white typing color
+          placeholder="Ask about budgets, categories, or spending habits…"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           disabled={isLoading}
         />
+
         <button
-          className="rounded-xl bg-black px-4 py-2 text-white disabled:opacity-50 dark:bg-slate-100 dark:text-slate-900"
+          className="rounded-xl bg-blue-600 px-4 py-2 font-medium text-white shadow-sm transition-all hover:bg-blue-700 disabled:opacity-50"
           disabled={isLoading || !input.trim()}
         >
           {isLoading ? 'Thinking…' : 'Send'}
