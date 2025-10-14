@@ -7,12 +7,11 @@ export default function HomePage() {
       {/* Header */}
       <header className="sticky top-0 z-10 border-b border-gray-200 bg-white/80 backdrop-blur">
         <nav className="mx-auto flex w-full max-w-screen-xl items-center justify-between px-6 py-4">
-          <div className="flex items-center">
-            <Link href="/">
-              <h1 className="font-[Playfair_Display] text-3xl font-bold text-gray-900 drop-shadow-sm">
-                Finance Manager
-              </h1>
-            </Link>
+          <div className="flex items-center gap-2">
+            <div className="grid h-10 w-10 place-items-center rounded-sm bg-gradient-to-br from-blue-600 to-blue-800 text-lg font-bold text-white">
+              FM
+            </div>
+            <span className="text-2xl font-semibold text-gray-900">Finance Manager</span>
           </div>
 
           <ul className="hidden space-x-8 font-medium text-gray-800 md:flex">
@@ -40,13 +39,13 @@ export default function HomePage() {
 
           <div className="flex gap-3">
             <Link
-              href="/home/signup1"
+              href="/signup"
               className="rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition hover:bg-blue-700"
             >
               Sign Up
             </Link>
             <Link
-              href="/home/login1"
+              href="/login"
               className="rounded-lg border border-gray-300 px-4 py-2 font-semibold transition hover:bg-gray-100"
             >
               Log In
@@ -76,7 +75,7 @@ export default function HomePage() {
             />
             <div className="absolute inset-0 flex flex-col items-center justify-center rounded-xl bg-black/30 text-white">
               <h2 className="mb-2 text-2xl font-bold drop-shadow-lg md:text-3xl">
-                &ldquo;Financial freedom begins with smart decisions.&ldquo;
+                &ldquo;Financial freedom begins with smart decisions.&rdquo;
               </h2>
               <p className="max-w-xl text-gray-200 italic">
                 From budgeting to goal tracking, our platform helps you make informed choices every
