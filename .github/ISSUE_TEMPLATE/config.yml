@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Finance Manager Dashboard Support
+    url: https://github.com/reecebaileyy/FinanceManagerDashboard/discussions
+    about: Please ask and answer questions, discuss ideas, or share tips with other users.
+  - name: Sprint 2 Documentation
+    url: https://github.com/reecebaileyy/FinanceManagerDashboard/tree/main/docs
+    about: Check our comprehensive documentation for setup guides, API references, and more.
