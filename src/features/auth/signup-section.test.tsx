@@ -30,7 +30,7 @@ describe('SignupSection', () => {
     await user.type(screen.getByLabelText(/^Email$/i), 'taylor@example.com');
     await user.type(screen.getByLabelText(/^Password$/i), 'StrongPass123!');
     await user.type(screen.getByLabelText(/Confirm password/i), 'StrongPass123!');
-    await user.selectOptions(screen.getByLabelText(/Role/i), 'user');
+    await user.selectOptions(screen.getByLabelText(/Role/i), 'advisor');
     await user.click(screen.getByRole('checkbox', { name: /I agree/i }));
     await user.click(screen.getByRole('button', { name: 'Create account' }));
 
