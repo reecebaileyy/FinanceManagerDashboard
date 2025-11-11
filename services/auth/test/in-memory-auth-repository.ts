@@ -1,11 +1,11 @@
-import { randomUUID } from "node:crypto";
+import { randomUUID } from 'node:crypto';
 
 import type {
   AuthRepository,
   CreateUserInput,
   RefreshTokenWithUser,
   SaveRefreshTokenInput,
-} from "../src/repositories/auth-repository";
+} from '../src/repositories/auth-repository';
 import type {
   AuditEventInput,
   AuthUser,
@@ -13,7 +13,8 @@ import type {
   EmailVerificationTokenRecord,
   PasswordResetTokenRecord,
   RefreshTokenRecord,
-} from "../src/domain/models";
+  UserStatus,
+} from '../src/domain/models';
 
 export class InMemoryAuthRepository implements AuthRepository {
   private users = new Map<string, AuthUserWithSecrets>();
@@ -29,13 +30,14 @@ export class InMemoryAuthRepository implements AuthRepository {
   private auditEvents: AuditEventInput[] = [];
 
   async createUser(input: CreateUserInput): Promise<AuthUser> {
+    await Promise.resolve();
     const now = new Date();
     const id = randomUUID();
 
     const user: AuthUserWithSecrets = {
       id,
       email: input.email,
-      status: "active",
+      status: 'active',
       planTier: input.planTier,
       emailVerifiedAt: null,
       createdAt: now,
@@ -54,6 +56,7 @@ export class InMemoryAuthRepository implements AuthRepository {
   }
 
   async findUserByEmail(email: string): Promise<AuthUserWithSecrets | null> {
+    await Promise.resolve();
     const id = this.emailIndex.get(email);
     if (!id) {
       return null;
@@ -64,14 +67,16 @@ export class InMemoryAuthRepository implements AuthRepository {
   }
 
   async findUserById(id: string): Promise<AuthUser | null> {
+    await Promise.resolve();
     const user = this.users.get(id);
     return user ? this.stripPassword(user) : null;
   }
 
   async markEmailVerified(userId: string, verifiedAt: Date): Promise<AuthUser> {
+    await Promise.resolve();
     const user = this.users.get(userId);
     if (!user) {
-      throw new Error("User not found");
+      throw new Error('User not found');
     }
 
     user.emailVerifiedAt = verifiedAt;
@@ -86,6 +91,7 @@ export class InMemoryAuthRepository implements AuthRepository {
     token: string,
     expiresAt: Date,
   ): Promise<EmailVerificationTokenRecord> {
+    await Promise.resolve();
     const record: EmailVerificationTokenRecord = {
       id: randomUUID(),
       userId,
@@ -100,9 +106,8 @@ export class InMemoryAuthRepository implements AuthRepository {
     return record;
   }
 
-  async consumeEmailVerificationToken(
-    token: string,
-  ): Promise<EmailVerificationTokenRecord | null> {
+  async consumeEmailVerificationToken(token: string): Promise<EmailVerificationTokenRecord | null> {
+    await Promise.resolve();
     const record = this.emailTokens.get(token);
 
     if (!record || record.consumedAt || record.expiresAt.getTime() < Date.now()) {
@@ -115,6 +120,7 @@ export class InMemoryAuthRepository implements AuthRepository {
   }
 
   async saveRefreshToken(input: SaveRefreshTokenInput): Promise<RefreshTokenRecord> {
+    await Promise.resolve();
     const record: RefreshTokenRecord = {
       id: input.id,
       userId: input.userId,
@@ -133,6 +139,7 @@ export class InMemoryAuthRepository implements AuthRepository {
   }
 
   async findRefreshTokenById(id: string): Promise<RefreshTokenWithUser | null> {
+    await Promise.resolve();
     const record = this.refreshTokens.get(id);
     if (!record) {
       return null;
@@ -155,6 +162,7 @@ export class InMemoryAuthRepository implements AuthRepository {
     revokedAt: Date,
     replacedByTokenId?: string | null,
   ): Promise<void> {
+    await Promise.resolve();
     const record = this.refreshTokens.get(id);
     if (!record) {
       return;
@@ -166,6 +174,7 @@ export class InMemoryAuthRepository implements AuthRepository {
   }
 
   async revokeRefreshTokensForUser(userId: string, revokedAt: Date): Promise<void> {
+    await Promise.resolve();
     for (const [id, record] of this.refreshTokens.entries()) {
       if (record.userId === userId && !record.revokedAt) {
         record.revokedAt = revokedAt;
@@ -179,6 +188,7 @@ export class InMemoryAuthRepository implements AuthRepository {
     token: string,
     expiresAt: Date,
   ): Promise<PasswordResetTokenRecord> {
+    await Promise.resolve();
     const record: PasswordResetTokenRecord = {
       id: randomUUID(),
       userId,
@@ -197,6 +207,7 @@ export class InMemoryAuthRepository implements AuthRepository {
     token: string,
     consumedAt: Date,
   ): Promise<PasswordResetTokenRecord | null> {
+    await Promise.resolve();
     const record = this.passwordResetTokens.get(token);
 
     if (!record || record.consumedAt || record.expiresAt.getTime() < consumedAt.getTime()) {
@@ -210,9 +221,10 @@ export class InMemoryAuthRepository implements AuthRepository {
   }
 
   async updatePasswordHash(userId: string, passwordHash: string, when: Date): Promise<void> {
+    await Promise.resolve();
     const user = this.users.get(userId);
     if (!user) {
-      throw new Error("User not found");
+      throw new Error('User not found');
     }
 
     user.passwordHash = passwordHash;
@@ -221,9 +233,10 @@ export class InMemoryAuthRepository implements AuthRepository {
   }
 
   async updateLastLogin(userId: string, when: Date): Promise<void> {
+    await Promise.resolve();
     const user = this.users.get(userId);
     if (!user) {
-      throw new Error("User not found");
+      throw new Error('User not found');
     }
 
     user.lastLoginAt = when;
@@ -231,6 +244,7 @@ export class InMemoryAuthRepository implements AuthRepository {
   }
 
   async createAuditEvent(event: AuditEventInput): Promise<void> {
+    await Promise.resolve();
     this.auditEvents.push({ ...event });
   }
 
@@ -238,8 +252,25 @@ export class InMemoryAuthRepository implements AuthRepository {
     return [...this.auditEvents];
   }
 
+  setUserStatusForTest(email: string, status: UserStatus) {
+    const id = this.emailIndex.get(email);
+    if (!id) {
+      return;
+    }
+
+    const user = this.users.get(id);
+    if (!user) {
+      return;
+    }
+
+    user.status = status;
+    user.updatedAt = new Date();
+    this.users.set(id, user);
+  }
+
   private stripPassword(user: AuthUserWithSecrets): AuthUser {
-    const { passwordHash, ...rest } = user;
+    const { passwordHash: _passwordHash, ...rest } = user;
+    void _passwordHash;
     return { ...rest };
   }
 }

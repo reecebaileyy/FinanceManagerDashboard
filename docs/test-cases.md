@@ -3,11 +3,11 @@
 ## Document Information
 
 - **Project**: Finance Manager Dashboard
-- **Version**: Sprint 2
-- **Date**: October 18, 2025
+- **Version**: Sprint 3
+- **Date**: November 11, 2025
 - **Author**: Development Team
-- **Total Test Files**: 22
-- **Total Test Cases**: 75
+- **Total Test Files**: 27
+- **Total Test Cases**: 96
 
 ## Test Case Overview
 
@@ -15,17 +15,26 @@ This document provides detailed specifications for all test cases in the Finance
 
 ## Test Case Categories
 
-### Frontend Tests (21 files, 67 test cases)
+### Frontend Tests (24 files, 82 test cases)
 
 - **Methodology**: Unit Testing (Vitest + Testing Library)
 - **Environment**: happy-dom
 - **Coverage**: React components, hooks, and utilities
+- **Sprint 3 Additions**: Budget CSV export UI flow, insights follow-up persistence
 
-### Backend Tests (1 file, 8 test cases)
+### End-to-End Tests (Playwright) – New
+
+- **Files**: `tests/e2e/budget-export.spec.ts`, `tests/e2e/auth-suspended.spec.ts`
+- **Test Cases**: 6
+- **Methodology**: Browser automation (Playwright Test)
+- **Environment**: Playwright (Chromium, Firefox)
+- **Coverage**: CSV export smoke path, suspended account login handling
+
+### Backend Tests (2 files, 10 test cases)
 
 - **Methodology**: Unit Testing (Vitest + Node.js environment)
 - **Environment**: Node.js
-- **Coverage**: API endpoints and business logic
+- **Coverage**: API endpoints, auth session lifecycle, suspension enforcement
 
 ## Detailed Test Cases
 
@@ -313,6 +322,73 @@ This document provides detailed specifications for all test cases in the Finance
   2. Test theme persistence
 - **Expected Results**: Theme management works correctly
 - **Configuration**: Mock localStorage
+
+### TC-022: Budget CSV Export Utility
+
+- **File**: `src/features/budgets/budgets-export.test.ts`
+- **Test Cases**: 5
+- **Methodology**: Unit Testing
+- **Purpose**: Ensure CSV export builder formats budgets correctly for downstream accounting tools.
+- **Steps**:
+  1. Transform budget model to CSV rows with deterministic header order.
+  2. Ensure currency fields round to two decimals and include negative variance.
+  3. Omit rollover column when feature disabled.
+  4. Include category-level totals per row.
+  5. Generate deterministic filenames using mocked timestamp.
+- **Expected Results**: Exported CSV matches finance stakeholder specification.
+- **Configuration**: Locale `en-US`, mocked `Date`, in-memory budgets fixture.
+
+### TC-023: Budgets Export Modal Interaction
+
+- **File**: `src/features/budgets/budgets-section.test.tsx`
+- **Test Cases**: 4
+- **Methodology**: Integration Testing
+- **Purpose**: Validate UI-driven export workflow and analytics logging.
+- **Steps**:
+  1. Trigger export modal via “Export” button.
+  2. Select export scope (current period vs custom range).
+  3. Confirm download initiation and toast messaging.
+  4. Surface error banner when export fails.
+- **Expected Results**: Export path works end-to-end with optimistic UI feedback.
+- **Configuration**: Mock file writer and analytics transport.
+
+### TC-024: Budget CSV Playwright Smoke
+
+- **File**: `tests/e2e/budget-export.spec.ts`
+- **Test Cases**: 3
+- **Methodology**: End-to-End Testing
+- **Purpose**: Confirm CSV download success across browsers.
+- **Steps**:
+  1. Authenticate and navigate to budgets workspace.
+  2. Trigger export and capture download artifact.
+  3. Parse CSV to confirm headers and row counts.
+- **Expected Results**: CSV saved with expected schema in Chromium and Firefox.
+- **Configuration**: Playwright download fixtures, seeded budget data.
+
+### TC-025: Auth Suspension Enforcement
+
+- **File**: `services/auth/test/auth-service.spec.ts`
+- **Test Cases**: 2
+- **Methodology**: Unit Testing (Node.js)
+- **Purpose**: Ensure suspended accounts cannot login or refresh sessions and that tampered refresh tokens are revoked.
+- **Steps**:
+  1. Attempt login with a suspended user (expect forbidden error).
+  2. Attempt refresh using a suspended user token (expect forbidden and token revocation).
+  3. Attempt refresh using tampered secret (expect unauthorized and token revocation).
+- **Expected Results**: Suspended users are blocked consistently, with audit trail and token revocation.
+- **Configuration**: In-memory auth repository helper, fake IP metadata.
+
+### TC-026: Insights Follow-up Persistence
+
+- **File**: `src/features/insights/insights-workspace.persistence.test.tsx`
+- **Test Cases**: 2
+- **Methodology**: Integration Testing
+- **Purpose**: Ensure AI assistant follow-up prompts persist through remounts and cached sessions.
+- **Steps**:
+  1. Render workspace, confirm baseline follow-up prompts, unmount and remount with same query client.
+  2. Send dining prompt to update follow-ups, unmount and remount, verify updated prompts remain.
+- **Expected Results**: Follow-up prompts rehydrate correctly from React Query cache.
+- **Configuration**: Shared test query client, `@testing-library/user-event`.
 
 ## Test Execution Instructions
 

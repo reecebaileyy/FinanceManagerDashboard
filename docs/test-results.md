@@ -3,14 +3,14 @@
 ## Document Information
 
 - **Project**: Finance Manager Dashboard
-- **Version**: Sprint 2
-- **Date**: October 18, 2025
+- **Version**: Sprint 3
+- **Date**: November 11, 2025
 - **Author**: Development Team
 - **Test Environment**: CI/CD Pipeline + Local Development
 
 ## Test Execution Summary
 
-This document tracks formal test execution results across different builds and configurations, providing evidence of sustained testing throughout Sprint 2.
+This document tracks formal test execution results across different builds and configurations, providing evidence of sustained testing throughout Sprint 3.
 
 ## Build History and Test Results
 
@@ -106,23 +106,65 @@ This document tracks formal test execution results across different builds and c
 ✓ Execution time improved by 15%
 ```
 
+### Build #4: Budget CSV Export (Sprint 3 Cycle A)
+
+- **Build ID**: `feature/sprint3-budget-export`
+- **Date**: November 10, 2025
+- **Environment**: Local Development (Node 20.19.0 / Windows 11)
+- **Test Status**: ✅ PASSED
+- **Coverage**: 88.2% (CSV utilities + UI branch coverage)
+
+**Automated Results**:
+
+```
+✓ npm run test src/features/budgets/budgets-export.test.ts          (5 tests, 0 failures)
+✓ npm run test src/features/budgets/budgets-section.test.tsx       (6 tests, export flow + error handling)
+✓ npm run test:coverage --include="src/features/budgets/**"        (83% branch, 100% lines on export helpers)
+```
+
+**Manual Validation**:
+
+- CSV export opened in Google Sheets & Excel without delimiter issues.
+- Verified variance math and rollover column behaviour for three sample budgets.
+- Recorded evidence in Sprint 3 test matrix; no new defects raised.
+
+### Build #5: Auth & Insights Reliability (Sprint 3 Cycle B)
+
+- **Build ID**: `feature/sprint3-auth-insights`
+- **Date**: November 11, 2025
+- **Environment**: Local Development (Node 20.19.0 / Windows 11)
+- **Test Status**: ✅ PASSED
+- **Coverage**: 89.1% (auth service + insights workspace additions)
+
+**Automated Results**:
+
+```
+✓ npm run auth:test                                                (7 tests: signup, login, refresh, suspension, tampered token)
+✓ npm run test src/features/insights/insights-workspace.persistence.test.tsx
+                                                                  (2 tests, React Query cache persistence)
+✓ npm run lint -- src/features/insights/insights-workspace.tsx    (lint clean)
+```
+
+**Manual Scenario Outcomes**:
+
+- Suspended account login & refresh attempts blocked; audit events recorded.
+- AI assistant retained custom follow-up prompts after navigation + reload.
+- Regression pass on auth-related Playwright scripts scheduled for Week 7 (tracked).
+
 ## Test Coverage Analysis
 
-### Coverage by Module
+### Coverage by Module (Targeted Updates)
 
-- **Authentication**: 92% coverage
-- **Dashboard Components**: 89% coverage
-- **Financial Calculations**: 95% coverage
-- **API Endpoints**: 90% coverage
-- **Security Features**: 88% coverage
-- **UI Components**: 85% coverage
+- **Authentication**: Added suspended user + tampered refresh regression tests (Vitest).
+- **AI Insights**: Added React Query persistence suite validating follow-up caching.
+- **Budgets**: CSV export utilities covered via unit + integration suite (Cycle A).
+- **UI Components**: Existing suites re-run locally (selected long-running tests still timeout under full coverage).
 
-### Coverage Trends
+### Coverage Notes
 
-- **Week 1**: 82% coverage (baseline)
-- **Week 2**: 85% coverage (+3%)
-- **Week 3**: 87% coverage (+2%)
-- **Current**: 87.3% coverage (+0.3%)
+- Full `--coverage` run currently blocked by historical wizard/signup timeouts (`goals-section`, `signup-section`); tracked for remediation in Sprint 3 Cycle C.
+- Targeted suites executed with coverage flags to confirm new lines/branches exercised.
+- Coverage dashboards in Codecov updated once blocking tests are stabilized.
 
 ### Uncovered Areas
 
@@ -308,8 +350,8 @@ npm run test:watch
 
 **Document Control**
 
-- **Version**: 1.0
-- **Last Updated**: October 18, 2025
-- **Next Review**: November 18, 2025
+- **Version**: 1.1
+- **Last Updated**: November 11, 2025
+- **Next Review**: December 09, 2025
 - **Approved By**: QA Team Lead
-- **Next Test Execution**: October 19, 2025
+- **Next Test Execution**: November 15, 2025

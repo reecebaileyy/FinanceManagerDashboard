@@ -1,41 +1,41 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 
-import { createAuthServiceForTest } from "./helpers";
+import { createAuthServiceForTest } from './helpers';
 
 function extractRefreshId(token: string) {
-  return token.split(".")[0];
+  return token.split('.')[0];
 }
 
-describe("AuthService", () => {
-  const password = "Sup3rSecurePass!";
+describe('AuthService', () => {
+  const password = 'Sup3rSecurePass!';
 
   beforeEach(() => {
     vi.useRealTimers();
   });
 
-  it("signs up a user and issues session tokens", async () => {
+  it('signs up a user and issues session tokens', async () => {
     const { service, repository, emailService, env } = createAuthServiceForTest();
 
     const result = await service.signup(
       {
-        email: "casey@example.com",
+        email: 'casey@example.com',
         password,
-        firstName: "Casey",
-        lastName: "Patel",
+        firstName: 'Casey',
+        lastName: 'Patel',
         acceptTerms: true,
         marketingOptIn: true,
       },
-      { ipAddress: "127.0.0.1", userAgent: "vitest" },
+      { ipAddress: '127.0.0.1', userAgent: 'vitest' },
     );
 
-    expect(result.user.email).toBe("casey@example.com");
+    expect(result.user.email).toBe('casey@example.com');
     expect(result.tokens.accessToken).toBeTruthy();
     expect(result.tokens.refreshToken).toBeTruthy();
     expect(result.requiresEmailVerification).toBe(true);
     expect(result.debug?.emailVerificationToken).toBeTruthy();
     expect(emailService.verificationEmails).toHaveLength(1);
 
-    const stored = await repository.findUserByEmail("casey@example.com");
+    const stored = await repository.findUserByEmail('casey@example.com');
     expect(stored).not.toBeNull();
     expect(stored?.passwordHash).not.toBe(password);
     expect(result.tokens.accessTokenExpiresAt.getTime()).toBeGreaterThan(Date.now());
@@ -44,54 +44,54 @@ describe("AuthService", () => {
     expect(env.isProduction).toBe(false);
   });
 
-  it("logs in and updates lastLoginAt", async () => {
+  it('logs in and updates lastLoginAt', async () => {
     const { service, repository } = createAuthServiceForTest();
 
     await service.signup(
       {
-        email: "test@example.com",
+        email: 'test@example.com',
         password,
         acceptTerms: true,
       },
-      { ipAddress: "1.1.1.1", userAgent: "signup" },
+      { ipAddress: '1.1.1.1', userAgent: 'signup' },
     );
 
     const result = await service.login(
       {
-        email: "test@example.com",
+        email: 'test@example.com',
         password,
         rememberMe: false,
       },
-      { ipAddress: "2.2.2.2", userAgent: "login" },
+      { ipAddress: '2.2.2.2', userAgent: 'login' },
     );
 
     expect(result.tokens.accessToken).toBeTruthy();
     expect(result.tokens.refreshToken).toBeTruthy();
     expect(result.emailVerified).toBe(false);
 
-    const stored = await repository.findUserByEmail("test@example.com");
+    const stored = await repository.findUserByEmail('test@example.com');
     expect(stored?.lastLoginAt).toBeTruthy();
   });
 
-  it("refreshes a session and revokes the previous refresh token", async () => {
+  it('refreshes a session and revokes the previous refresh token', async () => {
     const { service, repository } = createAuthServiceForTest();
 
     const signup = await service.signup(
       {
-        email: "refresh@example.com",
+        email: 'refresh@example.com',
         password,
         acceptTerms: true,
       },
-      { ipAddress: "1.1.1.1", userAgent: "signup" },
+      { ipAddress: '1.1.1.1', userAgent: 'signup' },
     );
 
     const originalTokens = signup.tokens;
     const originalId = extractRefreshId(originalTokens.refreshToken);
 
-    const refreshed = await service.refreshSession(
-      originalTokens.refreshToken,
-      { ipAddress: "1.1.1.1", userAgent: "refresh" },
-    );
+    const refreshed = await service.refreshSession(originalTokens.refreshToken, {
+      ipAddress: '1.1.1.1',
+      userAgent: 'refresh',
+    });
 
     expect(refreshed.tokens.refreshToken).not.toBe(originalTokens.refreshToken);
 
@@ -103,29 +103,29 @@ describe("AuthService", () => {
     expect(newTokenRecord?.revokedAt).toBeNull();
   });
 
-  it("supports password reset flow", async () => {
+  it('supports password reset flow', async () => {
     const { service, repository, emailService } = createAuthServiceForTest();
 
     await service.signup(
       {
-        email: "reset@example.com",
+        email: 'reset@example.com',
         password,
         acceptTerms: true,
       },
-      { ipAddress: "1.1.1.1", userAgent: "signup" },
+      { ipAddress: '1.1.1.1', userAgent: 'signup' },
     );
 
     await service.login(
       {
-        email: "reset@example.com",
+        email: 'reset@example.com',
         password,
       },
-      { ipAddress: "2.2.2.2", userAgent: "login" },
+      { ipAddress: '2.2.2.2', userAgent: 'login' },
     );
 
     await service.requestPasswordReset(
-      { email: "reset@example.com" },
-      { ipAddress: "3.3.3.3", userAgent: "reset-request" },
+      { email: 'reset@example.com' },
+      { ipAddress: '3.3.3.3', userAgent: 'reset-request' },
     );
 
     expect(emailService.passwordResetEmails).toHaveLength(1);
@@ -135,35 +135,37 @@ describe("AuthService", () => {
     await service.resetPassword(
       {
         token: resetToken!,
-        newPassword: "Diff3rentPass!",
+        newPassword: 'Diff3rentPass!',
       },
-      { ipAddress: "3.3.3.3", userAgent: "reset" },
+      { ipAddress: '3.3.3.3', userAgent: 'reset' },
     );
 
     const loginAfterReset = await service.login(
       {
-        email: "reset@example.com",
-        password: "Diff3rentPass!",
+        email: 'reset@example.com',
+        password: 'Diff3rentPass!',
       },
-      { ipAddress: "4.4.4.4", userAgent: "login-after-reset" },
+      { ipAddress: '4.4.4.4', userAgent: 'login-after-reset' },
     );
 
     expect(loginAfterReset.tokens.accessToken).toBeTruthy();
 
-    const tokens = await repository.findRefreshTokenById(extractRefreshId(loginAfterReset.tokens.refreshToken));
+    const tokens = await repository.findRefreshTokenById(
+      extractRefreshId(loginAfterReset.tokens.refreshToken),
+    );
     expect(tokens).not.toBeNull();
   });
 
-  it("verifies email using token", async () => {
+  it('verifies email using token', async () => {
     const { service, emailService } = createAuthServiceForTest();
 
     const signup = await service.signup(
       {
-        email: "verify@example.com",
+        email: 'verify@example.com',
         password,
         acceptTerms: true,
       },
-      { ipAddress: "5.5.5.5", userAgent: "signup" },
+      { ipAddress: '5.5.5.5', userAgent: 'signup' },
     );
 
     const token = signup.debug?.emailVerificationToken ?? emailService.lastVerificationToken();
@@ -171,9 +173,69 @@ describe("AuthService", () => {
 
     const result = await service.verifyEmail(
       { token: token! },
-      { ipAddress: "5.5.5.5", userAgent: "verify" },
+      { ipAddress: '5.5.5.5', userAgent: 'verify' },
     );
 
     expect(result.user.emailVerifiedAt).toBeTruthy();
+  });
+
+  it('blocks suspended users from logging in or refreshing sessions', async () => {
+    const { service, repository } = createAuthServiceForTest();
+
+    const signup = await service.signup(
+      {
+        email: 'suspended@example.com',
+        password,
+        acceptTerms: true,
+      },
+      { ipAddress: '6.6.6.6', userAgent: 'signup' },
+    );
+
+    repository.setUserStatusForTest('suspended@example.com', 'suspended');
+
+    await expect(
+      service.login(
+        {
+          email: 'suspended@example.com',
+          password,
+        },
+        { ipAddress: '6.6.6.6', userAgent: 'login' },
+      ),
+    ).rejects.toMatchObject({ code: 'AUTH_ACCOUNT_SUSPENDED' });
+
+    await expect(
+      service.refreshSession(signup.tokens.refreshToken, {
+        ipAddress: '6.6.6.6',
+        userAgent: 'refresh',
+      }),
+    ).rejects.toMatchObject({ code: 'AUTH_ACCOUNT_SUSPENDED' });
+
+    const refreshId = extractRefreshId(signup.tokens.refreshToken);
+    const revoked = await repository.findRefreshTokenById(refreshId);
+    expect(revoked?.revokedAt).toBeTruthy();
+  });
+
+  it('revokes refresh tokens when an invalid secret is provided', async () => {
+    const { service, repository } = createAuthServiceForTest();
+
+    const signup = await service.signup(
+      {
+        email: 'tamper@example.com',
+        password,
+        acceptTerms: true,
+      },
+      { ipAddress: '7.7.7.7', userAgent: 'signup' },
+    );
+
+    const refreshToken = signup.tokens.refreshToken;
+    const tamperedToken = `${extractRefreshId(refreshToken)}.not-the-right-secret`;
+
+    await expect(
+      service.refreshSession(tamperedToken, { ipAddress: '7.7.7.7', userAgent: 'tampered' }),
+    ).rejects.toMatchObject({ code: 'AUTH_INVALID_REFRESH_TOKEN' });
+
+    const originalId = extractRefreshId(refreshToken);
+    const revoked = await repository.findRefreshTokenById(originalId);
+    expect(revoked?.revokedAt).toBeTruthy();
   });
 });

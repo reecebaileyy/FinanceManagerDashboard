@@ -3,14 +3,14 @@
 ## Document Information
 
 - **Project**: Finance Manager Dashboard
-- **Version**: Sprint 2
-- **Date**: October 18, 2025
+- **Version**: Sprint 3
+- **Date**: November 11, 2025
 - **Author**: Development Team
-- **Review Status**: Draft
+- **Review Status**: In Progress (Sprint 3 refinement)
 
 ## 1. Executive Summary
 
-This test plan outlines the comprehensive testing strategy for the Finance Manager Dashboard, a Next.js-based personal finance management application. The plan covers unit testing, integration testing, end-to-end testing, and security testing methodologies tailored to the financial domain requirements.
+This Sprint 3 refresh outlines the comprehensive testing strategy for the Finance Manager Dashboard, a Next.js-based personal finance management application. The plan emphasizes budgeting CSV export validation, authentication session hardening (suspended users, tampered refresh tokens), and AI insights persistence while continuing to evolve unit, integration, end-to-end, and security methodologies tailored to the financial domain.
 
 ## 2. Testing Objectives
 
@@ -30,6 +30,8 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 - All user flows pass end-to-end testing
 - Performance benchmarks met (< 2s page load times)
 - Cross-browser compatibility verified
+- Auth refresh/suspension regression suite executes without manual intervention
+- AI insights follow-up prompts persist across session reloads
 
 ## 3. Testing Methodologies
 
@@ -59,6 +61,9 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 - Data validation and sanitization
 - Utility functions and helpers
 - React hooks and custom logic
+- Budget CSV export builders and filename generation
+- Auth refresh token lifecycle protections (suspended users, tampered tokens)
+- Insights assistant follow-up cache hydration and persistence
 
 ### 3.2 Integration Testing (Testing Library + Supertest)
 
@@ -111,7 +116,26 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 - Report generation and export
 - Mobile and tablet user experiences
 
-### 3.4 Security Testing
+### 3.4 Scenario Validation (Manual + Assisted)
+
+**Methodology**: Structured exploratory sessions mapped to high-risk user journeys that are impractical to automate immediately.
+
+**Why This Approach**:
+
+- Validates CSV output in downstream tooling (Excel/Sheets) and confirms locale formatting.
+- Confirms insights assistant retains follow-ups across reloads and after conversation mutations.
+- Exercises auth suspension edge cases end-to-end against uniquely identified builds.
+
+**Coverage Areas**:
+
+- Budget CSV export QA checklist (header order, variance math, delimiter encoding).
+- Auth suspended-user smoke (login + refresh attempts) with audit trail verification.
+- AI follow-up prompt persistence after page reload and manual reset.
+- Regression of previously logged Sprint 2 layout defects.
+
+Execution notes and evidence are logged in `docs/test-results.md`, and defects are tracked in the Sprint 3 bug log.
+
+### 3.5 Security Testing
 
 **Methodology**: Automated security scanning and manual penetration testing
 **Justification**: Financial data requires highest security standards
@@ -137,7 +161,7 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 - Session management security
 - API endpoint security
 
-### 3.5 Performance Testing
+### 3.6 Performance Testing
 
 **Methodology**: Load testing and performance monitoring
 **Justification**: Financial applications require consistent performance
@@ -182,24 +206,24 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 
 ### 5.1 Team Responsibilities
 
-- **Frontend Developer**: Unit and integration tests for React components
-- **Backend Developer**: API testing and database integration tests
-- **QA Engineer**: End-to-end testing and test case maintenance
-- **DevOps Engineer**: CI/CD pipeline and test environment setup
+- **Frontend Developer**: Budget export UI automation, insights persistence tests, Playwright coverage.
+- **Backend Developer**: Auth service session lifecycle tests, repository fixtures, bug triage.
+- **QA Engineer**: Manual scenario execution (CSV, suspended auth), evidence collection, bug tracking.
+- **DevOps Engineer**: CI cache tuning, Playwright artifact storage, dependency maintenance (`happy-dom`).
 
 ### 5.2 Timeline Allocation
 
-- **Week 1**: Unit test implementation and CI/CD setup
-- **Week 2**: Integration testing and API test coverage
-- **Week 3**: End-to-end testing implementation
-- **Week 4**: Security testing and performance optimization
+- **Week 5**: Refresh test plan/test cases, seed budget CSV automation (Cycle A).
+- **Week 6**: Auth session hardening tests, insights persistence coverage (Cycle B).
+- **Week 7**: Playwright auth scenarios, bug verification, documentation updates.
+- **Week 8**: Security/performance sweeps, regression matrix finalization, sprint sign-off.
 
 ### 5.3 Resource Requirements
 
 - **Development Time**: 40 hours/week across team
 - **Infrastructure**: GitHub Actions minutes, AWS test environment
-- **Tools**: Playwright licenses, Codecov coverage reporting
-- **Training**: Team training on testing best practices
+- **Tools**: Playwright licenses, Codecov coverage reporting, `happy-dom` runtime for Vitest UI suites
+- **Training**: Team training on testing best practices and auth threat modelling refresh
 
 ## 6. Test Data Management
 
@@ -222,7 +246,8 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 ### 7.1 High-Risk Areas
 
 - **Financial Calculations**: Incorrect budget or goal calculations
-- **Authentication**: Security vulnerabilities in user authentication
+- **Authentication**: Security vulnerabilities or session misuse (suspended users, tampered tokens)
+- **AI Insights**: Loss of cached follow-up prompts affecting guidance quality
 - **Data Integrity**: Loss or corruption of financial data
 - **Performance**: Slow response times affecting user experience
 
@@ -231,6 +256,8 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 - **Automated Testing**: Continuous testing in CI/CD pipeline
 - **Code Reviews**: Mandatory review of financial calculation code
 - **Security Audits**: Regular security testing and penetration testing
+- **Session Instrumentation**: Tracking refresh token replacements and audit events
+- **Insights Cache Monitoring**: Regular verification of React Query persistence
 - **Performance Monitoring**: Continuous performance tracking
 
 ## 8. Success Metrics and KPIs
@@ -308,7 +335,7 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 
 **Document Control**
 
-- **Version**: 1.0
-- **Last Updated**: October 18, 2025
-- **Next Review**: November 18, 2025
+- **Version**: 1.1
+- **Last Updated**: November 11, 2025
+- **Next Review**: December 09, 2025
 - **Approved By**: Development Team Lead
