@@ -1,10 +1,24 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi, afterEach } from 'vitest';
 
 import { renderWithProviders } from '@test/render-with-providers';
 
+vi.mock('./budgets-export', () => ({
+  downloadBudgetsCsv: vi.fn(() => ({
+    fileName: 'budget-export-20250915-1200-3budgets.csv',
+    csv: 'Budget Name,...',
+  })),
+}));
+
+import { downloadBudgetsCsv } from './budgets-export';
 import { BudgetsSection } from './budgets-section';
+
+const mockedDownloadBudgetsCsv = vi.mocked(downloadBudgetsCsv);
+
+afterEach(() => {
+  vi.clearAllMocks();
+});
 
 describe('BudgetsSection', () => {
   it('renders active budgets and variance alerts', () => {
@@ -66,5 +80,36 @@ describe('BudgetsSection', () => {
     });
 
     expect(screen.getByRole('heading', { name: 'Research Budget' })).toBeInTheDocument();
+  });
+
+  it('exports budgets to CSV when clicking the export button', async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<BudgetsSection />);
+
+    await user.click(screen.getByRole('button', { name: 'Download budgets as CSV' }));
+
+    expect(mockedDownloadBudgetsCsv).toHaveBeenCalledTimes(1);
+    expect(mockedDownloadBudgetsCsv).toHaveBeenCalledWith(expect.any(Array), {
+      referenceDate: '2025-09-15T12:00:00Z',
+    });
+
+    expect(
+      screen.getByText('3 budgets exported as budget-export-20250915-1200-3budgets.csv.'),
+    ).toBeInTheDocument();
+  });
+
+  it('shows an error message when export fails', async () => {
+    mockedDownloadBudgetsCsv.mockImplementationOnce(() => {
+      throw new Error('File system error');
+    });
+
+    const user = userEvent.setup();
+    renderWithProviders(<BudgetsSection />);
+
+    await user.click(screen.getByRole('button', { name: 'Download budgets as CSV' }));
+
+    expect(
+      screen.getByText("We couldn't prepare the CSV. Try again in a moment."),
+    ).toBeInTheDocument();
   });
 });

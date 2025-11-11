@@ -106,6 +106,31 @@ This document tracks formal test execution results across different builds and c
 ✓ Execution time improved by 15%
 ```
 
+### Build #4: Budget CSV Export (Sprint 3 Cycle A)
+
+- **Build ID**: `feature/sprint3-budget-export` (local)
+- **Date**: November 11, 2025
+- **Environment**: Local Development (Node 20.19.0 / Windows 11)
+- **Test Status**: ⚠️ PARTIAL
+- **Coverage**: Pending — CSV export utilities covered by new unit tests (execution blocked by BUG-2025-11-001)
+
+**Test Results**:
+
+```
+⚠ npm run test src/features/budgets/budgets-export.test.ts
+   → Fails: ERR_MODULE_NOT_FOUND: Cannot find package 'happy-dom'
+✓ Manual validation: CSV export downloads with expected headers/values in Chrome 129
+✓ Manual validation: CSV opens in Google Sheets & Excel with correct currency formatting
+```
+
+**Manual Scenario Execution (Cycle A)**:
+
+- Budget overrun alert acknowledged and export reviewed ✅
+- CSV encoding and delimiter verified in Google Sheets ✅
+- CSV variance values spot-checked in Excel ✅
+- Regression check: Budgets variance summary renders correctly after export ✅
+- Blocking issue logged: `BUG-2025-11-001` (missing `happy-dom` dependency for Vitest) ❌
+
 ## Test Coverage Analysis
 
 ### Coverage by Module
@@ -308,8 +333,8 @@ npm run test:watch
 
 **Document Control**
 
-- **Version**: 1.0
-- **Last Updated**: October 18, 2025
-- **Next Review**: November 18, 2025
+- **Version**: 1.1
+- **Last Updated**: November 11, 2025
+- **Next Review**: December 09, 2025
 - **Approved By**: QA Team Lead
-- **Next Test Execution**: October 19, 2025
+- **Next Test Execution**: November 15, 2025
