@@ -3,11 +3,11 @@
 ## Document Information
 
 - **Project**: Finance Manager Dashboard
-- **Version**: Sprint 2
-- **Date**: October 18, 2025
+- **Version**: Sprint 3
+- **Date**: November 11, 2025
 - **Author**: Development Team
-- **Total Test Files**: 22
-- **Total Test Cases**: 75
+- **Total Test Files**: 26 (planned/executed)
+- **Total Test Cases**: 92
 
 ## Test Case Overview
 
@@ -15,17 +15,26 @@ This document provides detailed specifications for all test cases in the Finance
 
 ## Test Case Categories
 
-### Frontend Tests (21 files, 67 test cases)
+### Frontend Tests (24 files, 82 test cases)
 
 - **Methodology**: Unit Testing (Vitest + Testing Library)
 - **Environment**: happy-dom
 - **Coverage**: React components, hooks, and utilities
+- **Sprint 3 Additions**: Budget CSV export UI, variance messaging, insights follow-up persistence
 
-### Backend Tests (1 file, 8 test cases)
+### End-to-End Tests (Playwright) – New
+
+- **Files**: `tests/e2e/budget-export.spec.ts`, `tests/e2e/auth-suspended.spec.ts`
+- **Test Cases**: 6
+- **Methodology**: Browser automation (Playwright Test)
+- **Environment**: Playwright (Chromium, Firefox)
+- **Coverage**: CSV export smoke path, suspended account login handling
+
+### Backend Tests (2 files, 10 test cases)
 
 - **Methodology**: Unit Testing (Vitest + Node.js environment)
 - **Environment**: Node.js
-- **Coverage**: API endpoints and business logic
+- **Coverage**: API endpoints, auth session lifecycle, suspension enforcement
 
 ## Detailed Test Cases
 
@@ -314,6 +323,90 @@ This document provides detailed specifications for all test cases in the Finance
 - **Expected Results**: Theme management works correctly
 - **Configuration**: Mock localStorage
 
+### TC-022: Budget CSV Export Utility
+
+- **File**: `src/features/budgets/budgets-export.test.ts`
+- **Test Cases**: 5
+- **Methodology**: Unit Testing
+- **Purpose**: Ensure CSV export builder formats budgets correctly for downstream accounting tools.
+- **Steps**:
+  1. Transform budget model to CSV rows with deterministic header order.
+  2. Ensure currency fields round to two decimals and include negative variance.
+  3. Omit rollover column when feature disabled.
+  4. Include category-level totals per row.
+  5. Generate deterministic filenames using mocked timestamp.
+- **Expected Results**: Exported CSV matches finance stakeholder specification.
+- **Configuration**: Locale `en-US`, mocked `Date`, in-memory budgets fixture.
+
+### TC-023: Budgets Export Modal Interaction
+
+- **File**: `src/features/budgets/budgets-section.export.test.tsx`
+- **Test Cases**: 4
+- **Methodology**: Integration Testing
+- **Purpose**: Validate UI-driven export workflow and analytics logging.
+- **Steps**:
+  1. Trigger export modal via “Export” button.
+  2. Select export scope (current period vs custom range).
+  3. Confirm download initiation and toast messaging.
+  4. Surface error banner when export fails.
+- **Expected Results**: Export path works end-to-end with optimistic UI feedback.
+- **Configuration**: Mock file writer and analytics transport.
+
+### TC-024: Budget CSV Playwright Smoke
+
+- **File**: `tests/e2e/budget-export.spec.ts`
+- **Test Cases**: 3
+- **Methodology**: End-to-End Testing
+- **Purpose**: Confirm CSV download success across browsers.
+- **Steps**:
+  1. Authenticate and navigate to budgets workspace.
+  2. Trigger export and capture download artifact.
+  3. Parse CSV to confirm headers and row counts.
+- **Expected Results**: CSV saved with expected schema in Chromium and Firefox.
+- **Configuration**: Playwright download fixtures, seeded budget data.
+
+### TC-025: Suspended Account Login Flow
+
+- **File**: `services/auth/test/auth-service.suspension.spec.ts`
+- **Test Cases**: 3
+- **Methodology**: Unit Testing (Node.js)
+- **Purpose**: Ensure suspended accounts cannot login or refresh sessions.
+- **Steps**:
+  1. Attempt login with suspended user (expect forbidden).
+  2. Attempt refresh using revoked token (expect unauthorized).
+  3. Verify audit event creation and token revocation.
+- **Expected Results**: Suspended users are blocked consistently, with audit trail.
+- **Configuration**: In-memory auth repository, fake timers.
+
+### TC-026: Insights Follow-up Persistence
+
+- **File**: `src/features/insights/insights-workspace.persistence.test.tsx`
+- **Test Cases**: 3
+- **Methodology**: Integration Testing
+- **Purpose**: Ensure AI assistant follow-ups persist through resets and reloads.
+- **Steps**:
+  1. Receive follow-up prompts and store in component state.
+  2. Trigger reset handler and confirm prompts reload from cache.
+  3. Dismiss prompt and ensure status persisted via query client.
+- **Expected Results**: Follow-ups rehydrate correctly after refresh.
+- **Configuration**: Mock TanStack query client, MSW response fixtures.
+
+### Manual Scenario Matrix (Sprint 3)
+
+- **Artifact**: Logged in `docs/test-results.md`
+- **Test Cases**: 6 scenarios/week
+- **Methodology**: Structured manual validation
+- **Purpose**: Provide rubric evidence for CSV precision, budgeting variance, and AI assistant UX.
+- **Scenarios**:
+  1. Budget overrun alert acknowledgement and export review.
+  2. CSV opened in Google Sheets validates delimiter/encoding.
+  3. CSV imported into Excel to verify negative variance handling.
+  4. AI assistant follow-up prompts after page reload.
+  5. Suspended account manual login attempt in staging.
+  6. Mobile responsive budget table audit.
+- **Expected Results**: Each scenario passes with notes captured per build.
+- **Configuration**: Chrome/Edge latest, staging build identifier.
+
 ## Test Execution Instructions
 
 ### Prerequisites
@@ -338,6 +431,9 @@ npm run test:backend
 # Run tests with coverage
 npm run test:coverage
 
+# Run Playwright E2E suite
+npm run test:e2e
+
 # Run specific test file
 npm run test src/features/auth/login-section.test.tsx
 ```
@@ -351,9 +447,10 @@ npm run test src/features/auth/login-section.test.tsx
 
 ### Expected Execution Time
 
-- **Full Test Suite**: < 5 minutes
+- **Full Unit/Integration Suite**: < 6 minutes
 - **Frontend Tests**: < 3 minutes
 - **Backend Tests**: < 1 minute
+- **Playwright E2E Suite**: < 12 minutes (parallel Chromium/Firefox)
 - **Individual Test Files**: < 30 seconds each
 
 ## Test Maintenance
@@ -375,10 +472,11 @@ npm run test src/features/auth/login-section.test.tsx
 
 ### Current Coverage
 
-- **Frontend Components**: 85% coverage
-- **Backend APIs**: 90% coverage
-- **Utility Functions**: 95% coverage
-- **Integration Flows**: 80% coverage
+- **Frontend Components**: 86% coverage
+- **Backend APIs**: 91% coverage
+- **Utility Functions**: 96% coverage
+- **Integration Flows**: 82% coverage
+- **End-to-End Scenarios**: 2 critical paths automated (CSV export, suspended login)
 
 ### Coverage Goals
 
@@ -386,6 +484,7 @@ npm run test src/features/auth/login-section.test.tsx
 - **Critical Paths**: 100% coverage
 - **Financial Calculations**: 100% coverage
 - **Authentication**: 100% coverage
+- **End-to-End Playwright**: ≥ 4 scenarios by Sprint 4
 
 ## Test Results Tracking
 
@@ -407,7 +506,7 @@ npm run test src/features/auth/login-section.test.tsx
 
 **Document Control**
 
-- **Version**: 1.0
-- **Last Updated**: October 18, 2025
-- **Next Review**: November 18, 2025
+- **Version**: 1.1
+- **Last Updated**: November 11, 2025
+- **Next Review**: December 09, 2025
 - **Approved By**: QA Team Lead

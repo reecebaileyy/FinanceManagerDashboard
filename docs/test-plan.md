@@ -3,14 +3,14 @@
 ## Document Information
 
 - **Project**: Finance Manager Dashboard
-- **Version**: Sprint 2
-- **Date**: October 18, 2025
+- **Version**: Sprint 3
+- **Date**: November 11, 2025
 - **Author**: Development Team
-- **Review Status**: Draft
+- **Review Status**: Draft (Sprint 3 refresh)
 
 ## 1. Executive Summary
 
-This test plan outlines the comprehensive testing strategy for the Finance Manager Dashboard, a Next.js-based personal finance management application. The plan covers unit testing, integration testing, end-to-end testing, and security testing methodologies tailored to the financial domain requirements.
+This Sprint 3 refresh of the test plan outlines the comprehensive testing strategy for the Finance Manager Dashboard, a Next.js-based personal finance management application. The plan doubles down on budgeting workflows (CSV export, rollover forecasting) and session-driven AI assistant reliability while expanding coverage into end-to-end validation and operational readiness.
 
 ## 2. Testing Objectives
 
@@ -22,14 +22,17 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 - Confirm responsive design across devices
 - Validate AI chatbot functionality and recommendations
 - Ensure compliance with financial data handling standards
+- Validate budget CSV export fidelity (column order, rounding) and offline persistence hand-off
+- Confirm session lifecycle resilience (refresh token reuse, suspended account handling)
 
 ### Success Criteria
 
 - 90%+ code coverage across all modules
 - Zero critical security vulnerabilities
-- All user flows pass end-to-end testing
+- All user flows pass end-to-end testing, including the new CSV export Playwright scenario
 - Performance benchmarks met (< 2s page load times)
 - Cross-browser compatibility verified
+- Manual validation matrix for budgeting scenarios executed each sprint week with sign-off recorded in `docs/test-results.md`
 
 ## 3. Testing Methodologies
 
@@ -59,6 +62,7 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 - Data validation and sanitization
 - Utility functions and helpers
 - React hooks and custom logic
+- Budget export transformation utilities and formatting helpers (new in Sprint 3)
 
 ### 3.2 Integration Testing (Testing Library + Supertest)
 
@@ -86,10 +90,10 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 - AI chatbot integration
 - Data synchronization between components
 
-### 3.3 End-to-End Testing (Playwright - Planned)
+### 3.3 End-to-End Testing (Playwright)
 
-**Methodology**: Full application testing in real browser environments
-**Justification**: Financial applications require validation of complete user journeys
+**Methodology**: Full application testing in real browser environments  
+**Justification**: Sprint 3 introduces executable Playwright suites to validate budgeting exports and authentication guardrails from the user’s perspective.
 
 **Tools Selected**:
 
@@ -102,16 +106,39 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 - Validates responsive design across devices
 - Ensures accessibility compliance
 - Catches browser-specific issues
+- Provides verifiable evidence for CSV export downloads and auth redirect flows
 
 **Coverage Areas**:
 
 - Complete user registration and onboarding
 - Financial goal setting and tracking
 - Budget management workflows
+- Budget CSV export smoke path (new)
 - Report generation and export
 - Mobile and tablet user experiences
+- Suspended account login handling (planned in Sprint 3)
 
-### 3.4 Security Testing
+### 3.4 Scenario & Manual Validation (Sprint 3)
+
+**Methodology**: Structured manual runbooks focused on budgeting variance scenarios, CSV export validation, and AI assistant follow-up persistence.
+
+**Why This Approach**:
+
+- Supplements automation for edge cases that require visual or file-level inspection
+- Provides rubric-aligned evidence of validation/verification activities
+- Ensures CSV exports match accounting stakeholder expectations (delimiter, encoding)
+
+**Coverage Areas**:
+
+- Budget overrun/underrun review in dashboard UI
+- CSV export spot checks across Chrome/Edge (field completeness, currency rounding)
+- Offline re-import sanity checks (opening CSV in Google Sheets/Excel)
+- AI assistant follow-up prompts retention after page reload
+- Regression of previously logged Sprint 2 bugs (layout overlap, login redirects)
+
+Execution cadence and owners are tracked weekly in `docs/test-results.md`.
+
+### 3.5 Security Testing
 
 **Methodology**: Automated security scanning and manual penetration testing
 **Justification**: Financial data requires highest security standards
@@ -137,7 +164,7 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 - Session management security
 - API endpoint security
 
-### 3.5 Performance Testing
+### 3.6 Performance Testing
 
 **Methodology**: Load testing and performance monitoring
 **Justification**: Financial applications require consistent performance
@@ -168,8 +195,9 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 - **Platform**: GitHub Actions
 - **Node.js**: Version 20.x
 - **Database**: PostgreSQL test instance
-- **Browser**: Headless Chrome/Firefox
-- **Coverage**: Codecov integration
+- **Browser**: Headless Chrome/Firefox (Playwright runners for E2E)
+- **Coverage**: Codecov integration + Playwright trace artifacts
+- **Artifacts**: CSV exports uploaded for manual verification
 
 ### 4.3 Staging Environment
 
@@ -182,23 +210,23 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 
 ### 5.1 Team Responsibilities
 
-- **Frontend Developer**: Unit and integration tests for React components
-- **Backend Developer**: API testing and database integration tests
-- **QA Engineer**: End-to-end testing and test case maintenance
-- **DevOps Engineer**: CI/CD pipeline and test environment setup
+- **Frontend Developer**: Unit and integration tests for React components, CSV export tooling
+- **Backend Developer**: API testing and database integration tests, auth session edge cases
+- **QA Engineer**: End-to-end testing and test case maintenance, manual scenario sign-offs
+- **DevOps Engineer**: CI/CD pipeline and test environment setup, Playwright integration
 
 ### 5.2 Timeline Allocation
 
-- **Week 1**: Unit test implementation and CI/CD setup
-- **Week 2**: Integration testing and API test coverage
-- **Week 3**: End-to-end testing implementation
-- **Week 4**: Security testing and performance optimization
+- **Week 5 (Sprint 3 Kickoff)**: Refresh test plan, expand budget scenarios, seed manual validation spreadsheet
+- **Week 6**: Implement CSV export feature, deliver unit/integration coverage, update Playwright smoke test
+- **Week 7**: Auth session hardening tests, AI assistant regression coverage
+- **Week 8**: Security testing and performance optimization, finalize bug tracker closure
 
 ### 5.3 Resource Requirements
 
 - **Development Time**: 40 hours/week across team
 - **Infrastructure**: GitHub Actions minutes, AWS test environment
-- **Tools**: Playwright licenses, Codecov coverage reporting
+- **Tools**: Playwright licenses, Codecov coverage reporting, CSV diff tooling
 - **Training**: Team training on testing best practices
 
 ## 6. Test Data Management
@@ -207,8 +235,9 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 
 - **Synthetic Data**: Generated using Faker.js for consistent testing
 - **Financial Data**: Anonymized real-world financial patterns
-- **Edge Cases**: Boundary conditions and error scenarios
+- **Edge Cases**: Boundary conditions and error scenarios (e.g., $0 budgets, negative adjustments)
 - **Security Data**: Test credentials and sensitive data handling
+- **CSV Samples**: Golden exports committed for diffing/regression
 
 ### 6.2 Data Privacy Compliance
 
@@ -225,6 +254,8 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 - **Authentication**: Security vulnerabilities in user authentication
 - **Data Integrity**: Loss or corruption of financial data
 - **Performance**: Slow response times affecting user experience
+- **CSV Export Accuracy**: Misaligned headers, truncated amounts
+- **Session Revocation**: Refresh token lingering after suspension
 
 ### 7.2 Mitigation Strategies
 
@@ -232,6 +263,8 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 - **Code Reviews**: Mandatory review of financial calculation code
 - **Security Audits**: Regular security testing and penetration testing
 - **Performance Monitoring**: Continuous performance tracking
+- **CSV Golden Comparison**: Automated diff against known-good export
+- **Bug Tracker Linkage**: Each defect mapped to detection test + resolution build
 
 ## 8. Success Metrics and KPIs
 
@@ -241,10 +274,12 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 - **Test Pass Rate**: 100% pass rate for critical path tests
 - **Bug Detection**: Early detection of defects in CI/CD
 - **Security Vulnerabilities**: Zero critical vulnerabilities
+- **CSV Accuracy**: 100% manual sign-off on weekly export audit
+- **Playwright Stability**: < 1% flaky rate for E2E suite
 
 ### 8.2 Performance Metrics
 
-- **Test Execution Time**: < 5 minutes for full test suite
+- **Test Execution Time**: < 5 minutes for full unit/integration suite, < 12 minutes including Playwright
 - **Page Load Time**: < 2 seconds for all pages
 - **API Response Time**: < 500ms for all endpoints
 - **Test Reliability**: < 1% flaky test rate
@@ -308,7 +343,7 @@ This test plan outlines the comprehensive testing strategy for the Finance Manag
 
 **Document Control**
 
-- **Version**: 1.0
-- **Last Updated**: October 18, 2025
-- **Next Review**: November 18, 2025
+- **Version**: 1.1
+- **Last Updated**: November 11, 2025
+- **Next Review**: December 09, 2025
 - **Approved By**: Development Team Lead
