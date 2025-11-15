@@ -90,7 +90,7 @@ describe('BudgetsSection', () => {
 
     expect(mockedDownloadBudgetsCsv).toHaveBeenCalledTimes(1);
     expect(mockedDownloadBudgetsCsv).toHaveBeenCalledWith(expect.any(Array), {
-      referenceDate: '2025-09-15T12:00:00Z',
+      referenceDate: new Date('2025-09-15T12:00:00Z').toISOString(),
     });
 
     expect(
