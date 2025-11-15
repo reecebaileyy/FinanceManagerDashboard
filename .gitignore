@@ -26,6 +26,8 @@ coverage/
 .vitest/
 test-results/
 playwright-report/
+playwright/.cache/
+downloads/
 *.lcov
 
 # logs & diagnostics
