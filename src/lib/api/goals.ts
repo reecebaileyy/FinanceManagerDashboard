@@ -582,7 +582,24 @@ export const goalsQueryKeys = {
 };
 
 export async function fetchGoalsWorkspace(): Promise<GoalsWorkspacePayload> {
-  return Promise.resolve(goalsWorkspaceFixture);
+  try {
+    const response = await fetch('/api/goals', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    return await response.json() as GoalsWorkspacePayload;
+  } catch (error) {
+    console.error('Failed to fetch goals workspace:', error);
+    // Return fixture data as fallback
+    return goalsWorkspaceFixture;
+  }
 }
 
 export function buildGoalFromDraft(draft: GoalDraft, options?: { referenceDate?: string }): Goal {
@@ -738,6 +755,28 @@ export function buildGoalFromDraft(draft: GoalDraft, options?: { referenceDate?:
     projection,
     aiSummary,
   };
+}
+
+export async function saveGoal(goalDraft: GoalDraft): Promise<Goal> {
+  try {
+    const response = await fetch('/api/goals', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(goalDraft),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+      throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    return await response.json() as Goal;
+  } catch (error) {
+    console.error('Failed to save goal:', error);
+    throw error;
+  }
 }
 
 export async function requestGoalRecommendation(

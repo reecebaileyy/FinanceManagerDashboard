@@ -581,9 +581,6 @@ export function DashboardSection() {
                   key={alert.title}
                   className={`${styles.alert} ${alertToneClassName[alert.tone]}`}
                 >
-                  <div className={styles.alertIcon} aria-hidden="true">
-                    {alert.icon}
-                  </div>
                   <div>
                     <strong className={styles.alertTitle}>{alert.title}</strong>
                     <p className={styles.alertDescription}>{alert.description}</p>

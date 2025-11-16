@@ -1,7 +1,7 @@
 ﻿
 "use client";
 
-import { ChangeEvent, FormEvent, KeyboardEvent, useMemo, useState } from "react";
+import { ChangeEvent, FormEvent, KeyboardEvent, useMemo, useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 
 import { Card, CardBody, CardHeader } from "@components/dashboard/card";
@@ -12,11 +12,14 @@ import controls from "../../styles/controls.module.css";
 import patterns from "../../styles/patterns.module.css";
 import {
   getBudgetsFixture,
+  fetchBudgetsWorkspace,
   saveBudget,
   type Budget,
   type BudgetCategory,
   type BudgetPeriod,
   type BudgetStatus,
+  type BudgetsWorkspacePayload,
+  type SaveBudgetInput,
 } from "@lib/api/budgets";
 
 
@@ -320,8 +323,11 @@ function formatDateInput(date: Date): string {
 }
 
 function getDefaultPeriodDates(reference: Date) {
-  const start = new Date(reference.getFullYear(), reference.getMonth(), 1);
-  const end = new Date(reference.getFullYear(), reference.getMonth() + 1, 0);
+  // Use current date as start date
+  const start = new Date();
+  // Set end date to the end of the current month
+  const end = new Date(start.getFullYear(), start.getMonth() + 1, 0);
+  
   return {
     start: formatDateInput(start),
     end: formatDateInput(end),
@@ -329,7 +335,9 @@ function getDefaultPeriodDates(reference: Date) {
 }
 
 function generateId(prefix: string): string {
-  return `${prefix}-${Math.random().toString(36).slice(2, 9)}`;
+  const timestamp = Date.now().toString(36);
+  const random = Math.random().toString(36).slice(2, 7);
+  return `${prefix}-${timestamp}-${random}`;
 }
 
 function createEmptyCategoryState(): BudgetFormCategoryState {
@@ -465,9 +473,10 @@ function BudgetTrendChart({ points }: { points: TrendPoint[] }) {
 }
 export function BudgetsSection() {
   const initialWorkspace = useMemo(() => getBudgetsFixture(), []);
-  const referenceDate = useMemo(() => new Date(initialWorkspace.referenceDate), [initialWorkspace]);
-  const defaultRange = useMemo(() => getDefaultPeriodDates(referenceDate), [referenceDate]);
-  const [budgets, setBudgets] = useState<Budget[]>(initialWorkspace.budgets);
+  const [workspace, setWorkspace] = useState<BudgetsWorkspacePayload>(initialWorkspace);
+  const referenceDate = useMemo(() => new Date(workspace.referenceDate), [workspace.referenceDate]);
+  const defaultRange = useMemo(() => getDefaultPeriodDates(new Date()), []);
+  const [budgets, setBudgets] = useState<Budget[]>(workspace.budgets);
   const [formState, setFormState] = useState<BudgetFormState>(() => createEmptyFormState(defaultRange));
   const [formErrors, setFormErrors] = useState<string[]>([]);
   const [dialogState, setDialogState] = useState<{ open: boolean; mode: "create" | "edit"; budgetId?: string }>(
@@ -476,13 +485,34 @@ export function BudgetsSection() {
       mode: "create",
     },
   );
+  const [isLoading, setIsLoading] = useState(true);
 
-  const budgetMutation = useMutation<Budget, Error, SaveBudgetInput, { previousBudgets: Budget[] }>({
+  // Load persisted data on component mount
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const persistedWorkspace = await fetchBudgetsWorkspace();
+        setWorkspace(persistedWorkspace);
+        setBudgets(persistedWorkspace.budgets);
+      } catch (error) {
+        console.warn('Failed to load persisted budgets, using fixture:', error);
+        // Keep the initial fixture data
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    loadData();
+  }, []);
+
+  const budgetMutation = useMutation<Budget, Error, SaveBudgetInput, { previousBudgets: Budget[]; previousWorkspace: BudgetsWorkspacePayload }>({
     mutationFn: saveBudget,
     onMutate: (input: SaveBudgetInput) => {
       setFormErrors([]);
       const previousBudgets = budgets;
+      const previousWorkspace = workspace;
 
+      // Optimistically update the UI
       setBudgets((prev) => {
         if (input.mode === "edit") {
           return prev.map((budget) => (budget.id === input.budget.id ? input.budget : budget));
@@ -490,17 +520,42 @@ export function BudgetsSection() {
         return [...prev, input.budget];
       });
 
-      return { previousBudgets };
+      setWorkspace((prev) => ({
+        ...prev,
+        budgets: input.mode === "edit" 
+          ? prev.budgets.map((budget) => (budget.id === input.budget.id ? input.budget : budget))
+          : [...prev.budgets, input.budget]
+      }));
+
+      return { previousBudgets, previousWorkspace };
     },
     onError: (error, _input, context) => {
       console.error("Failed to save budget", error);
       if (context?.previousBudgets) {
         setBudgets(context.previousBudgets);
       }
+      if (context?.previousWorkspace) {
+        setWorkspace(context.previousWorkspace);
+      }
       setFormErrors(["We couldn't save the budget. Try again."]);
     },
-    onSuccess: (result) => {
-      setBudgets((prev) => prev.map((budget) => (budget.id === result.id ? result : budget)));
+    onSuccess: (result, input) => {
+      // Update with the actual result from the server (which may have updated fields like lastUpdated)
+      setBudgets((prev) => {
+        if (input.mode === "edit") {
+          return prev.map((budget) => (budget.id === result.id ? result : budget));
+        }
+        // For create mode, replace the optimistic update with the server result
+        return prev.map((budget) => (budget.id === input.budget.id ? result : budget));
+      });
+      
+      setWorkspace((prev) => ({
+        ...prev,
+        budgets: input.mode === "edit"
+          ? prev.budgets.map((budget) => (budget.id === result.id ? result : budget))
+          : prev.budgets.map((budget) => (budget.id === input.budget.id ? result : budget))
+      }));
+      
       setFormErrors([]);
       closeModal();
     },
@@ -519,7 +574,8 @@ export function BudgetsSection() {
 
   const openCreateModal = () => {
     setFormErrors([]);
-    setFormState(createEmptyFormState(defaultRange));
+    const freshRange = getDefaultPeriodDates(new Date());
+    setFormState(createEmptyFormState(freshRange));
     setDialogState({ open: true, mode: "create" });
   };
 
@@ -536,14 +592,16 @@ export function BudgetsSection() {
   const closeModal = () => {
     setDialogState({ open: false, mode: "create" });
     setFormErrors([]);
-    setFormState(createEmptyFormState(defaultRange));
+    const freshRange = getDefaultPeriodDates(new Date());
+    setFormState(createEmptyFormState(freshRange));
   };
 
   const handleReset = () => {
     const fresh = getBudgetsFixture();
     setBudgets(fresh.budgets);
     setFormErrors([]);
-    setFormState(createEmptyFormState(defaultRange));
+    const freshRange = getDefaultPeriodDates(new Date());
+    setFormState(createEmptyFormState(freshRange));
     setDialogState({ open: false, mode: "create" });
     budgetMutation.reset();
   };
@@ -722,6 +780,7 @@ export function BudgetsSection() {
     budgetMutation.mutate({
       budget: newBudget,
       mode: dialogState.mode,
+      currentWorkspace: workspace,
     });
   };
 
@@ -737,6 +796,15 @@ export function BudgetsSection() {
       actionLabel="Reload budgets"
     >
       <section id="budgets" className={styles.section}>
+      {isLoading ? (
+        <Card>
+          <CardBody>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '200px' }}>
+              Loading budgets...
+            </div>
+          </CardBody>
+        </Card>
+      ) : (
       <Card>
         <CardHeader
           title="Budgets"
@@ -1017,6 +1085,7 @@ export function BudgetsSection() {
           </div>
         </CardBody>
       </Card>
+      )}
       {dialogState.open ? (
         <div className={styles.modalOverlay} role="presentation" onClick={closeModal}>
           <div

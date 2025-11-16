@@ -17,6 +17,7 @@ import {
   fetchGoalsWorkspace,
   goalsQueryKeys,
   requestGoalRecommendation,
+  saveGoal,
 } from "@lib/api/goals";
 
 import patterns from "../../styles/patterns.module.css";
@@ -255,6 +256,7 @@ export function GoalsSection() {
   const [aiResponse, setAiResponse] = useState<GoalRecommendationResponse | null>(null);
   const [aiStatus, setAiStatus] = useState<"idle" | "loading" | "ready">("idle");
   const [aiError, setAiError] = useState<string | null>(null);
+  const [isCreatingGoal, setIsCreatingGoal] = useState(false);
 
   const referenceDate = workspace?.referenceDate ?? new Date().toISOString().slice(0, 10);
   const goals = workspace?.goals ?? [];
@@ -348,43 +350,58 @@ export function GoalsSection() {
       return;
     }
 
-    const draft = buildDraftFromForm(formState, referenceDate);
-    const newGoal = buildGoalFromDraft(draft, { referenceDate });
-
-    queryClient.setQueryData<GoalsWorkspacePayload>(goalsQueryKeys.workspace(), (previous) => {
-      if (!previous) {
-        return {
-          referenceDate,
-          goals: [newGoal],
-          overview: computeOverview([newGoal]),
-          insights: [],
-          prompts: [],
-        } satisfies GoalsWorkspacePayload;
-      }
-
-      const updatedGoals = [...previous.goals, newGoal];
-
-      return {
-        ...previous,
-        goals: updatedGoals,
-        overview: computeOverview(updatedGoals, previous.overview),
-      };
-    });
-
-    setSelectedGoalId(newGoal.id);
-    setWizardStep(1);
-    setFormState(initialFormState);
+    setIsCreatingGoal(true);
     setFormErrors([]);
-    setSuccessMessage(`Added ${newGoal.name} to active goals.`);
-    setCustomFocus("");
-    setCustomQuestion("");
-    setSelectedPromptId(null);
-    setAiResponse(null);
-    setAiStatus("idle");
-    setAiError(null);
 
-    if (typeof window !== "undefined") {
-      window.setTimeout(() => setSuccessMessage(null), 4500);
+    try {
+      const draft = buildDraftFromForm(formState, referenceDate);
+      const newGoal = await saveGoal(draft);
+
+      // Update the cache with the new goal
+      queryClient.setQueryData<GoalsWorkspacePayload>(goalsQueryKeys.workspace(), (previous) => {
+        if (!previous) {
+          return {
+            referenceDate,
+            goals: [newGoal],
+            overview: computeOverview([newGoal]),
+            insights: [],
+            prompts: [],
+          } satisfies GoalsWorkspacePayload;
+        }
+
+        const updatedGoals = [...previous.goals, newGoal];
+
+        return {
+          ...previous,
+          goals: updatedGoals,
+          overview: computeOverview(updatedGoals, previous.overview),
+        };
+      });
+
+      // Invalidate and refetch to ensure we have the latest data
+      await queryClient.invalidateQueries({ queryKey: goalsQueryKeys.workspace() });
+
+      setSelectedGoalId(newGoal.id);
+      setWizardStep(1);
+      setFormState(initialFormState);
+      setFormErrors([]);
+      setSuccessMessage(`Added ${newGoal.name} to active goals.`);
+      setCustomFocus("");
+      setCustomQuestion("");
+      setSelectedPromptId(null);
+      setAiResponse(null);
+      setAiStatus("idle");
+      setAiError(null);
+
+      if (typeof window !== "undefined") {
+        window.setTimeout(() => setSuccessMessage(null), 4500);
+      }
+    } catch (error) {
+      console.error('Failed to create goal:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to create goal. Please try again.';
+      setFormErrors([errorMessage]);
+    } finally {
+      setIsCreatingGoal(false);
     }
   }
 
@@ -883,15 +900,16 @@ export function GoalsSection() {
 
               <div className={patterns.actionRow}>
                 {wizardStep > 1 ? (
-                  <button type="button" className={controls.button} onClick={goToPreviousStep}>
+                  <button type="button" className={controls.button} onClick={goToPreviousStep} disabled={isCreatingGoal}>
                     Back
                   </button>
                 ) : null}
                 <button
                   type="submit"
                   className={[controls.button, controls.buttonPrimary].join(" ")}
+                  disabled={isCreatingGoal}
                 >
-                  {wizardPrimaryActionLabel}
+                  {isCreatingGoal ? "Creating..." : wizardPrimaryActionLabel}
                 </button>
               </div>
             </form>

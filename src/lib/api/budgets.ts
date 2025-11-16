@@ -1,3 +1,5 @@
+import { budgetsStorage } from './budgets-storage';
+
 export type BudgetPeriod = "monthly" | "weekly" | "custom";
 export type BudgetStatus = "healthy" | "warning" | "critical";
 
@@ -35,6 +37,7 @@ export interface BudgetsWorkspacePayload {
 export interface SaveBudgetInput {
   budget: Budget;
   mode: "create" | "edit";
+  currentWorkspace: BudgetsWorkspacePayload;
 }
 
 const initialBudgets: Budget[] = [
@@ -174,9 +177,36 @@ export function getBudgetsFixture(): BudgetsWorkspacePayload {
 }
 
 export async function fetchBudgetsWorkspace(): Promise<BudgetsWorkspacePayload> {
+  try {
+    const stored = await budgetsStorage.getBudgetsWorkspace();
+    if (stored) {
+      return stored;
+    }
+  } catch (error) {
+    console.warn('Failed to load stored budgets, using fixture:', error);
+  }
+  
   return getBudgetsFixture();
 }
 
 export async function saveBudget(input: SaveBudgetInput): Promise<Budget> {
-  return Promise.resolve({ ...input.budget, lastUpdated: new Date().toISOString() });
+  const updatedBudget = { ...input.budget, lastUpdated: new Date().toISOString() };
+  
+  let updatedBudgets: Budget[];
+  if (input.mode === 'edit') {
+    updatedBudgets = input.currentWorkspace.budgets.map(budget => 
+      budget.id === updatedBudget.id ? updatedBudget : budget
+    );
+  } else {
+    updatedBudgets = [...input.currentWorkspace.budgets, updatedBudget];
+  }
+  
+  const updatedWorkspace: BudgetsWorkspacePayload = {
+    ...input.currentWorkspace,
+    budgets: updatedBudgets
+  };
+  
+  await budgetsStorage.saveBudgetsWorkspace(updatedWorkspace);
+  
+  return updatedBudget;
 }
