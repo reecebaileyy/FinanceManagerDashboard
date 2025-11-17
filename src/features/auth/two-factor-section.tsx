@@ -11,14 +11,14 @@ type VerificationMode = "code" | "backup";
 
 const codeSchema = z.object({
   code: z
-    .string({ required_error: "Enter the 6-digit code." })
+    .string({ message: "Enter the 6-digit code." })
     .regex(/^[0-9]{6}$/u, "Codes are 6 digits.")
     .transform((value) => value.trim()),
 });
 
 const backupSchema = z.object({
   backupCode: z
-    .string({ required_error: "Enter your backup code." })
+    .string({ message: "Enter your backup code." })
     .min(8, "Backup codes are at least 8 characters."),
 });
 

@@ -22,6 +22,8 @@ import {
   parseSessionCookie,
   serializeSessionCookie,
 } from "../session/cookie";
+import { getClientEnv } from "@lib/config/env/client";
+import { login as loginViaApi, locallyValidatePassword } from "@lib/api/auth";
 
 const DEFAULT_DISPLAY_NAME = "Finance Manager user";
 const ADMIN_MATCHER = /(admin|security|finance)/i;
@@ -178,6 +180,7 @@ export function SessionProvider({ children, initialSession, initialCookie }: Ses
     session: resolveInitialSession(initialSession, initialCookie),
     pendingChallenge: null,
   }));
+  const CLIENT_ENV = getClientEnv();
 
   const status = useMemo<SessionStatus>(() => deriveStatus(state.session), [state.session]);
   const isDemo = state.session?.kind === "demo";
@@ -246,12 +249,37 @@ export function SessionProvider({ children, initialSession, initialCookie }: Ses
       const displayName = resolveDisplayName(credentials.email);
       const requiresTwoFactor = shouldRequireTwoFactor(normalizedEmail);
 
+      // 1) Verify credentials against auth API when available; otherwise use strict local fallback.
+      let verified = false;
+      let lastError: string | undefined;
+
+      const apiResult = await loginViaApi({ email: normalizedEmail, password: credentials.password });
+      if (apiResult.ok) {
+        verified = true;
+      } else {
+        lastError = apiResult.error;
+        // Attempt local validation only if API appears unavailable (avoid masking real 401s)
+        // Heuristic: if error mentions service unreachability or 404/5xx message
+        const unavailable = !lastError || /unable|error\s*\(|service|fetch/i.test(lastError);
+        if (unavailable) {
+          const local = locallyValidatePassword(normalizedEmail, credentials.password);
+          verified = local.ok;
+          lastError = local.error ?? lastError;
+        }
+      }
+
+      if (!verified) {
+        throw new Error(lastError || "We could not verify those credentials. Please try again.");
+      }
+
+      // 2) If credentials are valid, enforce 2FA policy when applicable.
       if (requiresTwoFactor) {
         const challenge = generateChallenge(normalizedEmail, displayName, options?.redirectTo);
         setState((previous) => ({ ...previous, pendingChallenge: challenge }));
         return { status: "needs_two_factor", challenge };
       }
 
+      // 3) Otherwise, establish an authenticated session locally (frontend cookie format).
       const nextSession = createSessionPayload({
         kind: "authenticated",
         user: {

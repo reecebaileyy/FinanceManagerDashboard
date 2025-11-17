@@ -36,11 +36,6 @@ export function createQueryClient(config?: QueryClientConfig): QueryClient {
 
 export function createTestQueryClient(config?: QueryClientConfig): QueryClient {
   return createQueryClient({
-    logger: {
-      log: console.log,
-      warn: console.warn,
-      error: () => {},
-    },
     ...config,
     defaultOptions: mergeDefaultOptions({
       queries: {

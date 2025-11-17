@@ -8,7 +8,7 @@ import patterns from "../../styles/patterns.module.css";
 import { z } from "zod";
 
 const passwordSchema = z
-  .string({ required_error: "Password is required." })
+  .string({ message: "Password is required." })
   .min(12, "Use at least 12 characters for stronger security.")
   .regex(/[A-Z]/, "Include at least one uppercase letter.")
   .regex(/[a-z]/, "Include at least one lowercase letter.")
@@ -18,15 +18,15 @@ const passwordSchema = z
 const signupSchema = z
   .object({
     fullName: z
-      .string({ required_error: "Full name is required." })
+      .string({ message: "Full name is required." })
       .min(2, "Enter your full name.")
       .max(80, "Name cannot exceed 80 characters."),
     email: z
-      .string({ required_error: "Email is required." })
+      .string({ message: "Email is required." })
       .email("Enter a valid email address."),
     password: passwordSchema,
-    confirmPassword: z.string({ required_error: "Confirm your password." }),
-    role: z.enum(["user", "admin"], { errorMap: () => ({ message: "Select a role." }) }),
+    confirmPassword: z.string({ message: "Confirm your password." }),
+    role: z.enum(["user", "admin"], { message: "Select a role." }),
     acceptTerms: z.boolean(),
   })
   .superRefine((data, context) => {

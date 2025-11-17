@@ -3,16 +3,22 @@ export default async function registerSharedArrayBuffer() {
     return;
   }
 
-  const { SharedArrayBuffer: NodeSharedArrayBuffer } = await import('node:worker_threads');
+  try {
+    const workerThreads = await import('node:worker_threads');
+    const { SharedArrayBuffer: NodeSharedArrayBuffer } = workerThreads;
 
-  if (!NodeSharedArrayBuffer) {
-    return;
+    if (!NodeSharedArrayBuffer) {
+      return;
+    }
+
+    Object.defineProperty(globalThis, 'SharedArrayBuffer', {
+      configurable: false,
+      enumerable: false,
+      writable: false,
+      value: NodeSharedArrayBuffer as typeof globalThis.SharedArrayBuffer,
+    });
+  } catch (error) {
+    // Worker threads not available, skip
+    console.warn('SharedArrayBuffer polyfill not available:', error);
   }
-
-  Object.defineProperty(globalThis, 'SharedArrayBuffer', {
-    configurable: false,
-    enumerable: false,
-    writable: false,
-    value: NodeSharedArrayBuffer as typeof globalThis.SharedArrayBuffer,
-  });
 }

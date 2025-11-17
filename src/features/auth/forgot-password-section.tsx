@@ -9,7 +9,7 @@ import { z } from "zod";
 
 const forgotPasswordSchema = z.object({
   email: z
-    .string({ required_error: "Email is required." })
+    .string({ message: "Email is required." })
     .email("Enter the email associated with your account."),
 });
 

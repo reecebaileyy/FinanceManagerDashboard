@@ -9,10 +9,10 @@ import { z } from "zod";
 
 const loginSchema = z.object({
   email: z
-    .string({ required_error: "Email is required." })
+    .string({ message: "Email is required." })
     .email("Enter a valid email address."),
   password: z
-    .string({ required_error: "Password is required." })
+    .string({ message: "Password is required." })
     .min(8, "Password must be at least 8 characters long.")
     .max(128, "Password cannot be longer than 128 characters."),
 });

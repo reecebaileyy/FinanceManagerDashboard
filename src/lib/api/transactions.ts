@@ -254,8 +254,39 @@ export function getTransactionsFixture(): TransactionsWorkspacePayload {
   return buildWorkspace();
 }
 
+// Persistence layer (API + localStorage hybrid)
+import { transactionsStorage } from './transactions-storage';
+
 export async function fetchTransactionsWorkspace(): Promise<TransactionsWorkspacePayload> {
-  return buildWorkspace();
+  try {
+    const stored = await transactionsStorage.getTransactionsWorkspace();
+    if (stored) {
+      return stored;
+    }
+  } catch (error) {
+    console.warn('Failed to load stored transactions, using fixture:', error);
+  }
+  return getTransactionsFixture();
+}
+
+export async function saveTransactionsWorkspace(workspace: TransactionsWorkspacePayload): Promise<void> {
+  await transactionsStorage.saveTransactionsWorkspace(workspace);
+}
+
+export async function saveTransactions(
+  transactions: Transaction[],
+  importJobs: ImportJob[],
+): Promise<void> {
+  const accounts = computeUniqueValues(transactions.map((t) => t.accountName));
+  const categories = computeUniqueValues(transactions.map((t) => t.category));
+  const workspace: TransactionsWorkspacePayload = {
+    transactions: cloneTransactions(transactions),
+    importJobs: cloneImportJobs(importJobs),
+    accounts,
+    categories,
+    lastSyncedAt: new Date().toISOString(),
+  };
+  await saveTransactionsWorkspace(workspace);
 }
 
 function delay(ms: number) {

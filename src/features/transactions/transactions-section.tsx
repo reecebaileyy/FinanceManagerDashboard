@@ -10,6 +10,8 @@ import { useDialogFocusTrap } from "@lib/a11y/use-dialog-focus-trap";
 import {
   bulkUpdateTransactionTags,
   getTransactionsFixture,
+  fetchTransactionsWorkspace,
+  saveTransactions,
   type BulkUpdateTransactionTagsInput,
   type BulkUpdateTransactionTagsResult,
   type ImportJob,
@@ -127,7 +129,12 @@ export function TransactionsSection() {
   const [importJobs, setImportJobs] = useState<ImportJob[]>(initialWorkspace.importJobs);
 
   const transactionsRef = useRef(transactions);
-  const bulkUpdateMutation = useMutation<BulkUpdateTransactionTagsResult, Error, BulkUpdateTransactionTagsInput>({
+  const bulkUpdateMutation = useMutation<
+    BulkUpdateTransactionTagsResult, 
+    Error, 
+    BulkUpdateTransactionTagsInput,
+    { previousTransactions: Transaction[] }
+  >({
     mutationFn: bulkUpdateTransactionTags,
     onMutate: (variables) => {
       setBulkError(null);
@@ -174,12 +181,34 @@ export function TransactionsSection() {
       setBulkModalOpen(false);
       setBulkForm({ addTags: '', removeTags: '', category: '', replaceTags: false });
       setSelection(new Set());
+      // Persist updated transactions
+      void saveTransactions(transactionsRef.current, importJobs).catch((err) => {
+        console.warn('Failed to persist bulk update:', err);
+      });
     },
   });
 
   useEffect(() => {
     transactionsRef.current = transactions;
   }, [transactions]);
+
+  // Load any persisted workspace (API/localStorage) after mount
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const persisted = await fetchTransactionsWorkspace();
+        if (!mounted) return;
+        setTransactions(persisted.transactions);
+        setImportJobs(persisted.importJobs);
+      } catch (error) {
+        console.warn('Failed to load persisted transactions, using fixture:', error);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const closeBulkModal = () => {
     setBulkModalOpen(false);
@@ -190,7 +219,7 @@ export function TransactionsSection() {
   const bulkDialogRef = useRef<HTMLDivElement>(null);
   const importDialogRef = useRef<HTMLDivElement>(null);
 
-  useDialogFocusTrap(bulkDialogRef, {
+  useDialogFocusTrap(bulkDialogRef as React.RefObject<HTMLElement>, {
     active: bulkModalOpen,
     onEscape: () => setBulkModalOpen(false),
   });
@@ -214,7 +243,7 @@ export function TransactionsSection() {
     transactionsRef.current = fresh.transactions;
   };
 
-  useDialogFocusTrap(importDialogRef, {
+  useDialogFocusTrap(importDialogRef as React.RefObject<HTMLElement>, {
     active: importModalOpen,
     onEscape: () => {
       setImportModalOpen(false);
@@ -466,7 +495,12 @@ export function TransactionsSection() {
       notes: notes || null,
     };
 
-    setTransactions((current) => [newTransaction, ...current]);
+    const nextTransactions = [newTransaction, ...transactionsRef.current];
+    setTransactions(nextTransactions);
+    // Persist workspace
+    void saveTransactions(nextTransactions, importJobs).catch((err) => {
+      console.warn('Failed to persist new transaction:', err);
+    });
     setFeedback(`Transaction drafted for ${accountName}.`);
     form.reset();
   };
@@ -537,7 +571,12 @@ export function TransactionsSection() {
       records: 0,
     };
 
-    setImportJobs((current) => [newJob, ...current].slice(0, 5));
+    const nextJobs = [newJob, ...importJobs].slice(0, 5);
+    setImportJobs(nextJobs);
+    // Persist workspace
+    void saveTransactions(transactionsRef.current, nextJobs).catch((err) => {
+      console.warn('Failed to persist import job:', err);
+    });
     setImportForm({ ...defaultImportForm });
     setImportError(null);
     setImportModalOpen(false);

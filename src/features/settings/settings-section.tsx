@@ -59,6 +59,7 @@ const PROFILE_DEFAULTS: ProfileFormState = {
   phone: "+1 (555) 482-9310",
   timeZone: "America/New_York",
   language: "en-US",
+  currency: "USD",
 };
 
 const LINKED_ACCOUNT_FIXTURES: LinkedAccount[] = [
