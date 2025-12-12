@@ -2,16 +2,35 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import type { UnityConfig, UnityInstance } from './types';
+import type { GameDifficulty, UnityConfig, UnityInstance } from './types';
 
 import styles from './game-modal.module.css';
 
 interface UnityGamePlayerProps {
+  difficulty: GameDifficulty;
   onLoaded?: () => void;
   onError?: (error: string) => void;
 }
 
-export function UnityGamePlayer({ onLoaded, onError }: UnityGamePlayerProps) {
+const difficultyConfig = {
+  easy: {
+    folder: 'BudgetingEasy',
+    buildName: 'BudgetingEasy',
+    productName: 'Budgeting Game - Easy',
+  },
+  normal: {
+    folder: 'BudgetingNormal',
+    buildName: 'BudgetingNormal',
+    productName: 'Budgeting Game - Normal',
+  },
+  hard: {
+    folder: 'BudgetingHard',
+    buildName: 'BudgetingHard',
+    productName: 'Budgeting Game - Hard',
+  },
+};
+
+export function UnityGamePlayer({ difficulty, onLoaded, onError }: UnityGamePlayerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const unityInstanceRef = useRef<UnityInstance | null>(null);
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -27,10 +46,12 @@ export function UnityGamePlayer({ onLoaded, onError }: UnityGamePlayerProps) {
         return;
       }
 
+      const config = difficultyConfig[difficulty];
+
       try {
         // Load the Unity loader script
         scriptElement = document.createElement('script');
-        scriptElement.src = '/unity-game/Build/unitytempgame.loader.js';
+        scriptElement.src = `/unity-game/${config.folder}/Build/${config.buildName}.loader.js`;
 
         scriptElement.onload = async () => {
           if (!isMounted || !canvasRef.current) {
@@ -39,13 +60,13 @@ export function UnityGamePlayer({ onLoaded, onError }: UnityGamePlayerProps) {
 
           const canvas = canvasRef.current;
 
-          const config: UnityConfig = {
-            dataUrl: '/unity-game/Build/unitytempgame.data',
-            frameworkUrl: '/unity-game/Build/unitytempgame.framework.js',
-            codeUrl: '/unity-game/Build/unitytempgame.wasm',
+          const unityConfig: UnityConfig = {
+            dataUrl: `/unity-game/${config.folder}/Build/${config.buildName}.data`,
+            frameworkUrl: `/unity-game/${config.folder}/Build/${config.buildName}.framework.js`,
+            codeUrl: `/unity-game/${config.folder}/Build/${config.buildName}.wasm`,
             streamingAssetsUrl: 'StreamingAssets',
             companyName: 'DefaultCompany',
-            productName: 'Game 2',
+            productName: config.productName,
             productVersion: '1.0',
             showBanner: (msg: string, type: 'error' | 'warning' | 'info') => {
               console.log(`[Unity ${type}]:`, msg);
@@ -63,7 +84,7 @@ export function UnityGamePlayer({ onLoaded, onError }: UnityGamePlayerProps) {
 
             const unityInstance = await window.createUnityInstance(
               canvas,
-              config,
+              unityConfig,
               (progress: number) => {
                 if (isMounted) {
                   setLoadingProgress(Math.round(progress * 100));
@@ -124,7 +145,7 @@ export function UnityGamePlayer({ onLoaded, onError }: UnityGamePlayerProps) {
         scriptElement.parentNode.removeChild(scriptElement);
       }
     };
-  }, [onLoaded, onError]);
+  }, [difficulty, onLoaded, onError]);
 
   if (error) {
     return (
@@ -154,4 +175,5 @@ export function UnityGamePlayer({ onLoaded, onError }: UnityGamePlayerProps) {
     </div>
   );
 }
+
 

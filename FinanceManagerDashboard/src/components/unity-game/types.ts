@@ -2,6 +2,8 @@
  * Type definitions for Unity WebGL integration
  */
 
+export type GameDifficulty = 'easy' | 'normal' | 'hard';
+
 export interface UnityConfig {
   dataUrl: string;
   frameworkUrl: string;
@@ -34,4 +36,5 @@ declare global {
 }
 
 export {};
+
 

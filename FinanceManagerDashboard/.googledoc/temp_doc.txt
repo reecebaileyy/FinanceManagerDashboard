@@ -22,7 +22,7 @@ Authentication & Authorization..................................................
 8. UX Design...............................................................................................................................43 8.1 Aesthetic (UI Design).......................................................................................................43 Color Scheme:................................................................................................................. 43 Typography:..................................................................................................................... 44 Layout:............................................................................................................................. 44 Iconography:.................................................................................................................... 44
 8.2 User Research.................................................................................................................45 8.3 User Personas................................................................................................................. 46 Persona 7: Emily Tran..................................................................................................... 49 Persona 8: Marco Delgado.............................................................................................. 49 Persona 9: Aisha Khan.................................................................................................... 50 8.4 UX Frameworks............................................................................................................... 51 8.4.1 Framework Diagram (Double Diamond Diagram)...................................................52 8.5.1 UX Architecture Diagram (Information Architecture Diagram)................................53 9. Prototype................................................................................................................................55 Youtube Video Prototype: https://youtu.be/iktkCm6eEO4..................................................... 62 Prototype CPSC 490 Github Link: JacobH123/CPSC-490-Prototype....................................62
 *********************************************CPSC 491****************************************************
-		9. Implementation Methods……………………………………………………………………………….. 			9.1 Coding Standards…………………………………………………………………………….. 			9.2 Best Practices…………………………………………………………………………………. 			9.3 Tools for evaluating……………………………………………………………………………
+		9. Implementation Methods………………………………………………………………………………..			9.1 Coding Standards……………………………………………………………………………..			9.2 Best Practices………………………………………………………………………………….			9.3 Tools for evaluating……………………………………………………………………………
 			Github CPSC 491 link:MrMiniMIze/FinanceManagerDashboard/tree/nextjs-conversion...
 		10. Network Analysis and Map …………………………………………………………………………...
 		11. Threat Model ……………………………………………………………………………………………
@@ -1579,7 +1579,7 @@ Exploratory Testing:
 	•	Conducted mid-sprint sessions targeting reporting UX and financial edge cases.
 	•	Identified scenarios like negative cash flow and multi-currency inconsistencies.
 	•	Findings documented in sprint notes and converted into actionable Jira tickets.
-End-to-End Testing Preparation: 
+End-to-End Testing Preparation:
 	•	Compared Cypress and Playwright for edge runtime parity.
 	•	Playwright chosen for next sprint to validate SSR behavior and PDF export accuracy.
 	•	Spike ticket created; configuration and environment notes stored in docs/architecture.md.
@@ -1593,13 +1593,13 @@ Tooling and CI Environment:
 	•	Synthetic fixture generation planned using faker-style helpers for consistent data across tests.
 
 14.3 Test Result
-	•	TC 1- All browsers are consistent. PASS  Microsoft Edge  Google Chrome
- FIrefox
+	•	TC 1- All browsers are consistent. PASSMicrosoft EdgeGoogle Chrome
+FIrefox
 
-	•	TC 2 - Some contents overlay each other when resizing. FAIL 
+	•	TC 2 - Some contents overlay each other when resizing. FAIL
 	•	TC 3 - Valid Login Credentials
-  
-VITEST -  Frontend:
+ 
+VITEST -Frontend:
 
 Backend:
 
@@ -1639,7 +1639,7 @@ The login and create tabs are replaced with the logout tab once the user signed 
 
 
 15. Code Development - https://github.com/reecebaileyy/FinanceManagerDashboard
-16. CICD -  https://github.com/reecebaileyy/FinanceManagerDashboard
+16. CICD - https://github.com/reecebaileyy/FinanceManagerDashboard
 17. Operation
 18. Conclusion
 
