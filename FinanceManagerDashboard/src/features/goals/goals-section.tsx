@@ -1,10 +1,11 @@
-﻿"use client";
+"use client";
 
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { Card, CardBody, CardHeader } from "@components/dashboard/card";
+import { GameModal } from "@components/unity-game";
 import { useLocalization } from "@features/i18n";
 
 import {
@@ -18,6 +19,7 @@ import {
   goalsQueryKeys,
   requestGoalRecommendation,
 } from "@lib/api/goals";
+import { getDifficultyRecommendation } from "@lib/game-difficulty";
 
 import patterns from "../../styles/patterns.module.css";
 import controls from "../../styles/controls.module.css";
@@ -255,6 +257,11 @@ export function GoalsSection() {
   const [aiResponse, setAiResponse] = useState<GoalRecommendationResponse | null>(null);
   const [aiStatus, setAiStatus] = useState<"idle" | "loading" | "ready">("idle");
   const [aiError, setAiError] = useState<string | null>(null);
+  const [showGameModal, setShowGameModal] = useState(false);
+  const [gameRecommendation, setGameRecommendation] = useState<{
+    difficulty: string;
+    reason: string;
+  } | null>(null);
 
   const referenceDate = workspace?.referenceDate ?? new Date().toISOString().slice(0, 10);
   const goals = workspace?.goals ?? [];
@@ -418,6 +425,17 @@ export function GoalsSection() {
     }
   }
 
+  function handleOpenGame() {
+    const recommendation = getDifficultyRecommendation(undefined, goals, referenceDate);
+    setGameRecommendation(recommendation);
+    setShowGameModal(true);
+  }
+
+  function handleCloseGame() {
+    setShowGameModal(false);
+    setGameRecommendation(null);
+  }
+
   if (isLoading) {
     return <div className={styles.loadingState}>Loading goals workspace...</div>;
   }
@@ -452,7 +470,20 @@ export function GoalsSection() {
     <div className={styles.goalsWorkspace}>
       <div className={styles.summaryGrid}>
         <Card className={styles.summaryCard}>
-          <CardHeader title="Goal commitments" subtitle={overview.highlight} />
+          <CardHeader 
+            title="Goal commitments" 
+            subtitle={overview.highlight}
+            actions={
+              <button
+                type="button"
+                className={[controls.button, controls.buttonPrimary].join(" ")}
+                onClick={handleOpenGame}
+                aria-label="Play budgeting game"
+              >
+                🎮 Play Game
+              </button>
+            }
+          />
           <CardBody className={styles.summaryBody}>
             <div className={styles.summaryMetric}>{formatCents(overview.totalCurrentCents)}</div>
             <div className={styles.summaryLabel}>of {formatCents(overview.totalTargetCents)} funded</div>
@@ -1002,6 +1033,13 @@ export function GoalsSection() {
           )}
         </CardBody>
       </Card>
+
+      <GameModal
+        isOpen={showGameModal}
+        onClose={handleCloseGame}
+        recommendedDifficulty={gameRecommendation?.difficulty as 'easy' | 'normal' | 'hard' | undefined}
+        recommendationReason={gameRecommendation?.reason}
+      />
     </div>
   );
 }

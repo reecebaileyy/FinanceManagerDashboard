@@ -11,11 +11,15 @@ import styles from './game-modal.module.css';
 interface GameModalProps {
   isOpen: boolean;
   onClose: () => void;
+  recommendedDifficulty?: GameDifficulty;
+  recommendationReason?: string;
 }
 
-export function GameModal({ isOpen, onClose }: GameModalProps) {
+export function GameModal({ isOpen, onClose, recommendedDifficulty, recommendationReason }: GameModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
-  const [selectedDifficulty, setSelectedDifficulty] = useState<GameDifficulty | null>(null);
+  const [selectedDifficulty, setSelectedDifficulty] = useState<GameDifficulty | null>(
+    recommendedDifficulty || null
+  );
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
@@ -30,7 +34,7 @@ export function GameModal({ isOpen, onClose }: GameModalProps) {
       document.body.style.overflow = 'hidden';
     } else {
       // Reset difficulty when modal closes
-      setSelectedDifficulty(null);
+      setSelectedDifficulty(recommendedDifficulty || null);
     }
 
     return () => {
@@ -56,7 +60,7 @@ export function GameModal({ isOpen, onClose }: GameModalProps) {
   };
 
   const handleBackGame = () => {
-    setSelectedDifficulty(null);
+    setSelectedDifficulty(recommendedDifficulty || null);
   };
 
   if (!isOpen) {
@@ -109,7 +113,11 @@ export function GameModal({ isOpen, onClose }: GameModalProps) {
           {selectedDifficulty ? (
             <UnityGamePlayer difficulty={selectedDifficulty} />
           ) : (
-            <DifficultySelector onSelectDifficulty={handleSelectDifficulty} />
+            <DifficultySelector 
+              onSelectDifficulty={handleSelectDifficulty}
+              recommendedDifficulty={recommendedDifficulty}
+              recommendationReason={recommendationReason}
+            />
           )}
         </div>
       </div>

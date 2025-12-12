@@ -322,4 +322,80 @@
   }
 }
 
+/* Recommendation styles */
+.recommendationReason {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background-color: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 0.75rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  width: 100%;
+}
+
+.recommendationIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.recommendationReason > span:last-child {
+  color: var(--text-primary, #ffffff);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.difficultyRecommended {
+  position: relative;
+  border-color: #3b82f6 !important;
+  background-color: rgba(59, 130, 246, 0.15) !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2), 0 10px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px);
+}
+
+.difficultyRecommended::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  z-index: -1;
+  opacity: 0.3;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.recommendedBadge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Adjust button positioning for badge */
+.difficultyButton {
+  position: relative;
+}
+
 

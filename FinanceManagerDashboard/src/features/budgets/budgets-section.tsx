@@ -1,10 +1,11 @@
-﻿'use client';
+'use client';
 
 import { useMutation } from '@tanstack/react-query';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Card, CardBody, CardHeader } from '@components/dashboard/card';
 import { InteractionErrorBoundary } from '@components/error-boundary';
+import { GameModal } from '@components/unity-game';
 import {
   getBudgetsFixture,
   saveBudget,
@@ -14,6 +15,7 @@ import {
   type BudgetStatus,
   type SaveBudgetInput,
 } from '@lib/api/budgets';
+import { getDifficultyRecommendation } from '@lib/game-difficulty';
 
 import { downloadBudgetsCsv } from './budgets-export';
 import styles from './budgets-section.module.css';
@@ -493,6 +495,11 @@ export function BudgetsSection() {
     state: 'idle',
     message: undefined,
   });
+  const [showGameModal, setShowGameModal] = useState(false);
+  const [gameRecommendation, setGameRecommendation] = useState<{
+    difficulty: string;
+    reason: string;
+  } | null>(null);
 
   const budgetMutation = useMutation<Budget, Error, SaveBudgetInput, BudgetMutationContext>({
     mutationFn: saveBudget,
@@ -786,6 +793,17 @@ export function BudgetsSection() {
     }
   };
 
+  const handleOpenGame = () => {
+    const recommendation = getDifficultyRecommendation(metrics);
+    setGameRecommendation(recommendation);
+    setShowGameModal(true);
+  };
+
+  const handleCloseGame = () => {
+    setShowGameModal(false);
+    setGameRecommendation(null);
+  };
+
   const primaryAlert = alerts[0];
   const summaryMessage = primaryAlert
     ? `Focus on ${primaryAlert.message.replace(/\.$/, '').toLowerCase()} before close.`
@@ -812,6 +830,14 @@ export function BudgetsSection() {
                   disabled={isSaving}
                 >
                   Add budget
+                </button>
+                <button
+                  type="button"
+                  className={controls.button}
+                  onClick={handleOpenGame}
+                  aria-label="Play budgeting game"
+                >
+                  🎮 Play Game
                 </button>
                 <button
                   type="button"
@@ -1392,6 +1418,13 @@ export function BudgetsSection() {
             </div>
           </div>
         ) : null}
+        
+        <GameModal
+          isOpen={showGameModal}
+          onClose={handleCloseGame}
+          recommendedDifficulty={gameRecommendation?.difficulty as 'easy' | 'normal' | 'hard' | undefined}
+          recommendationReason={gameRecommendation?.reason}
+        />
       </section>
     </InteractionErrorBoundary>
   );
