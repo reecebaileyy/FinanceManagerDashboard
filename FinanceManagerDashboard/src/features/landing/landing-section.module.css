@@ -1,0 +1,128 @@
+.section {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 0.6rem;
+}
+
+.authStatus {
+  margin-top: var(--space-sm);
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.authLink {
+  margin-top: var(--space-sm);
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 0.9rem;
+  color: var(--color-accent-strong);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.authLink:hover {
+  color: var(--color-accent);
+}
+
+.mvpNote {
+  margin-top: 1.1rem;
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+}
+
+.highlights {
+  margin-top: var(--space-md);
+  gap: 0.5rem;
+}
+
+.linksHeading {
+  margin-top: var(--space-lg);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.quickLinks {
+  margin: var(--space-md) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--space-sm);
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+
+.quickLinks li {
+  list-style: none;
+}
+
+.quickLinkCard {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--card-border);
+  background: var(--card-background);
+  transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+}
+
+.quickLinkCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--color-accent);
+}
+
+.quickLinkTitle {
+  font-weight: 600;
+}
+
+.quickLinkDescription {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.statList {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.statHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.budgetHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.budgetHeader strong {
+  font-size: 0.95rem;
+}
+
+.previewBody {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.metricsGroup {
+  display: grid;
+  gap: 0.85rem;
+}
+
+@media (max-width: 700px) {
+  .quickLinks {
+    grid-template-columns: 1fr;
+  }
+}
