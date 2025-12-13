@@ -1424,6 +1424,7 @@ export function BudgetsSection() {
           onClose={handleCloseGame}
           recommendedDifficulty={gameRecommendation?.difficulty as 'easy' | 'normal' | 'hard' | undefined}
           recommendationReason={gameRecommendation?.reason}
+          autoStart={true}
         />
       </section>
     </InteractionErrorBoundary>

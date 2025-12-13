@@ -13,13 +13,12 @@ interface GameModalProps {
   onClose: () => void;
   recommendedDifficulty?: GameDifficulty;
   recommendationReason?: string;
+  autoStart?: boolean; // If true, automatically starts with recommended difficulty
 }
 
-export function GameModal({ isOpen, onClose, recommendedDifficulty, recommendationReason }: GameModalProps) {
+export function GameModal({ isOpen, onClose, recommendedDifficulty, recommendationReason, autoStart = false }: GameModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
-  const [selectedDifficulty, setSelectedDifficulty] = useState<GameDifficulty | null>(
-    recommendedDifficulty || null
-  );
+  const [selectedDifficulty, setSelectedDifficulty] = useState<GameDifficulty | null>(null);
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
@@ -32,9 +31,6 @@ export function GameModal({ isOpen, onClose, recommendedDifficulty, recommendati
       document.addEventListener('keydown', handleEscape);
       // Prevent body scroll when modal is open
       document.body.style.overflow = 'hidden';
-    } else {
-      // Reset difficulty when modal closes
-      setSelectedDifficulty(recommendedDifficulty || null);
     }
 
     return () => {
@@ -48,7 +44,15 @@ export function GameModal({ isOpen, onClose, recommendedDifficulty, recommendati
       // Focus the modal when it opens
       modalRef.current.focus();
     }
-  }, [isOpen]);
+    
+    // Auto-start with recommended difficulty when modal opens
+    if (isOpen && autoStart && recommendedDifficulty) {
+      setSelectedDifficulty(recommendedDifficulty);
+    } else if (!isOpen) {
+      // Reset when closing
+      setSelectedDifficulty(null);
+    }
+  }, [isOpen, autoStart, recommendedDifficulty]);
 
   const handleClose = () => {
     setSelectedDifficulty(null);
@@ -60,7 +64,12 @@ export function GameModal({ isOpen, onClose, recommendedDifficulty, recommendati
   };
 
   const handleBackGame = () => {
-    setSelectedDifficulty(recommendedDifficulty || null);
+    if (autoStart) {
+      // If autoStart is enabled, going back closes the modal entirely
+      handleClose();
+    } else {
+      setSelectedDifficulty(null);
+    }
   };
 
   if (!isOpen) {
@@ -87,7 +96,7 @@ export function GameModal({ isOpen, onClose, recommendedDifficulty, recommendati
         tabIndex={-1}
       >
         <div className={styles.modalHeader}>
-          {selectedDifficulty && (
+          {selectedDifficulty && !autoStart && (
             <button
               type="button"
               className={styles.backButton}
@@ -98,7 +107,9 @@ export function GameModal({ isOpen, onClose, recommendedDifficulty, recommendati
             </button>
           )}
           <h2 id="game-modal-title" className={styles.modalTitle}>
-            {selectedDifficulty ? 'Budgeting Game' : 'Choose Your Challenge'}
+            {selectedDifficulty 
+              ? `Budgeting Game: Difficulty ${selectedDifficulty.charAt(0).toUpperCase() + selectedDifficulty.slice(1)}`
+              : 'Choose Your Challenge'}
           </h2>
           <button
             type="button"

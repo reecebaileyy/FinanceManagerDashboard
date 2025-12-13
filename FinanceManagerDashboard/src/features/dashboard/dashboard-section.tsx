@@ -23,7 +23,6 @@ import { CSS } from '@dnd-kit/utilities';
 import { useMemo, useRef, useState, type ReactNode } from 'react';
 
 import { Card, CardBody, CardHeader } from '@components/dashboard/card';
-import { GameModal } from '@components/unity-game';
 
 import styles from './dashboard-section.module.css';
 import {
@@ -228,8 +227,6 @@ export function DashboardSection() {
   const [isCustomizing, setIsCustomizing] = useState(false);
 
   const [activeWidget, setActiveWidget] = useState<DashboardWidgetId | null>(null);
-
-  const [isGameModalOpen, setIsGameModalOpen] = useState(false);
 
   const previousLayoutRef = useRef<DashboardLayout | null>(null);
 
@@ -607,21 +604,6 @@ export function DashboardSection() {
           <CardHeader title="Quick actions" subtitle="Jump back into common workflows" />
 
           <CardBody className={styles.quickActions}>
-            {/* Game launch action */}
-            <div className={styles.quickAction}>
-              <div className={styles.quickActionText}>
-                <span>Play Game</span>
-                <p className={styles.quickActionDescription}>Take a break and play our mini-game</p>
-              </div>
-              <button
-                type="button"
-                className={`${controls.button} ${controls.buttonPrimary}`}
-                onClick={() => setIsGameModalOpen(true)}
-              >
-                Launch Game
-              </button>
-            </div>
-
             {quickActions.length ? (
               quickActions.map((action) => (
                 <div key={action.label} className={styles.quickAction}>
@@ -775,8 +757,6 @@ export function DashboardSection() {
           {activeOverlay ? <div className={styles.dragOverlay}>{activeOverlay}</div> : null}
         </DragOverlay>
       </DndContext>
-
-      <GameModal isOpen={isGameModalOpen} onClose={() => setIsGameModalOpen(false)} />
     </section>
   );
 }
