@@ -24,7 +24,7 @@ function getFocusableElements(container: HTMLElement) {
   );
 }
 
-export function useDialogFocusTrap(ref: React.RefObject<HTMLElement>, options: FocusTrapOptions) {
+export function useDialogFocusTrap(ref: React.RefObject<HTMLElement | null>, options: FocusTrapOptions) {
   const { active, initialFocus, onEscape } = options;
   const previousFocusRef = useRef<HTMLElement | null>(null);
 

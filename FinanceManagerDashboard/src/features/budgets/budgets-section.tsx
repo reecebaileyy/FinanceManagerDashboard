@@ -501,6 +501,25 @@ export function BudgetsSection() {
     reason: string;
   } | null>(null);
 
+  // Merge persisted budgets from localStorage on client mount to avoid
+  // reading browser storage during server render which causes hydration mismatches.
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('fm.budgets.v1');
+      if (!raw) return;
+      const persisted = JSON.parse(raw) as Budget[];
+      if (!Array.isArray(persisted) || persisted.length === 0) return;
+
+      setBudgets((prev) => {
+        const existing = new Set(prev.map((b) => b.id));
+        const toAdd = persisted.filter((b) => !existing.has(b.id));
+        return toAdd.length ? [...toAdd, ...prev] : prev;
+      });
+    } catch (_e) {
+      // ignore storage errors
+    }
+  }, []);
+
   const budgetMutation = useMutation<Budget, Error, SaveBudgetInput, BudgetMutationContext>({
     mutationFn: saveBudget,
     onMutate: (input: SaveBudgetInput): BudgetMutationContext => {

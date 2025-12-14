@@ -250,6 +250,35 @@ export const transactionsQueryKeys = {
   workspace: () => [...transactionsQueryKeys.all(), "workspace"] as const,
 };
 
+const PERSIST_KEY = "fm.manualTransactions.v1";
+
+function loadManualTransactions(): Transaction[] {
+  try {
+    if (typeof localStorage === "undefined") return [];
+    const raw = localStorage.getItem(PERSIST_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as Transaction[];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (_e) {
+    return [];
+  }
+}
+
+function saveManualTransactions(manual: Transaction[]) {
+  try {
+    if (typeof localStorage === "undefined") return;
+    localStorage.setItem(PERSIST_KEY, JSON.stringify(manual));
+  } catch (_e) {
+    // ignore
+  }
+}
+
+export function saveManualTransaction(transaction: Transaction) {
+  const current = loadManualTransactions();
+  const next = [transaction, ...current].slice(0, 500);
+  saveManualTransactions(next);
+}
+
 export function getTransactionsFixture(): TransactionsWorkspacePayload {
   return buildWorkspace();
 }
@@ -257,6 +286,7 @@ export function getTransactionsFixture(): TransactionsWorkspacePayload {
 export async function fetchTransactionsWorkspace(): Promise<TransactionsWorkspacePayload> {
   return buildWorkspace();
 }
+
 
 function delay(ms: number) {
   return new Promise((resolve) => {

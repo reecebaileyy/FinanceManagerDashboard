@@ -173,10 +173,63 @@ export function getBudgetsFixture(): BudgetsWorkspacePayload {
   };
 }
 
+const PERSIST_KEY = "fm.budgets.v1";
+
+function loadPersistedBudgets(): Budget[] {
+  try {
+    if (typeof localStorage === "undefined") return [];
+    const raw = localStorage.getItem(PERSIST_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as Budget[];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (_e) {
+    return [];
+  }
+}
+
+function saveBudgetsToStorage(budgets: Budget[]) {
+  try {
+    if (typeof localStorage === "undefined") return;
+    localStorage.setItem(PERSIST_KEY, JSON.stringify(budgets));
+  } catch (_e) {
+    // ignore
+  }
+}
+
+function mergeWithBaseBudgets(): Budget[] {
+  const persisted = loadPersistedBudgets();
+  const merged = [...persisted, ...baseBudgets];
+  return cloneBudgets(merged);
+}
+
 export async function fetchBudgetsWorkspace(): Promise<BudgetsWorkspacePayload> {
   return getBudgetsFixture();
 }
 
 export async function saveBudget(input: SaveBudgetInput): Promise<Budget> {
-  return Promise.resolve({ ...input.budget, lastUpdated: new Date().toISOString() });
+  const saved: Budget = { ...input.budget, lastUpdated: new Date().toISOString() };
+
+  try {
+    const persisted = loadPersistedBudgets();
+
+    if (input.mode === "create") {
+      const next = [saved, ...persisted].slice(0, 200);
+      saveBudgetsToStorage(next);
+    } else {
+      const next = persisted.map((b) => (b.id === saved.id ? saved : b));
+      saveBudgetsToStorage(next);
+    }
+  } catch (_e) {
+    // ignore persistence errors
+  }
+
+  return Promise.resolve(saved);
+}
+
+// Update getBudgetsFixture to include persisted budgets (client-only safe since callers are client components)
+export function getBudgetsFixtureWithPersistence(): BudgetsWorkspacePayload {
+  return {
+    referenceDate: referenceDateIso,
+    budgets: mergeWithBaseBudgets(),
+  };
 }
