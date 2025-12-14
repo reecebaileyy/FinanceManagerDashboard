@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Card, CardBody, CardHeader } from '@components/dashboard/card';
+import { DateSimulator } from '@components/date-simulator';
 import { InteractionErrorBoundary } from '@components/error-boundary';
 import { GameModal } from '@components/unity-game';
 import {
@@ -1425,7 +1426,11 @@ export function BudgetsSection() {
           recommendedDifficulty={gameRecommendation?.difficulty as 'easy' | 'normal' | 'hard' | undefined}
           recommendationReason={gameRecommendation?.reason}
           autoStart={true}
+          gameType="budgeting"
+          gameTitle="Budgeting Game"
         />
+        
+        <DateSimulator />
       </section>
     </InteractionErrorBoundary>
   );

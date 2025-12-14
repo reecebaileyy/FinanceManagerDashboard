@@ -1,5 +1,6 @@
-import type { GameDifficulty } from '@components/unity-game/types';
+import type { GameDifficulty, GameType } from '@components/unity-game/types';
 import type { Goal } from './api/goals';
+import { getCurrentDate } from './date-simulator';
 
 /**
  * Thresholds for budget variance (in percent)
@@ -95,6 +96,43 @@ export function calculateGoalDifficulty(goals: Goal[], referenceDate?: string): 
 }
 
 /**
+ * Calculate difficulty for Emergency Cushion game based on whether goal is met by target date
+ * For goals: if user meets goal by date = easy, if they miss the date = hard
+ * 
+ * @param goal - The specific goal to check
+ * @param currentDate - Current/reference date for comparison
+ * @returns 'easy' if goal met, 'hard' if missed
+ */
+export function calculateEmergencyCushionDifficulty(goal: Goal, currentDate: Date): GameDifficulty {
+  const targetDate = new Date(goal.targetDate);
+  const currentAmount = goal.currentAmountCents;
+  const targetAmount = goal.targetAmountCents;
+  
+  // If goal is already completed, it's easy
+  if (goal.health === 'completed' || currentAmount >= targetAmount) {
+    return 'easy';
+  }
+  
+  // If current date is past target date and goal not met = hard
+  if (currentDate > targetDate && currentAmount < targetAmount) {
+    return 'hard';
+  }
+  
+  // If still before or on target date
+  if (currentDate <= targetDate) {
+    // Only 'behind' status before deadline should be hard
+    // 'attention', 'onTrack', and 'ahead' are all considered easy if there's still time
+    if (goal.health === 'behind') {
+      return 'hard';
+    }
+    return 'easy';
+  }
+  
+  // Fallback to easy
+  return 'easy';
+}
+
+/**
  * Combine budget and goal difficulties into a single recommendation
  * 
  * @param budgetDifficulty - Difficulty from budget variance
@@ -150,21 +188,99 @@ export interface DifficultyRecommendation {
 }
 
 /**
+ * Map a goal to its appropriate game type based on category/name
+ * 
+ * @param goal - The goal to map
+ * @returns The game type to use for this goal
+ */
+export function getGameTypeForGoal(goal: Goal): GameType {
+  const goalNameLower = goal.name.toLowerCase();
+  const goalCategoryLower = goal.category.toLowerCase();
+  
+  // Emergency/Emergency Cushion goals
+  if (goalCategoryLower.includes('emergency') || goalNameLower.includes('emergency') || goalNameLower.includes('cushion')) {
+    return 'emergency-cushion';
+  }
+  
+  // Travel/Vacation goals
+  if (goalCategoryLower.includes('travel') || goalNameLower.includes('vacation') || goalNameLower.includes('trip') || goalNameLower.includes('adventure')) {
+    return 'family-vacation';
+  }
+  
+  // Default to emergency cushion for other savings goals
+  // You can add more mappings here as you create more games
+  return 'emergency-cushion';
+}
+
+/**
+ * Get a friendly game title based on game type and goal
+ * 
+ * @param gameType - The type of game
+ * @param goal - The goal being played
+ * @returns Formatted game title
+ */
+export function getGameTitle(gameType: GameType, goal: Goal): string {
+  switch (gameType) {
+    case 'emergency-cushion':
+      return `${goal.name} Challenge`;
+    case 'family-vacation':
+      return `${goal.name} Challenge`;
+    case 'budgeting':
+      return 'Budgeting Game';
+    default:
+      return goal.name;
+  }
+}
+
+/**
  * Get recommended game difficulty based on available financial data
  * 
  * @param budgetMetrics - Optional aggregate budget metrics
  * @param goals - Optional array of financial goals
  * @param referenceDate - Optional reference date for calculations
+ * @param specificGoal - Optional specific goal for Emergency Cushion game
  * @returns Difficulty recommendation with explanation
  */
 export function getDifficultyRecommendation(
   budgetMetrics?: AggregateMetrics,
   goals?: Goal[],
   referenceDate?: string,
+  specificGoal?: Goal,
 ): DifficultyRecommendation {
   let budgetDifficulty: GameDifficulty | null = null;
   let goalDifficulty: GameDifficulty | null = null;
   const reasons: string[] = [];
+
+  // If specific goal provided, use Emergency Cushion logic
+  if (specificGoal) {
+    const currentDate = getCurrentDate();
+    goalDifficulty = calculateEmergencyCushionDifficulty(specificGoal, currentDate);
+    
+    const targetDate = new Date(specificGoal.targetDate);
+    const isAfterDeadline = currentDate > targetDate;
+    const progressPercent = Math.round((specificGoal.currentAmountCents / specificGoal.targetAmountCents) * 100);
+    
+    if (goalDifficulty === 'hard') {
+      if (isAfterDeadline) {
+        reasons.push(`Goal deadline passed and only ${progressPercent}% complete`);
+      } else {
+        reasons.push(`Goal is ${progressPercent}% complete and significantly behind schedule`);
+      }
+    } else {
+      if (specificGoal.health === 'completed') {
+        reasons.push(`Goal completed successfully!`);
+      } else if (specificGoal.health === 'ahead') {
+        reasons.push(`Goal is ${progressPercent}% complete and ahead of schedule`);
+      } else {
+        reasons.push(`Goal is ${progressPercent}% complete with time remaining`);
+      }
+    }
+    
+    return {
+      difficulty: goalDifficulty,
+      reason: reasons[0],
+    };
+  }
 
   // Calculate budget-based difficulty
   if (budgetMetrics) {

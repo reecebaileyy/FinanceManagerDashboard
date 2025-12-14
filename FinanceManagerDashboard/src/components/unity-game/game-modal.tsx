@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { DifficultySelector } from './difficulty-selector';
-import type { GameDifficulty } from './types';
+import type { GameDifficulty, GameType } from './types';
 import { UnityGamePlayer } from './unity-game-player';
 
 import styles from './game-modal.module.css';
@@ -14,9 +14,11 @@ interface GameModalProps {
   recommendedDifficulty?: GameDifficulty;
   recommendationReason?: string;
   autoStart?: boolean; // If true, automatically starts with recommended difficulty
+  gameType?: GameType; // Type of game to load
+  gameTitle?: string; // Custom title for the game
 }
 
-export function GameModal({ isOpen, onClose, recommendedDifficulty, recommendationReason, autoStart = false }: GameModalProps) {
+export function GameModal({ isOpen, onClose, recommendedDifficulty, recommendationReason, autoStart = false, gameType = 'budgeting', gameTitle }: GameModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const [selectedDifficulty, setSelectedDifficulty] = useState<GameDifficulty | null>(null);
 
@@ -108,7 +110,7 @@ export function GameModal({ isOpen, onClose, recommendedDifficulty, recommendati
           )}
           <h2 id="game-modal-title" className={styles.modalTitle}>
             {selectedDifficulty 
-              ? `Budgeting Game: Difficulty ${selectedDifficulty.charAt(0).toUpperCase() + selectedDifficulty.slice(1)}`
+              ? `${gameTitle || (gameType === 'emergency-cushion' ? 'Emergency Cushion' : 'Budgeting Game')}: Difficulty ${selectedDifficulty.charAt(0).toUpperCase() + selectedDifficulty.slice(1)}`
               : 'Choose Your Challenge'}
           </h2>
           <button
@@ -122,7 +124,7 @@ export function GameModal({ isOpen, onClose, recommendedDifficulty, recommendati
         </div>
         <div className={styles.modalBody}>
           {selectedDifficulty ? (
-            <UnityGamePlayer difficulty={selectedDifficulty} />
+            <UnityGamePlayer difficulty={selectedDifficulty} gameType={gameType} />
           ) : (
             <DifficultySelector 
               onSelectDifficulty={handleSelectDifficulty}

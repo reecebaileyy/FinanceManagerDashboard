@@ -5,6 +5,7 @@ import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { Card, CardBody, CardHeader } from "@components/dashboard/card";
+import { DateSimulator } from "@components/date-simulator";
 import { GameModal } from "@components/unity-game";
 import { useLocalization } from "@features/i18n";
 
@@ -18,8 +19,13 @@ import {
   fetchGoalsWorkspace,
   goalsQueryKeys,
   requestGoalRecommendation,
+  addGoalContribution,
+  resetGoal,
+  type AddContributionInput,
+  type ResetGoalInput,
 } from "@lib/api/goals";
-import { getDifficultyRecommendation } from "@lib/game-difficulty";
+import { getDifficultyRecommendation, getGameTypeForGoal, getGameTitle } from "@lib/game-difficulty";
+import type { GameType } from "@components/unity-game/types";
 
 import patterns from "../../styles/patterns.module.css";
 import controls from "../../styles/controls.module.css";
@@ -29,7 +35,8 @@ function goalCompletion(goal: Goal): number {
   if (goal.targetAmountCents === 0) {
     return 1;
   }
-  return Math.max(0, Math.min(1, goal.currentAmountCents / goal.targetAmountCents));
+  // Allow exceeding 100% to show over-achievement
+  return Math.max(0, goal.currentAmountCents / goal.targetAmountCents);
 }
 
 function computeOverview(
@@ -262,6 +269,16 @@ export function GoalsSection() {
     difficulty: string;
     reason: string;
   } | null>(null);
+  const [selectedGameGoal, setSelectedGameGoal] = useState<Goal | null>(null);
+  const [gameType, setGameType] = useState<GameType>('emergency-cushion');
+  const [showContributionModal, setShowContributionModal] = useState(false);
+  const [contributionAmount, setContributionAmount] = useState("");
+  const [contributionSource, setContributionSource] = useState<"manual" | "bonus" | "roundUp">("manual");
+  const [contributionNote, setContributionNote] = useState("");
+  const [contributionErrors, setContributionErrors] = useState<string[]>([]);
+  const [isSubmittingContribution, setIsSubmittingContribution] = useState(false);
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
 
   const referenceDate = workspace?.referenceDate ?? new Date().toISOString().slice(0, 10);
   const goals = workspace?.goals ?? [];
@@ -425,8 +442,13 @@ export function GoalsSection() {
     }
   }
 
-  function handleOpenGame() {
-    const recommendation = getDifficultyRecommendation(undefined, goals, referenceDate);
+  function handleOpenGame(goal: Goal) {
+    // Determine which game to play based on the goal
+    const goalGameType = getGameTypeForGoal(goal);
+    setGameType(goalGameType);
+    setSelectedGameGoal(goal);
+    
+    const recommendation = getDifficultyRecommendation(undefined, undefined, referenceDate, goal);
     setGameRecommendation(recommendation);
     setShowGameModal(true);
   }
@@ -434,6 +456,121 @@ export function GoalsSection() {
   function handleCloseGame() {
     setShowGameModal(false);
     setGameRecommendation(null);
+    setSelectedGameGoal(null);
+  }
+
+  function handleOpenContributionModal() {
+    if (!selectedGoal) return;
+    setContributionAmount("");
+    setContributionSource("manual");
+    setContributionNote("");
+    setContributionErrors([]);
+    setShowContributionModal(true);
+  }
+
+  function handleCloseContributionModal() {
+    setShowContributionModal(false);
+    setContributionAmount("");
+    setContributionSource("manual");
+    setContributionNote("");
+    setContributionErrors([]);
+  }
+
+  async function handleSubmitContribution(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    
+    if (!selectedGoal) return;
+
+    const errors: string[] = [];
+    const amountCents = parseCurrencyToCents(contributionAmount);
+
+    if (amountCents <= 0) {
+      errors.push("Enter a contribution amount greater than zero.");
+    }
+
+    if (errors.length > 0) {
+      setContributionErrors(errors);
+      return;
+    }
+
+    setIsSubmittingContribution(true);
+    setContributionErrors([]);
+
+    try {
+      const updatedGoal = await addGoalContribution({
+        goalId: selectedGoal.id,
+        amountCents,
+        source: contributionSource,
+        note: contributionNote.trim() || undefined,
+      });
+
+      // Update the goal in the cache
+      queryClient.setQueryData<GoalsWorkspacePayload>(goalsQueryKeys.workspace(), (previous) => {
+        if (!previous) return previous;
+
+        const updatedGoals = previous.goals.map((g) => 
+          g.id === updatedGoal.id ? updatedGoal : g
+        );
+
+        return {
+          ...previous,
+          goals: updatedGoals,
+          overview: computeOverview(updatedGoals, previous.overview),
+        };
+      });
+
+      setSuccessMessage(`Added ${formatCents(amountCents)} to ${selectedGoal.name}`);
+      handleCloseContributionModal();
+
+      if (typeof window !== "undefined") {
+        window.setTimeout(() => setSuccessMessage(null), 4500);
+      }
+    } catch (error) {
+      console.error("Failed to add contribution:", error);
+      setContributionErrors(["Failed to add contribution. Please try again."]);
+    } finally {
+      setIsSubmittingContribution(false);
+    }
+  }
+
+  async function handleResetGoal() {
+    if (!selectedGoal) return;
+
+    setIsResetting(true);
+
+    try {
+      const updatedGoal = await resetGoal({
+        goalId: selectedGoal.id,
+        keepContributions: false, // Fresh start, clear history
+      });
+
+      // Update the goal in the cache
+      queryClient.setQueryData<GoalsWorkspacePayload>(goalsQueryKeys.workspace(), (previous) => {
+        if (!previous) return previous;
+
+        const updatedGoals = previous.goals.map((g) => 
+          g.id === updatedGoal.id ? updatedGoal : g
+        );
+
+        return {
+          ...previous,
+          goals: updatedGoals,
+          overview: computeOverview(updatedGoals, previous.overview),
+        };
+      });
+
+      setSuccessMessage(`${selectedGoal.name} has been reset and is ready for a new cycle!`);
+      setShowResetModal(false);
+
+      if (typeof window !== "undefined") {
+        window.setTimeout(() => setSuccessMessage(null), 4500);
+      }
+    } catch (error) {
+      console.error("Failed to reset goal:", error);
+      alert("Failed to reset goal. Please try again.");
+    } finally {
+      setIsResetting(false);
+    }
   }
 
   if (isLoading) {
@@ -473,16 +610,6 @@ export function GoalsSection() {
           <CardHeader 
             title="Goal commitments" 
             subtitle={overview.highlight}
-            actions={
-              <button
-                type="button"
-                className={[controls.button, controls.buttonPrimary].join(" ")}
-                onClick={handleOpenGame}
-                aria-label="Play budgeting game"
-              >
-                🎮 Play Game
-              </button>
-            }
           />
           <CardBody className={styles.summaryBody}>
             <div className={styles.summaryMetric}>{formatCents(overview.totalCurrentCents)}</div>
@@ -542,7 +669,12 @@ export function GoalsSection() {
                     </div>
                     <div className={styles.goalAmountBlock}>
                       <span className={styles.goalAmountCurrent}>{formatCents(goal.currentAmountCents)}</span>
-                      <span className={styles.goalAmountTarget}>of {formatCents(goal.targetAmountCents)}</span>
+                      <span className={styles.goalAmountTarget}>
+                        of {formatCents(goal.targetAmountCents)}
+                        {goal.currentAmountCents > goal.targetAmountCents && (
+                          <span className={styles.exceededBadge}>+{formatCents(goal.currentAmountCents - goal.targetAmountCents)} over</span>
+                        )}
+                      </span>
                     </div>
                   </div>
                   <div className={styles.goalStatusRow}>
@@ -574,6 +706,19 @@ export function GoalsSection() {
                       </span>
                     </div>
                   </div>
+                  <div className={styles.goalActions}>
+                    <button
+                      type="button"
+                      className={[controls.button, controls.buttonPrimary].join(" ")}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleOpenGame(goal);
+                      }}
+                      aria-label={`Play game for ${goal.name}`}
+                    >
+                      🎮 Play Game
+                    </button>
+                  </div>
                   {goal.tags.length ? (
                     <div className={styles.goalTags} aria-label={`Tags for ${goal.name}`}>
                       {goal.tags.map((tag) => (
@@ -602,7 +747,10 @@ export function GoalsSection() {
                 <div className={styles.goalStatsGrid}>
                   <div>
                     <span className={styles.goalStatLabel}>Progress</span>
-                    <span className={styles.goalStatValue}>{formatRatio(goalCompletion(selectedGoal))}</span>
+                    <span className={styles.goalStatValue}>
+                      {formatRatio(goalCompletion(selectedGoal))}
+                      {selectedGoal.currentAmountCents > selectedGoal.targetAmountCents && " 🎉"}
+                    </span>
                   </div>
                   <div>
                     <span className={styles.goalStatLabel}>Funding rate</span>
@@ -615,6 +763,24 @@ export function GoalsSection() {
                     </span>
                   </div>
                 </div>
+                {selectedGoal.currentAmountCents >= selectedGoal.targetAmountCents && (
+                  <div className={styles.goalCompletedBanner}>
+                    <span className={styles.goalCompletedIcon}>🎉</span>
+                    <div className={styles.goalCompletedText}>
+                      <strong>Goal {selectedGoal.currentAmountCents > selectedGoal.targetAmountCents ? "Exceeded" : "Completed"}!</strong>
+                      {selectedGoal.currentAmountCents > selectedGoal.targetAmountCents && (
+                        <span>You're {formatCents(selectedGoal.currentAmountCents - selectedGoal.targetAmountCents)} over your target</span>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      className={[controls.button, controls.buttonPrimary].join(" ")}
+                      onClick={() => setShowResetModal(true)}
+                    >
+                      Reset Goal
+                    </button>
+                  </div>
+                )}
                 <p className={styles.goalNarrative}>{selectedGoal.aiSummary}</p>
 
                 <section className={styles.goalSection}>
@@ -636,7 +802,16 @@ export function GoalsSection() {
                 </section>
 
                 <section className={styles.goalSection}>
-                  <h3 className={styles.goalSectionTitle}>Recent contributions</h3>
+                  <div className={styles.goalSectionHeader}>
+                    <h3 className={styles.goalSectionTitle}>Recent contributions</h3>
+                    <button
+                      type="button"
+                      className={[controls.button, controls.buttonPrimary].join(" ")}
+                      onClick={handleOpenContributionModal}
+                    >
+                      + Add
+                    </button>
+                  </div>
                   <ul className={styles.contributionList}>
                     {sortedContributions.slice(0, 5).map((contribution) => (
                       <li key={contribution.id}>
@@ -1040,7 +1215,176 @@ export function GoalsSection() {
         recommendedDifficulty={gameRecommendation?.difficulty as 'easy' | 'normal' | 'hard' | undefined}
         recommendationReason={gameRecommendation?.reason}
         autoStart={true}
+        gameType={gameType}
+        gameTitle={selectedGameGoal ? getGameTitle(gameType, selectedGameGoal) : 'Goal Challenge'}
       />
+
+      {/* Contribution Modal */}
+      {showContributionModal && selectedGoal && (
+        <div className={styles.modalOverlay} role="presentation">
+          <button
+            type="button"
+            className={styles.modalBackdrop}
+            aria-label="Close contribution modal"
+            onClick={handleCloseContributionModal}
+          />
+          <div
+            className={styles.contributionModal}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="contribution-modal-title"
+          >
+            <div className={styles.contributionModalHeader}>
+              <h2 id="contribution-modal-title" className={styles.contributionModalTitle}>
+                Add Contribution to {selectedGoal.name}
+              </h2>
+              <button
+                type="button"
+                className={controls.button}
+                onClick={handleCloseContributionModal}
+                disabled={isSubmittingContribution}
+              >
+                Close
+              </button>
+            </div>
+            <div className={styles.contributionModalBody}>
+              {contributionErrors.length > 0 && (
+                <div className={styles.formErrors} role="alert">
+                  <ul>
+                    {contributionErrors.map((error) => (
+                      <li key={error}>{error}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              <form className={patterns.form} onSubmit={handleSubmitContribution}>
+                <label className={patterns.formLabel}>
+                  Contribution Amount
+                  <input
+                    className={patterns.input}
+                    value={contributionAmount}
+                    onChange={(e) => setContributionAmount(e.target.value)}
+                    placeholder="$500"
+                    inputMode="decimal"
+                    autoFocus
+                    required
+                  />
+                </label>
+
+                <label className={patterns.formLabel}>
+                  Source
+                  <select
+                    className={patterns.select}
+                    value={contributionSource}
+                    onChange={(e) => setContributionSource(e.target.value as "manual" | "bonus" | "roundUp")}
+                  >
+                    <option value="manual">Manual Transfer</option>
+                    <option value="bonus">Bonus/Windfall</option>
+                    <option value="roundUp">Round-Up</option>
+                  </select>
+                </label>
+
+                <label className={patterns.formLabel}>
+                  Note (optional)
+                  <textarea
+                    className={patterns.textarea}
+                    value={contributionNote}
+                    onChange={(e) => setContributionNote(e.target.value)}
+                    placeholder="Add a note about this contribution"
+                    rows={3}
+                  />
+                </label>
+
+                <div className={patterns.actionRow}>
+                  <button
+                    type="button"
+                    className={controls.button}
+                    onClick={handleCloseContributionModal}
+                    disabled={isSubmittingContribution}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className={[controls.button, controls.buttonPrimary].join(" ")}
+                    disabled={isSubmittingContribution}
+                  >
+                    {isSubmittingContribution ? "Adding..." : "Add Contribution"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reset Goal Confirmation Modal */}
+      {showResetModal && selectedGoal && (
+        <div className={styles.modalOverlay} role="presentation">
+          <button
+            type="button"
+            className={styles.modalBackdrop}
+            aria-label="Close reset modal"
+            onClick={() => setShowResetModal(false)}
+          />
+          <div
+            className={styles.contributionModal}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="reset-modal-title"
+          >
+            <div className={styles.contributionModalHeader}>
+              <h2 id="reset-modal-title" className={styles.contributionModalTitle}>
+                Reset {selectedGoal.name}?
+              </h2>
+            </div>
+            <div className={styles.contributionModalBody}>
+              <p className={styles.resetWarning}>
+                This will reset the goal back to $0.00 and clear all contribution history. 
+                You can set a new target amount and date to start a fresh cycle.
+              </p>
+              <div className={styles.resetStats}>
+                <div>
+                  <span className={styles.resetLabel}>Current Amount:</span>
+                  <span className={styles.resetValue}>{formatCents(selectedGoal.currentAmountCents)}</span>
+                </div>
+                <div>
+                  <span className={styles.resetLabel}>Target:</span>
+                  <span className={styles.resetValue}>{formatCents(selectedGoal.targetAmountCents)}</span>
+                </div>
+                {selectedGoal.currentAmountCents > selectedGoal.targetAmountCents && (
+                  <div>
+                    <span className={styles.resetLabel}>Exceeded By:</span>
+                    <span className={[styles.resetValue, styles.resetExceeded].join(" ")}>
+                      {formatCents(selectedGoal.currentAmountCents - selectedGoal.targetAmountCents)}
+                    </span>
+                  </div>
+                )}
+              </div>
+              <div className={patterns.actionRow}>
+                <button
+                  type="button"
+                  className={controls.button}
+                  onClick={() => setShowResetModal(false)}
+                  disabled={isResetting}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className={[controls.button, controls.buttonDanger || ""].join(" ")}
+                  onClick={handleResetGoal}
+                  disabled={isResetting}
+                >
+                  {isResetting ? "Resetting..." : "Reset Goal"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <DateSimulator />
     </div>
   );
 }
