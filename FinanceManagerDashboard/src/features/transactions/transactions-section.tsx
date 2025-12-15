@@ -10,6 +10,7 @@ import { useDialogFocusTrap } from "@lib/a11y/use-dialog-focus-trap";
 import {
   bulkUpdateTransactionTags,
   getTransactionsFixture,
+  saveManualTransaction,
   type BulkUpdateTransactionTagsInput,
   type BulkUpdateTransactionTagsResult,
   type ImportJob,
@@ -126,8 +127,31 @@ export function TransactionsSection() {
   const [importForm, setImportForm] = useState({ ...defaultImportForm });
   const [importJobs, setImportJobs] = useState<ImportJob[]>(initialWorkspace.importJobs);
 
+  // Merge persisted manual transactions from localStorage on client mount.
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('fm.manualTransactions.v1');
+      if (!raw) return;
+      const persisted = JSON.parse(raw) as Transaction[];
+      if (!Array.isArray(persisted) || persisted.length === 0) return;
+
+      setTransactions((prev) => {
+        const existing = new Set(prev.map((t) => t.id));
+        const toAdd = persisted.filter((t) => !existing.has(t.id));
+        return toAdd.length ? [...toAdd, ...prev] : prev;
+      });
+    } catch (_e) {
+      // ignore storage errors
+    }
+  }, []);
+
   const transactionsRef = useRef(transactions);
-  const bulkUpdateMutation = useMutation<BulkUpdateTransactionTagsResult, Error, BulkUpdateTransactionTagsInput>({
+  const bulkUpdateMutation = useMutation<
+    BulkUpdateTransactionTagsResult,
+    Error,
+    BulkUpdateTransactionTagsInput,
+    { previousTransactions: Transaction[] }
+  >({
     mutationFn: bulkUpdateTransactionTags,
     onMutate: (variables) => {
       setBulkError(null);
@@ -187,8 +211,8 @@ export function TransactionsSection() {
     bulkUpdateMutation.reset();
   };
 
-  const bulkDialogRef = useRef<HTMLDivElement>(null);
-  const importDialogRef = useRef<HTMLDivElement>(null);
+  const bulkDialogRef = useRef<HTMLDivElement | null>(null);
+  const importDialogRef = useRef<HTMLDivElement | null>(null);
 
   useDialogFocusTrap(bulkDialogRef, {
     active: bulkModalOpen,
@@ -468,6 +492,11 @@ export function TransactionsSection() {
 
     setTransactions((current) => [newTransaction, ...current]);
     setFeedback(`Transaction drafted for ${accountName}.`);
+    try {
+      saveManualTransaction(newTransaction);
+    } catch (_e) {
+      // ignore persistence errors
+    }
     form.reset();
   };
 
@@ -885,7 +914,7 @@ export function TransactionsSection() {
                         >
                           Date
                           <span className={styles.sortIndicator}>
-                            {sort.field === "postedAt" ? (sort.direction === "asc" ? "?" : "?") : "?"}
+                            {sort.field === "postedAt" ? (sort.direction === "asc" ? "" : "") : ""}
                           </span>
                         </button>
                       </th>
@@ -899,9 +928,9 @@ export function TransactionsSection() {
                           <span className={styles.sortIndicator}>
                             {sort.field === "merchantName"
                               ? sort.direction === "asc"
-                                ? "?"
-                                : "?"
-                              : "?"}
+                                ? ""
+                                : ""
+                              : ""}
                           </span>
                         </button>
                       </th>
@@ -916,9 +945,9 @@ export function TransactionsSection() {
                           <span className={styles.sortIndicator}>
                             {sort.field === "category"
                               ? sort.direction === "asc"
-                                ? "?"
-                                : "?"
-                              : "?"}
+                                ? ""
+                                : ""
+                              : ""}
                           </span>
                         </button>
                       </th>
@@ -931,7 +960,7 @@ export function TransactionsSection() {
                         >
                           Status
                           <span className={styles.sortIndicator}>
-                            {sort.field === "status" ? (sort.direction === "asc" ? "?" : "?") : "?"}
+                            {sort.field === "status" ? (sort.direction === "asc" ? "" : "") : ""}
                           </span>
                         </button>
                       </th>
@@ -944,7 +973,7 @@ export function TransactionsSection() {
                         >
                           Amount
                           <span className={styles.sortIndicator}>
-                            {sort.field === "amount" ? (sort.direction === "asc" ? "?" : "?") : "?"}
+                            {sort.field === "amount" ? (sort.direction === "asc" ? "" : "") : ""}
                           </span>
                         </button>
                       </th>
