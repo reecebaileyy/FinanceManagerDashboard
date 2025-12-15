@@ -180,13 +180,13 @@ function centsToDollars(cents: number): string {
 export const goalsWorkspaceFixture: GoalsWorkspacePayload = {
   referenceDate: '2025-09-15',
   overview: {
-    totalGoals: 3,
-    totalTargetCents: 2_550_000,
-    totalCurrentCents: 1_040_000,
-    averageCompletionPercent: 41,
-    monthlyCommitmentCents: 176_500,
+    totalGoals: 2,
+    totalTargetCents: 1_350_000,
+    totalCurrentCents: 500_000,
+    averageCompletionPercent: 37,
+    monthlyCommitmentCents: 101_500,
     flaggedGoals: 1,
-    highlight: 'Student loan payoff is tracking three weeks ahead of plan.',
+    highlight: 'Emergency fund is tracking slightly behind, but Family vacation is ahead of schedule.',
     focusGoalId: 'goal-emergency-fund',
   },
   prompts: [
@@ -217,14 +217,6 @@ export const goalsWorkspaceFixture: GoalsWorkspacePayload = {
       body: 'Increase the September transfer by $150 or move the date to align with the 1st paycheck to stay on track.',
       tone: 'attention',
       ctaLabel: 'Adjust plan',
-    },
-    {
-      id: 'insight-loan-ahead',
-      goalId: 'goal-student-loan',
-      title: 'Loan payoff pacing ahead',
-      body: 'Applying the pending $400 expense reimbursement keeps you on pace to finish by March 2026.',
-      tone: 'positive',
-      ctaLabel: 'Log reimbursement',
     },
     {
       id: 'insight-family-upsell',
@@ -351,115 +343,6 @@ export const goalsWorkspaceFixture: GoalsWorkspacePayload = {
       ],
       aiSummary:
         'You are one month behind schedule; a $150 boost for the next four transfers closes the gap.',
-    },
-    {
-      id: 'goal-student-loan',
-      name: 'Student Loan Snowball',
-      type: 'debt',
-      category: 'Debt payoff',
-      priority: 'medium',
-      health: 'onTrack',
-      targetAmountCents: 1_200_000,
-      currentAmountCents: 540_000,
-      startDate: '2024-11-01',
-      targetDate: '2026-04-01',
-      planContributionCents: 75_000,
-      contributionFrequency: 'monthly',
-      autopilot: true,
-      autopilotSourceAccount: 'Cash Rewards Checking',
-      autopilotNote: 'Extra payments flow automatically after minimum is met.',
-      nextContributionDate: '2025-09-28',
-      lastContributionDate: '2025-08-28',
-      successProbabilityPercent: 88,
-      planSummary: 'Apply $750.00 per month plus snowball any windfalls toward the balance.',
-      tags: ['Debt', 'Education'],
-      milestones: [
-        {
-          id: 'ms-loan-1',
-          label: 'Balance under $8k',
-          targetAmountCents: 800_000,
-          targetDate: '2025-12-01',
-          achieved: true,
-          achievedAt: '2025-08-28',
-        },
-        {
-          id: 'ms-loan-2',
-          label: 'Balance under $4k',
-          targetAmountCents: 400_000,
-          targetDate: '2026-02-01',
-          achieved: false,
-        },
-        {
-          id: 'ms-loan-3',
-          label: 'Paid in full',
-          targetAmountCents: 0,
-          targetDate: '2026-04-01',
-          achieved: false,
-        },
-      ],
-      contributions: [
-        {
-          id: 'contrib-loan-01',
-          goalId: 'goal-student-loan',
-          amountCents: 75_000,
-          contributedAt: '2025-08-28',
-          source: 'rule',
-        },
-        {
-          id: 'contrib-loan-02',
-          goalId: 'goal-student-loan',
-          amountCents: 75_000,
-          contributedAt: '2025-07-28',
-          source: 'rule',
-        },
-        {
-          id: 'contrib-loan-03',
-          goalId: 'goal-student-loan',
-          amountCents: 120_000,
-          contributedAt: '2025-06-30',
-          source: 'bonus',
-          note: 'Performance bonus applied',
-        },
-      ],
-      projection: [
-        {
-          month: 'Sep 2025',
-          projectedAmountCents: 615_000,
-          targetAmountCents: 600_000,
-        },
-        {
-          month: 'Oct 2025',
-          projectedAmountCents: 690_000,
-          targetAmountCents: 675_000,
-        },
-        {
-          month: 'Nov 2025',
-          projectedAmountCents: 765_000,
-          targetAmountCents: 750_000,
-        },
-        {
-          month: 'Dec 2025',
-          projectedAmountCents: 840_000,
-          targetAmountCents: 825_000,
-        },
-        {
-          month: 'Jan 2026',
-          projectedAmountCents: 915_000,
-          targetAmountCents: 900_000,
-        },
-        {
-          month: 'Feb 2026',
-          projectedAmountCents: 990_000,
-          targetAmountCents: 975_000,
-        },
-        {
-          month: 'Mar 2026',
-          projectedAmountCents: 1_065_000,
-          targetAmountCents: 1_050_000,
-        },
-      ],
-      aiSummary:
-        'Momentum looks great?stay the course and redirect reimbursements to finish early.',
     },
     {
       id: 'goal-family-vacation',
@@ -827,5 +710,144 @@ export async function requestGoalRecommendation(
 
   return new Promise((resolve) => {
     setTimeout(() => resolve(response), 220);
+  });
+}
+
+export interface AddContributionInput {
+  goalId: string;
+  amountCents: number;
+  source: 'manual' | 'bonus' | 'roundUp';
+  note?: string;
+}
+
+/**
+ * Add a contribution to a goal
+ * Updates the goal's current amount and recalculates health status
+ */
+export async function addGoalContribution(input: AddContributionInput): Promise<Goal> {
+  // In a real app, this would make an API call to the backend
+  // For now, we'll simulate it by updating the fixture data
+  
+  const workspace = goalsWorkspaceFixture;
+  const goal = workspace.goals.find(g => g.id === input.goalId);
+  
+  if (!goal) {
+    throw new Error('Goal not found');
+  }
+
+  // Create new contribution
+  const newContribution: GoalContribution = {
+    id: `contrib-${Math.random().toString(36).slice(2, 11)}`,
+    goalId: input.goalId,
+    amountCents: input.amountCents,
+    contributedAt: new Date().toISOString(),
+    source: input.source,
+    note: input.note,
+  };
+
+  // Update goal's current amount (allow exceeding target)
+  const newCurrentAmount = goal.currentAmountCents + input.amountCents;
+
+  // Recalculate health based on new amount
+  const referenceDate = new Date(workspace.referenceDate);
+  const targetDate = new Date(goal.targetDate);
+  const startDate = new Date(goal.startDate);
+  const totalMonths = inclusiveMonthsBetween(startDate, targetDate);
+  const elapsedMonths = clamp(monthsBetween(startDate, referenceDate), 0, totalMonths);
+  const expectedProgress = Math.round(goal.targetAmountCents * (elapsedMonths / totalMonths));
+
+  let health: GoalHealth = 'onTrack';
+
+  if (newCurrentAmount >= goal.targetAmountCents) {
+    health = 'completed';
+  } else {
+    const delta = newCurrentAmount - expectedProgress;
+    const tolerance = Math.max(5_000, goal.targetAmountCents * 0.04);
+
+    if (delta > tolerance * 2) {
+      health = 'ahead';
+    } else if (delta < -tolerance * 3) {
+      health = 'behind';
+    } else if (delta < -tolerance) {
+      health = 'attention';
+    }
+  }
+
+  // Create updated goal
+  const updatedGoal: Goal = {
+    ...goal,
+    currentAmountCents: newCurrentAmount,
+    health,
+    contributions: [newContribution, ...goal.contributions],
+    lastContributionDate: newContribution.contributedAt,
+  };
+
+  // Simulate API delay
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(updatedGoal), 300);
+  });
+}
+
+export interface ResetGoalInput {
+  goalId: string;
+  newTargetAmountCents?: number;
+  newTargetDate?: string;
+  keepContributions?: boolean;
+}
+
+/**
+ * Reset a goal after completion or when exceeded
+ * Optionally set new target amount and date
+ */
+export async function resetGoal(input: ResetGoalInput): Promise<Goal> {
+  const workspace = goalsWorkspaceFixture;
+  const goal = workspace.goals.find(g => g.id === input.goalId);
+  
+  if (!goal) {
+    throw new Error('Goal not found');
+  }
+
+  const referenceDate = new Date(workspace.referenceDate);
+  
+  // Reset to starting amount or keep current as new starting point
+  const resetAmount = input.keepContributions ? goal.currentAmountCents : 0;
+  const newTarget = input.newTargetAmountCents || goal.targetAmountCents;
+  const newTargetDate = input.newTargetDate || goal.targetDate;
+
+  // Calculate new health
+  let health: GoalHealth = 'onTrack';
+  if (resetAmount >= newTarget) {
+    health = 'completed';
+  } else {
+    const startDate = new Date();
+    const targetDate = new Date(newTargetDate);
+    const totalMonths = inclusiveMonthsBetween(startDate, targetDate);
+    const elapsedMonths = 0; // Starting fresh
+    const expectedProgress = 0;
+    const delta = resetAmount - expectedProgress;
+    const tolerance = Math.max(5_000, newTarget * 0.04);
+
+    if (delta > tolerance * 2) {
+      health = 'ahead';
+    } else if (delta < -tolerance * 3) {
+      health = 'behind';
+    } else if (delta < -tolerance) {
+      health = 'attention';
+    }
+  }
+
+  const updatedGoal: Goal = {
+    ...goal,
+    currentAmountCents: resetAmount,
+    targetAmountCents: newTarget,
+    targetDate: newTargetDate,
+    startDate: toISODate(referenceDate),
+    health,
+    contributions: input.keepContributions ? goal.contributions : [],
+    lastContributionDate: input.keepContributions ? goal.lastContributionDate : undefined,
+  };
+
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(updatedGoal), 300);
   });
 }

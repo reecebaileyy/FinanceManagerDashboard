@@ -13,7 +13,7 @@ describe('GoalsSection', () => {
 
     expect(screen.getByText('$10,400.00')).toBeInTheDocument();
     expect(screen.getAllByText('Emergency Cushion').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('Student Loan Snowball').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Family Summer Adventure').length).toBeGreaterThan(0);
     expect(screen.getByText(/Monthly plan/)).toBeInTheDocument();
   });
 

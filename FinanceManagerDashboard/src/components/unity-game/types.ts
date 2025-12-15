@@ -3,6 +3,7 @@
  */
 
 export type GameDifficulty = 'easy' | 'normal' | 'hard';
+export type GameType = 'budgeting' | 'emergency-cushion' | 'family-vacation';
 
 export interface UnityConfig {
   dataUrl: string;

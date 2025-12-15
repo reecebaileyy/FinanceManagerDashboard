@@ -2,17 +2,18 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import type { GameDifficulty, UnityConfig, UnityInstance } from './types';
+import type { GameDifficulty, GameType, UnityConfig, UnityInstance } from './types';
 
 import styles from './game-modal.module.css';
 
 interface UnityGamePlayerProps {
   difficulty: GameDifficulty;
+  gameType?: GameType;
   onLoaded?: () => void;
   onError?: (error: string) => void;
 }
 
-const difficultyConfig = {
+const budgetingConfig = {
   easy: {
     folder: 'BudgetingEasy',
     buildName: 'BudgetingEasy',
@@ -30,7 +31,43 @@ const difficultyConfig = {
   },
 };
 
-export function UnityGamePlayer({ difficulty, onLoaded, onError }: UnityGamePlayerProps) {
+const emergencyCushionConfig = {
+  easy: {
+    folder: 'EmergencyCushionEasy',
+    buildName: 'EmergencyCushionEasy',
+    productName: 'Emergency Cushion - Easy',
+  },
+  normal: {
+    folder: 'EmergencyCushionEasy', // Fallback to easy if normal is requested
+    buildName: 'EmergencyCushionEasy',
+    productName: 'Emergency Cushion - Easy',
+  },
+  hard: {
+    folder: 'EmergencyCushionHard',
+    buildName: 'EmergencyCushionHard',
+    productName: 'Emergency Cushion - Hard',
+  },
+};
+
+const familyVacationConfig = {
+  easy: {
+    folder: 'FamilySummerVacationEasy',
+    buildName: 'FamilySummerVacationEasy',
+    productName: 'Family Summer Vacation - Easy',
+  },
+  normal: {
+    folder: 'FamilySummerVacationEasy', // Fallback to easy if normal is requested
+    buildName: 'FamilySummerVacationEasy',
+    productName: 'Family Summer Vacation - Easy',
+  },
+  hard: {
+    folder: 'FamilySummerVacationHard',
+    buildName: 'FamilySummerVacationHard',
+    productName: 'Family Summer Vacation - Hard',
+  },
+};
+
+export function UnityGamePlayer({ difficulty, gameType = 'budgeting', onLoaded, onError }: UnityGamePlayerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const unityInstanceRef = useRef<UnityInstance | null>(null);
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -46,7 +83,18 @@ export function UnityGamePlayer({ difficulty, onLoaded, onError }: UnityGamePlay
         return;
       }
 
-      const config = difficultyConfig[difficulty];
+      let configMap;
+      switch (gameType) {
+        case 'emergency-cushion':
+          configMap = emergencyCushionConfig;
+          break;
+        case 'family-vacation':
+          configMap = familyVacationConfig;
+          break;
+        default:
+          configMap = budgetingConfig;
+      }
+      const config = configMap[difficulty];
 
       try {
         // Load the Unity loader script
@@ -145,7 +193,7 @@ export function UnityGamePlayer({ difficulty, onLoaded, onError }: UnityGamePlay
         scriptElement.parentNode.removeChild(scriptElement);
       }
     };
-  }, [difficulty, onLoaded, onError]);
+  }, [difficulty, gameType, onLoaded, onError]);
 
   if (error) {
     return (
