@@ -655,10 +655,17 @@ export function GoalsSection() {
               const isActive = goal.id === selectedGoal?.id;
 
               return (
-                <button
+                <div
                   key={goal.id}
-                  type="button"
+                  role="button"
+                  tabIndex={0}
                   onClick={() => setSelectedGoalId(goal.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setSelectedGoalId(goal.id);
+                    }
+                  }}
                   className={[styles.goalRow, isActive ? styles.goalRowActive : ""].filter(Boolean).join(" ")}
                   aria-pressed={isActive}
                 >
@@ -728,7 +735,7 @@ export function GoalsSection() {
                       ))}
                     </div>
                   ) : null}
-                </button>
+                </div>
               );
             })}
           </CardBody>
